@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XC² Labs — Tu trabajo</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* =============================================
+   TOKENS
+   ============================================= */
+:root {
+  --ink:        #0a0a0f;
+  --ink2:       #13131a;
+  --ink3:       #1c1c26;
+  --wire:       #26263a;
+  --wire2:      #32324a;
+  --dim:        #55556a;
+  --ghost:      #88889a;
+  --text:       #e8e8f0;
+  --text2:      #b0b0c4;
+  --volt:       #c8ff00;      /* verde voltaje — firma */
+  --volt-dim:   #c8ff0018;
+  --volt-mid:   #c8ff0040;
+  --amber:      #ffaa00;
+  --coral:      #ff5544;
+  --teal:       #00d4aa;
+  --blue:       #4488ff;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+
+  --mono: 'Space Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+}
+
+/* =============================================
+   RESET + BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* =============================================
+   FONDO ANIMADO — FIRMA VISUAL
+   ============================================= */
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(var(--wire) 1px, transparent 1px),
+    linear-gradient(90deg, var(--wire) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 100%);
+  opacity: 0.35;
+}
+
+.bg-glow {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 40% at 50% -10%, #c8ff0012 0%, transparent 70%);
+}
+
+/* =============================================
+   LAYOUT
+   ============================================= */
+.shell {
+  position: relative; z-index: 1;
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+}
+
+/* =============================================
+   NAV
+   ============================================= */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 0;
+  margin-bottom: 48px;
+}
+
+.logo {
+  display: flex; align-items: baseline; gap: 2px;
+  font-family: var(--mono); font-size: 16px; font-weight: 700;
+  letter-spacing: -0.5px; color: var(--text);
+  text-decoration: none;
+}
+.logo-sq {
+  color: var(--volt);
+  font-size: 18px;
+  line-height: 1;
+  position: relative;
+  top: 1px;
+}
+.logo-sub {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  color: var(--dim); text-transform: uppercase; margin-left: 10px;
+  border-left: 1px solid var(--wire2); padding-left: 10px;
+}
+
+.nav-folio {
+  font-family: var(--mono); font-size: 11px; color: var(--volt);
+  background: var(--volt-dim); border: 1px solid var(--volt-mid);
+  padding: 5px 12px; border-radius: 20px; letter-spacing: 1px;
+}
+
+/* =============================================
+   HERO — ESTADO PRINCIPAL
+   ============================================= */
+.hero {
+  margin-bottom: 36px;
+  padding: 36px 32px;
+  background: var(--ink2);
+  border: 1px solid var(--wire);
+  border-radius: var(--r-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* acento de color según estatus */
+.hero::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--status-color, var(--volt));
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  color: var(--dim); text-transform: uppercase; margin-bottom: 16px;
+}
+
+.hero-status {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+}
+
+.status-icon-big {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--volt-dim); border: 1px solid var(--volt-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+  transition: all .3s;
+}
+
+.status-text-big { flex: 1; }
+.status-label-big {
+  font-size: 26px; font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.status-desc {
+  font-size: 14px; color: var(--text2); margin-top: 5px; line-height: 1.5;
+}
+
+/* BARRA DE PROGRESO */
+.progress-track {
+  margin-top: 28px;
+  display: flex; align-items: center; gap: 0;
+}
+.pt-step {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  position: relative;
+}
+.pt-step:not(:last-child)::after {
+  content: '';
+  position: absolute; top: 11px; left: calc(50% + 11px);
+  width: calc(100% - 22px); height: 2px;
+  background: var(--wire2);
+  transition: background .5s;
+}
+.pt-step.done::after { background: var(--volt); }
+.pt-step.active::after { background: linear-gradient(90deg, var(--volt), var(--wire2)); }
+
+.pt-dot {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--wire2);
+  background: var(--ink);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-family: var(--mono); color: var(--dim);
+  position: relative; z-index: 1;
+  transition: all .3s;
+}
+.pt-step.done .pt-dot {
+  background: var(--volt); border-color: var(--volt); color: #000; font-weight: 700;
+}
+.pt-step.active .pt-dot {
+  border-color: var(--volt); color: var(--volt);
+  box-shadow: 0 0 0 4px var(--volt-dim);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 4px var(--volt-dim); }
+  50% { box-shadow: 0 0 0 8px transparent; }
+}
+
+.pt-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 1px;
+  color: var(--dim); text-transform: uppercase; margin-top: 7px;
+  text-align: center; line-height: 1.3;
+}
+.pt-step.done .pt-label, .pt-step.active .pt-label { color: var(--text2); }
+
+/* =============================================
+   SECCIÓN: COTIZACIÓN
+   ============================================= */
+.section { margin-bottom: 16px; }
+
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.section-label {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  color: var(--dim); text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::before {
+  content: ''; width: 3px; height: 12px;
+  background: var(--volt); border-radius: 2px;
+}
+
+.card {
+  background: var(--ink2); border: 1px solid var(--wire);
+  border-radius: var(--r-lg); overflow: hidden;
+}
+
+/* PRECIO HERO */
+.precio-block {
+  padding: 28px 28px 20px;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+  flex-wrap: wrap;
+}
+.precio-main { }
+.precio-lbl {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  color: var(--dim); text-transform: uppercase; margin-bottom: 6px;
+}
+.precio-num {
+  font-family: var(--mono); font-size: 52px; font-weight: 700;
+  color: var(--volt); line-height: 1; letter-spacing: -2px;
+}
+.precio-currency {
+  font-size: 20px; color: var(--ghost); margin-left: 4px; letter-spacing: 0;
+}
+.precio-validity {
+  font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 6px;
+}
+
+.precio-desglose {
+  display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
+}
+.pd-row {
+  display: flex; gap: 10px; align-items: center;
+  font-family: var(--mono); font-size: 11px;
+}
+.pd-label { color: var(--dim); }
+.pd-value { color: var(--text2); min-width: 70px; text-align: right; }
+
+.precio-divider {
+  height: 1px; background: var(--wire); margin: 0 28px;
+}
+
+/* DETALLE TÉCNICO */
+.detalle-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--wire);
+}
+.dg-item {
+  background: var(--ink2); padding: 16px 18px;
+}
+.dg-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 2px;
+  color: var(--dim); text-transform: uppercase; margin-bottom: 5px;
+}
+.dg-value { font-size: 13px; font-weight: 500; color: var(--text); }
+.dg-value.mono { font-family: var(--mono); font-size: 12px; }
+
+/* DECISIÓN */
+.decision-block { padding: 20px 28px 28px; }
+.decision-lbl {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
+  color: var(--dim); text-transform: uppercase; margin-bottom: 14px;
+}
+.decision-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 20px; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  border-radius: var(--r-md); transition: all .2s;
+}
+.btn-volt {
+  background: var(--volt); color: #000;
+}
+.btn-volt:hover {
+  background: #d8ff20;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px #c8ff0030;
+}
+.btn-reject {
+  background: transparent; color: var(--coral);
+  border: 1px solid #3a1a18;
+}
+.btn-reject:hover { border-color: var(--coral); background: #1a0a08; }
+.btn-ghost {
+  background: transparent; color: var(--text2);
+  border: 1px solid var(--wire2);
+}
+.btn-ghost:hover { border-color: var(--volt); color: var(--volt); }
+.btn:disabled {
+  background: var(--ink3) !important; color: var(--dim) !important;
+  border-color: var(--wire) !important; cursor: not-allowed;
+  transform: none !important; box-shadow: none !important;
+}
+
+/* =============================================
+   SECCIÓN: PAGO
+   ============================================= */
+.pago-metodos {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  padding: 20px 20px 0;
+}
+.pago-opcion {
+  background: var(--ink3); border: 1px solid var(--wire);
+  border-radius: var(--r-md); padding: 16px;
+  cursor: pointer; transition: all .2s;
+}
+.pago-opcion:hover { border-color: var(--wire2); }
+.pago-opcion.sel { border-color: var(--volt); background: var(--volt-dim); }
+.po-icon { font-size: 22px; margin-bottom: 8px; }
+.po-name { font-size: 14px; font-weight: 600; }
+.po-sub { font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 3px; }
+
+.datos-bancarios {
+  margin: 16px 20px 0;
+  background: var(--ink3); border: 1px solid var(--wire);
+  border-radius: var(--r-md); padding: 16px;
+}
+.db-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid var(--wire);
+  font-size: 13px;
+}
+.db-row:last-child { border-bottom: none; }
+.db-label { color: var(--dim); font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+.db-val { font-family: var(--mono); font-size: 12px; color: var(--text); }
+.db-val.highlight { color: var(--volt); font-size: 14px; font-weight: 700; }
+
+.copy-btn {
+  background: transparent; border: 1px solid var(--wire2); color: var(--ghost);
+  padding: 3px 8px; border-radius: 4px; font-family: var(--mono); font-size: 9px;
+  cursor: pointer; transition: all .15s; letter-spacing: 1px;
+}
+.copy-btn:hover { border-color: var(--volt); color: var(--volt); }
+.copy-btn.copied { border-color: var(--teal); color: var(--teal); }
+
+/* UPLOAD COMPROBANTE */
+.upload-zone {
+  margin: 16px 20px 20px;
+  border: 2px dashed var(--wire2); border-radius: var(--r-md);
+  padding: 28px 20px; text-align: center; cursor: pointer;
+  transition: all .2s; position: relative; background: var(--ink3);
+}
+.upload-zone:hover, .upload-zone.drag {
+  border-color: var(--volt); background: var(--volt-dim);
+}
+.upload-zone input {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.uz-icon { font-size: 28px; margin-bottom: 10px; }
+.uz-label { font-size: 14px; font-weight: 600; }
+.uz-sub { font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 5px; }
+.uz-preview {
+  display: none; margin-top: 14px;
+  background: var(--ink); border-radius: var(--r-sm);
+  padding: 10px 14px; font-family: var(--mono); font-size: 11px; color: var(--volt);
+}
+
+.btn-pagar {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: calc(100% - 40px); margin: 0 20px 20px;
+  padding: 14px; background: var(--teal); color: #000;
+  border: none; border-radius: var(--r-md); cursor: pointer;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; transition: all .2s;
+}
+.btn-pagar:hover { background: #00e8bb; transform: translateY(-1px); }
+.btn-pagar:disabled { background: var(--wire); color: var(--dim); cursor: not-allowed; transform: none; }
+
+/* =============================================
+   TIMELINE
+   ============================================= */
+.timeline { padding: 4px 0; }
+.tl-item {
+  display: flex; gap: 16px; padding: 16px 24px;
+  border-bottom: 1px solid var(--wire); position: relative;
+}
+.tl-item:last-child { border-bottom: none; }
+
+.tl-dot-wrap {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  flex-shrink: 0; width: 28px;
+}
+.tl-dot {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; font-family: var(--mono);
+  border: 2px solid var(--wire2); background: var(--ink);
+  color: var(--dim); transition: all .3s;
+}
+.tl-dot.done { background: var(--volt); border-color: var(--volt); color: #000; }
+.tl-dot.active {
+  border-color: var(--volt); color: var(--volt);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.tl-dot.pending { }
+
+.tl-body { flex: 1; padding-top: 4px; }
+.tl-title { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.tl-title.dim { color: var(--dim); font-weight: 400; }
+.tl-date {
+  font-family: var(--mono); font-size: 10px; color: var(--dim);
+  letter-spacing: 0.5px;
+}
+.tl-note {
+  margin-top: 6px; font-size: 12px; color: var(--text2);
+  background: var(--ink3); border-radius: var(--r-sm);
+  padding: 8px 12px; border-left: 2px solid var(--volt);
+  line-height: 1.5;
+}
+
+/* =============================================
+   DESCRIPCIÓN DEL TRABAJO
+   ============================================= */
+.trabajo-info {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--wire); border-radius: var(--r-md); overflow: hidden;
+}
+.ti-item {
+  background: var(--ink2); padding: 14px 18px;
+}
+.ti-label {
+  font-family: var(--mono); font-size: 8px; letter-spacing: 2px;
+  color: var(--dim); text-transform: uppercase; margin-bottom: 5px;
+}
+.ti-value { font-size: 14px; color: var(--text); }
+.ti-full { grid-column: 1 / -1; }
+.ti-value.desc {
+  font-size: 13px; color: var(--text2); line-height: 1.6;
+}
+
+/* =============================================
+   CONTACTO
+   ============================================= */
+.contacto-strip {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; flex-wrap: wrap; gap: 12px;
+}
+.cs-text { font-size: 13px; color: var(--text2); }
+.cs-btns { display: flex; gap: 8px; }
+.btn-wa {
+  display: flex; align-items: center; gap: 6px; padding: 9px 16px;
+  background: #25d366; color: #000; border: none; border-radius: var(--r-md);
+  font-family: var(--mono); font-size: 10px; font-weight: 700; cursor: pointer;
+  text-decoration: none; letter-spacing: 1px; transition: all .15s;
+}
+.btn-wa:hover { background: #1fba58; }
+.btn-mail {
+  display: flex; align-items: center; gap: 6px; padding: 9px 16px;
+  background: transparent; color: var(--text2); border: 1px solid var(--wire2);
+  border-radius: var(--r-md); font-family: var(--mono); font-size: 10px;
+  cursor: pointer; text-decoration: none; letter-spacing: 1px; transition: all .15s;
+}
+.btn-mail:hover { border-color: var(--volt); color: var(--volt); }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+footer {
+  margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--wire);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-logo { font-family: var(--mono); font-size: 13px; color: var(--dim); }
+.footer-logo em { color: var(--volt); font-style: normal; }
+.footer-meta { font-family: var(--mono); font-size: 10px; color: var(--wire2); }
+.auto-refresh {
+  font-family: var(--mono); font-size: 9px; color: var(--wire2); letter-spacing: 1px;
+}
+
+/* =============================================
+   LOADING
+   ============================================= */
+#loadScreen {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 80vh; gap: 20px;
+}
+.load-logo { font-family: var(--mono); font-size: 36px; color: var(--volt); font-weight: 700; }
+.load-bar {
+  width: 200px; height: 2px; background: var(--wire); border-radius: 2px; overflow: hidden;
+}
+.load-fill {
+  height: 100%; width: 0; background: var(--volt); border-radius: 2px;
+  animation: loadfill 1.2s ease forwards;
+}
+@keyframes loadfill { to { width: 100%; } }
+.load-text { font-family: var(--mono); font-size: 10px; color: var(--dim); letter-spacing: 3px; text-transform: uppercase; }
+
+/* =============================================
+   ALERTS / BADGES
+   ============================================= */
+.alert {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 18px; border-radius: var(--r-md); font-size: 13px; line-height: 1.6;
+  margin-bottom: 12px;
+}
+.alert-volt  { background: var(--volt-dim); border: 1px solid var(--volt-mid); color: #c8ff80; }
+.alert-teal  { background: #00d4aa12; border: 1px solid #00d4aa30; color: #00d4aa; }
+.alert-amber { background: #ffaa0012; border: 1px solid #ffaa0030; color: var(--amber); }
+.alert-coral { background: #ff554412; border: 1px solid #ff554430; color: var(--coral); }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px;
+  border-radius: 20px; font-family: var(--mono); font-size: 9px;
+  font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+}
+.b-volt   { background: var(--volt-dim);  color: var(--volt);  border: 1px solid var(--volt-mid); }
+.b-teal   { background: #00d4aa12; color: var(--teal); border: 1px solid #00d4aa30; }
+.b-amber  { background: #ffaa0012; color: var(--amber); border: 1px solid #ffaa0030; }
+.b-coral  { background: #ff554412; color: var(--coral); border: 1px solid #ff554430; }
+.b-dim    { background: var(--ink3);      color: var(--dim);   border: 1px solid var(--wire); }
+.b-blue   { background: #4488ff12; color: var(--blue); border: 1px solid #4488ff30; }
+
+/* =============================================
+   SPINNER
+   ============================================= */
+.spin {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid currentColor; border-top-color: transparent;
+  border-radius: 50%; animation: spinning .6s linear infinite;
+}
+@keyframes spinning { to { transform: rotate(360deg); } }
+
+/* =============================================
+   ENTREGADO
+   ============================================= */
+.entregado-screen {
+  text-align: center; padding: 48px 20px;
+}
+.entregado-icon { font-size: 64px; margin-bottom: 20px; }
+.entregado-title { font-size: 28px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
+.entregado-sub { font-size: 15px; color: var(--text2); line-height: 1.6; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 580px) {
+  .detalle-grid { grid-template-columns: 1fr 1fr; }
+  .decision-btns { grid-template-columns: 1fr; }
+  .pago-metodos { grid-template-columns: 1fr; }
+  .trabajo-info { grid-template-columns: 1fr; }
+  .ti-full { grid-column: 1; }
+  .precio-num { font-size: 40px; }
+  .hero { padding: 24px 18px; }
+  .precio-block { padding: 20px 18px 16px; }
+  .precio-desglose { align-items: flex-start; }
+  .datos-bancarios { margin: 12px 14px 0; }
+  .upload-zone { margin: 12px 14px 14px; }
+  .btn-pagar { width: calc(100% - 28px); margin: 0 14px 14px; }
+  footer { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- LOADING -->
+<div class="shell" id="loadScreen">
+  <div class="load-logo">XC²</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+  <div class="load-text">Cargando tu trabajo</div>
+</div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="shell" id="mainShell" style="display:none">
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">
+      XC<span class="logo-sq">²</span> Labs
+      <span class="logo-sub">Portal de trabajo</span>
+    </a>
+    <div class="nav-folio" id="navFolio">—</div>
+  </nav>
+
+  <!-- HERO ESTATUS -->
+  <div class="hero" id="heroCard">
+    <div class="hero-eyebrow">Estado de tu trabajo</div>
+    <div class="hero-status">
+      <div class="status-icon-big" id="heroIcon">⏳</div>
+      <div class="status-text-big">
+        <div class="status-label-big" id="heroTitle">—</div>
+        <div class="status-desc" id="heroDesc">—</div>
+      </div>
+    </div>
+    <div class="progress-track" id="progressTrack">
+      <div class="pt-step" id="ps1"><div class="pt-dot">✓</div><div class="pt-label">Solicitud</div></div>
+      <div class="pt-step" id="ps2"><div class="pt-dot">2</div><div class="pt-label">Cotización</div></div>
+      <div class="pt-step" id="ps3"><div class="pt-dot">3</div><div class="pt-label">Pago</div></div>
+      <div class="pt-step" id="ps4"><div class="pt-dot">4</div><div class="pt-label">Producción</div></div>
+      <div class="pt-step" id="ps5"><div class="pt-dot">5</div><div class="pt-label">Entrega</div></div>
+    </div>
+  </div>
+
+  <!-- COTIZACIÓN (visible cuando estatus = cotizado) -->
+  <div class="section" id="secCotizacion" style="display:none">
+    <div class="section-header">
+      <div class="section-label">Cotización</div>
+      <div class="badge b-volt" id="badgeValidez">Válida 7 días</div>
+    </div>
+    <div class="card">
+      <div class="precio-block">
+        <div class="precio-main">
+          <div class="precio-lbl">Total de tu proyecto</div>
+          <div class="precio-num" id="precioNum">$0<span class="precio-currency">MXN</span></div>
+          <div class="precio-validity" id="precioValidez">—</div>
+        </div>
+        <div class="precio-desglose" id="precioDesglose"></div>
+      </div>
+      <div class="precio-divider"></div>
+      <div class="detalle-grid" id="detalleCot"></div>
+      <div class="decision-block" id="decisionBlock">
+        <div class="decision-lbl">Tu respuesta</div>
+        <div class="decision-btns">
+          <button class="btn btn-volt" id="btnAceptar" onclick="aceptarCotizacion()">
+            ✓ Aceptar cotización
+          </button>
+          <button class="btn btn-reject" id="btnRechazar" onclick="rechazarCotizacion()">
+            ✗ Rechazar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGO (visible cuando estatus = aceptado) -->
+  <div class="section" id="secPago" style="display:none">
+    <div class="section-header">
+      <div class="section-label">Pago</div>
+      <div class="badge b-amber">Pendiente</div>
+    </div>
+    <div class="card">
+      <div class="alert alert-amber" style="margin:20px 20px 0">
+        <span>⚡</span>
+        <span>Realiza el pago y sube tu comprobante para que iniciemos producción de inmediato.</span>
+      </div>
+
+      <div class="pago-metodos">
+        <div class="pago-opcion sel" id="pago-trans" onclick="selMetodo('trans')">
+          <div class="po-icon">🏦</div>
+          <div class="po-name">Transferencia</div>
+          <div class="po-sub">SPEI · BBVA</div>
+        </div>
+        <div class="pago-opcion" id="pago-oxxo" onclick="selMetodo('oxxo')">
+          <div class="po-icon">🏪</div>
+          <div class="po-name">OXXO Pay</div>
+          <div class="po-sub">Efectivo</div>
+        </div>
+      </div>
+
+      <div class="datos-bancarios" id="datosBancarios">
+        <div class="db-row">
+          <span class="db-label">Banco</span>
+          <span class="db-val">BBVA</span>
+        </div>
+        <div class="db-row">
+          <span class="db-label">Titular</span>
+          <span class="db-val">XC² Labs</span>
+        </div>
+        <div class="db-row">
+          <span class="db-label">CLABE</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="db-val mono" id="clabeNum">012 345 678 901 234 567</span>
+            <button class="copy-btn" onclick="copiar('012345678901234567', this)">COPIAR</button>
+          </div>
+        </div>
+        <div class="db-row">
+          <span class="db-label">Concepto</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="db-val mono" id="conceptoPago">—</span>
+            <button class="copy-btn" id="btnCopyFolio" onclick="">COPIAR</button>
+          </div>
+        </div>
+        <div class="db-row">
+          <span class="db-label">Monto</span>
+          <span class="db-val highlight" id="montoAPagar">$0.00</span>
+        </div>
+      </div>
+
+      <div class="datos-bancarios" id="datosOxxo" style="display:none">
+        <div class="db-row">
+          <span class="db-label">Referencia</span>
+          <span class="db-val">Te enviamos la referencia al correo en minutos.</span>
+        </div>
+      </div>
+
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" accept="image/*,.pdf" id="compInput" onchange="handleComp(this)">
+        <div class="uz-icon">📸</div>
+        <div class="uz-label">Sube tu comprobante de pago</div>
+        <div class="uz-sub">JPG · PNG · PDF — Máx. 10MB</div>
+        <div class="uz-preview" id="uzPreview"></div>
+      </div>
+
+      <button class="btn-pagar" id="btnPagar" onclick="enviarComprobante()" disabled>
+        Confirmar pago e iniciar producción
+      </button>
+    </div>
+  </div>
+
+  <!-- PAGO CONFIRMADO (pagado / produccion / listo) -->
+  <div class="section" id="secPagoOk" style="display:none">
+    <div class="section-header">
+      <div class="section-label">Pago</div>
+      <div class="badge b-teal">Confirmado ✓</div>
+    </div>
+    <div class="card">
+      <div class="alert alert-teal" style="margin:16px 16px 16px">
+        <span>✅</span>
+        <span>Pago recibido y verificado. Tu pieza está en proceso.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section" id="secTimeline">
+    <div class="section-header">
+      <div class="section-label">Historial del trabajo</div>
+    </div>
+    <div class="card">
+      <div class="timeline" id="timelineList"></div>
+    </div>
+  </div>
+
+  <!-- DETALLE DEL TRABAJO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Tu solicitud original</div>
+    </div>
+    <div class="trabajo-info" id="trabajoInfo"></div>
+  </div>
+
+  <!-- CONTACTO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">¿Tienes dudas?</div>
+    </div>
+    <div class="card">
+      <div class="contacto-strip">
+        <div class="cs-text">Escríbenos directamente, estamos disponibles de lunes a viernes.</div>
+        <div class="cs-btns">
+          <a class="btn-wa" id="btnWa" href="#" target="_blank">💬 WhatsApp</a>
+          <a class="btn-mail" href="mailto:xc2labs@gmail.com">✉ Email</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTREGADO -->
+  <div class="section" id="secEntregado" style="display:none">
+    <div class="card">
+      <div class="entregado-screen">
+        <div class="entregado-icon">🎉</div>
+        <div class="entregado-title">¡Trabajo entregado!</div>
+        <div class="entregado-sub">
+          Gracias por confiar en XC² Labs.<br>
+          Fue un placer fabricar tu proyecto.
+        </div>
+        <a href="1-solicitud-cliente.html" style="display:inline-block;margin-top:24px;padding:12px 28px;background:var(--volt);color:#000;border-radius:var(--r-md);font-family:var(--mono);font-size:11px;font-weight:700;text-decoration:none;letter-spacing:2px">
+          NUEVO TRABAJO →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">XC<em>²</em> Labs · Monterrey, México</div>
+    <div class="auto-refresh">Auto-actualiza cada 30s · <span id="lastUpdate">—</span></div>
+  </footer>
+
+</div><!-- /mainShell -->
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUylooDG5yd9KVKjZChrB1KoB2SPunkTESyjN4EBl-MadVhLehGwnunCqUD5tHQKAU/exec';
+const WHATSAPP_NUM    = '528110220262'; // reemplaza con tu número real
+
+// ============================================================
+// ESTADO
+// ============================================================
+const params  = new URLSearchParams(window.location.search);
+const FOLIO   = params.get('folio') || 'XC2-DEMO01';
+let pedido    = null;
+let compFile  = null;
+let metodo    = 'trans';
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('load', () => {
+  document.getElementById('navFolio').textContent = FOLIO;
+  cargarPedido();
+  setInterval(cargarPedido, 30000);
+});
+
+// ============================================================
+// CARGA
+// ============================================================
+async function cargarPedido() {
+  try {
+    const r = await fetch(`${APPS_SCRIPT_URL}?action=getPedido&folio=${encodeURIComponent(FOLIO)}`);
+    pedido = await r.json();
+  } catch {
+    pedido = DEMO; // modo demo si no hay backend
+  }
+  renderTodo(pedido);
+  document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('es-MX');
+}
+
+// ============================================================
+// RENDER PRINCIPAL
+// ============================================================
+function renderTodo(p) {
+  // Ocultar loader
+  document.getElementById('loadScreen').style.display = 'none';
+  document.getElementById('mainShell').style.display  = 'block';
+
+  const st = (p.estatus || 'pendiente').toLowerCase();
+
+  updateHero(st);
+  updateProgress(st);
+  renderTimeline(p);
+  renderTrabajo(p);
+  setupContacto(p);
+
+  // Secciones condicionales
+  show('secCotizacion', st === 'cotizado');
+  show('secPago',       st === 'aceptado');
+  show('secPagoOk',     ['pagado','produccion','listo'].includes(st));
+  show('secEntregado',  st === 'entregado');
+
+  if (p.cotizacion) renderCotizacion(p);
+  if (st === 'aceptado') renderPago(p);
+}
+
+// ============================================================
+// HERO
+// ============================================================
+const STATUS_CFG = {
+  pendiente:  { icon:'⏳', title:'Solicitud recibida',       desc:'Estamos analizando tu proyecto. Recibirás la cotización en menos de 24 h hábiles.', color:'var(--amber)' },
+  cotizado:   { icon:'💰', title:'Tienes una cotización',    desc:'Revisa el precio y acepta o rechaza para continuar.', color:'var(--volt)' },
+  aceptado:   { icon:'✅', title:'Cotización aceptada',      desc:'Realiza el pago para que iniciemos producción de tu pieza.', color:'var(--teal)' },
+  pagado:     { icon:'💳', title:'Pago en verificación',     desc:'Recibimos tu comprobante. Verificamos y comenzamos producción.', color:'var(--blue)' },
+  produccion: { icon:'⚙️', title:'En producción',            desc:'Tu pieza está siendo fabricada. Te avisamos cuando esté lista.', color:'var(--amber)' },
+  listo:      { icon:'📦', title:'¡Tu pieza está lista!',   desc:'Ya puedes pasar a recogerla. Contáctanos para coordinar horario.', color:'var(--volt)' },
+  entregado:  { icon:'🎉', title:'Trabajo entregado',        desc:'Pedido completado. ¡Gracias por elegir XC² Labs!', color:'var(--teal)' },
+  rechazado:  { icon:'❌', title:'Cotización rechazada',     desc:'Si deseas un nuevo presupuesto, envía otra solicitud.', color:'var(--coral)' },
+};
+
+function updateHero(st) {
+  const cfg = STATUS_CFG[st] || STATUS_CFG.pendiente;
+  document.getElementById('heroIcon').textContent   = cfg.icon;
+  document.getElementById('heroTitle').textContent  = cfg.title;
+  document.getElementById('heroDesc').textContent   = cfg.desc;
+  document.getElementById('heroCard').style.setProperty('--status-color', cfg.color);
+  document.getElementById('heroIcon').style.background = cfg.color + '20';
+  document.getElementById('heroIcon').style.border  = `1px solid ${cfg.color}40`;
+}
+
+function updateProgress(st) {
+  const map = { pendiente:1, cotizado:2, aceptado:3, pagado:3, produccion:4, listo:4, entregado:5, rechazado:2 };
+  const step = map[st] || 1;
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById(`ps${i}`);
+    el.className = 'pt-step';
+    const dot = el.querySelector('.pt-dot');
+    if (i < step)      { el.classList.add('done');   dot.textContent = '✓'; }
+    else if (i===step) { el.classList.add('active');  dot.textContent = i; }
+    else               {                              dot.textContent = i; }
+  }
+}
+
+// ============================================================
+// COTIZACIÓN
+// ============================================================
+function renderCotizacion(p) {
+  const monto = parseFloat(p.cotizacion) || 0;
+  document.getElementById('precioNum').innerHTML =
+    `$${monto.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}<span class="precio-currency">MXN</span>`;
+
+  const fecha = new Date(); fecha.setDate(fecha.getDate() + 7);
+  document.getElementById('precioValidez').textContent =
+    `Cotización válida hasta ${fecha.toLocaleDateString('es-MX', {day:'numeric',month:'long',year:'numeric'})}`;
+
+  // Desglose si viene en datos
+  if (p.cm || p.ct) {
+    document.getElementById('precioDesglose').innerHTML = `
+      <div class="pd-row"><span class="pd-label">Material</span><span class="pd-value">$${(parseFloat(p.cm)||0).toFixed(2)}</span></div>
+      <div class="pd-row"><span class="pd-label">Impresión</span><span class="pd-value">$${(parseFloat(p.ct)||0).toFixed(2)}</span></div>
+      <div class="pd-row"><span class="pd-label">Factor</span><span class="pd-value">${p.fc||'×1.00'}</span></div>
+    `;
+  }
+
+  // Detalle técnico
+  document.getElementById('detalleCot').innerHTML = `
+    <div class="dg-item"><div class="dg-label">Material</div><div class="dg-value">${p.materiales||'—'}</div></div>
+    <div class="dg-item"><div class="dg-label">Cantidad</div><div class="dg-value">${p.cantidad||'1'}</div></div>
+    <div class="dg-item"><div class="dg-label">Urgencia</div><div class="dg-value">${p.urgencia||'Normal'}</div></div>
+  `;
+}
+
+// ============================================================
+// PAGO
+// ============================================================
+function renderPago(p) {
+  const folio = p.folio || FOLIO;
+  document.getElementById('conceptoPago').textContent = folio;
+  document.getElementById('montoAPagar').textContent  = `$${(parseFloat(p.cotizacion)||0).toFixed(2)} MXN`;
+  document.getElementById('btnCopyFolio').onclick = () => copiar(folio, document.getElementById('btnCopyFolio'));
+}
+
+function selMetodo(m) {
+  metodo = m;
+  document.querySelectorAll('.pago-opcion').forEach(el => el.classList.remove('sel'));
+  document.getElementById(`pago-${m}`).classList.add('sel');
+  document.getElementById('datosBancarios').style.display = m === 'trans' ? 'block' : 'none';
+  document.getElementById('datosOxxo').style.display      = m === 'oxxo'  ? 'block' : 'none';
+}
+
+function handleComp(input) {
+  compFile = input.files[0];
+  if (!compFile) return;
+  const zone = document.getElementById('uploadZone');
+  const prev = document.getElementById('uzPreview');
+  zone.style.borderColor = 'var(--teal)';
+  zone.style.background  = '#00d4aa10';
+  if (compFile.type.startsWith('image/')) {
+    const url = URL.createObjectURL(compFile);
+    prev.innerHTML = `<img src="${url}" style="max-width:180px;max-height:160px;border-radius:6px;border:1px solid var(--wire2)">`;
+  } else {
+    prev.innerHTML = `<div style="color:var(--teal);font-family:var(--mono);font-size:11px">📎 ${compFile.name}</div>`;
+  }
+  prev.style.display = 'block';
+  document.getElementById('btnPagar').disabled = false;
+}
+
+// Drag & drop
+const uz = document.getElementById('uploadZone');
+if (uz) {
+  uz.addEventListener('dragover',  e => { e.preventDefault(); uz.classList.add('drag'); });
+  uz.addEventListener('dragleave', () => uz.classList.remove('drag'));
+  uz.addEventListener('drop', e => {
+    e.preventDefault(); uz.classList.remove('drag');
+    document.getElementById('compInput').files = e.dataTransfer.files;
+    handleComp(document.getElementById('compInput'));
+  });
+}
+
+// ============================================================
+// TIMELINE
+// ============================================================
+const TL_CFG = [
+  { key: 'pendiente',  label: 'Solicitud recibida',     sub: 'Tu proyecto fue registrado en nuestro sistema' },
+  { key: 'cotizado',   label: 'Cotización enviada',      sub: 'Revisamos tu solicitud y enviamos el precio' },
+  { key: 'aceptado',   label: 'Cotización aceptada',     sub: 'Confirmaste continuar con el trabajo' },
+  { key: 'pagado',     label: 'Pago recibido',           sub: 'Comprobante verificado — listo para producir' },
+  { key: 'produccion', label: 'En producción',           sub: 'Tu pieza está siendo fabricada en este momento' },
+  { key: 'listo',      label: 'Listo para recoger',      sub: 'Tu pieza está terminada y esperándote' },
+  { key: 'entregado',  label: 'Entregado',               sub: 'Trabajo completado con éxito' },
+];
+
+function renderTimeline(p) {
+  const st = (p.estatus || 'pendiente').toLowerCase();
+  const stOrder = TL_CFG.map(x => x.key);
+  const curIdx  = stOrder.indexOf(st === 'aceptado' ? 'pagado' : st);
+
+  // Historial real si viene en datos
+  const histMap = {};
+  if (p.historial) {
+    try {
+      const h = typeof p.historial === 'string' ? JSON.parse(p.historial) : p.historial;
+      h.forEach(e => { histMap[e.estatus] = e.fecha; });
+    } catch {}
+  }
+
+  document.getElementById('timelineList').innerHTML = TL_CFG.map((s, i) => {
+    let cls = 'pending'; let icon = (i + 1).toString();
+    if (i < curIdx)      { cls = 'done';   icon = '✓'; }
+    else if (i === curIdx) { cls = 'active'; icon = '●'; }
+    const fecha = histMap[s.key] || (i <= curIdx ? '' : '');
+    return `
+      <div class="tl-item">
+        <div class="tl-dot-wrap">
+          <div class="tl-dot ${cls}">${icon}</div>
+        </div>
+        <div class="tl-body">
+          <div class="tl-title ${cls === 'pending' ? 'dim' : ''}">${s.label}</div>
+          <div class="tl-date">${fecha || (cls === 'pending' ? 'Pendiente' : '')}</div>
+          ${cls === 'active' && s.key !== 'entregado' ? `<div class="tl-note">${STATUS_CFG[st]?.desc || ''}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ============================================================
+// DETALLE TRABAJO
+// ============================================================
+function renderTrabajo(p) {
+  document.getElementById('trabajoInfo').innerHTML = `
+    <div class="ti-item"><div class="ti-label">Folio</div><div class="ti-value" style="font-family:var(--mono);color:var(--volt)">${p.folio||FOLIO}</div></div>
+    <div class="ti-item"><div class="ti-label">Fecha solicitud</div><div class="ti-value">${p.fecha||'—'}</div></div>
+    <div class="ti-item"><div class="ti-label">Material</div><div class="ti-value">${p.materiales||'—'}</div></div>
+    <div class="ti-item"><div class="ti-label">Cantidad</div><div class="ti-value">${p.cantidad||'1'}</div></div>
+    <div class="ti-item ti-full"><div class="ti-label">Descripción</div><div class="ti-value desc">${p.descripcion||'—'}</div></div>
+    ${p.comentarios ? `<div class="ti-item ti-full"><div class="ti-label">Comentarios</div><div class="ti-value desc">${p.comentarios}</div></div>` : ''}
+  `;
+}
+
+// ============================================================
+// CONTACTO
+// ============================================================
+function setupContacto(p) {
+  const folio = p?.folio || FOLIO;
+  const nombre = p?.nombre || '';
+  const wa = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Hola XC² Labs, tengo una pregunta sobre mi pedido ${folio} — ${nombre}`)}`;
+  document.getElementById('btnWa').href = wa;
+}
+
+// ============================================================
+// ACCIONES
+// ============================================================
+async function aceptarCotizacion() {
+  const btn = document.getElementById('btnAceptar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> Procesando…';
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'responderCotizacion', folio: FOLIO, respuesta: 'aceptado' })
+    });
+  } catch {}
+  pedido.estatus = 'aceptado';
+  renderTodo(pedido);
+}
+
+async function rechazarCotizacion() {
+  if (!confirm('¿Confirmas que deseas rechazar esta cotización?')) return;
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'responderCotizacion', folio: FOLIO, respuesta: 'rechazado' })
+    });
+  } catch {}
+  pedido.estatus = 'rechazado';
+  renderTodo(pedido);
+}
+
+async function enviarComprobante() {
+  if (!compFile) return;
+  const btn = document.getElementById('btnPagar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span> Enviando comprobante…';
+  const fd = new FormData();
+  fd.append('action', 'recibirComprobante');
+  fd.append('folio', FOLIO);
+  fd.append('metodo', metodo);
+  fd.append('comprobante', compFile);
+  try {
+    await fetch(APPS_SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+  } catch {}
+  pedido.estatus = 'pagado';
+  renderTodo(pedido);
+}
+
+// ============================================================
+// UTILIDADES
+// ============================================================
+function show(id, visible) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = visible ? 'block' : 'none';
+}
+
+function copiar(texto, btn) {
+  navigator.clipboard.writeText(texto).then(() => {
+    btn.textContent = '✓ OK';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPIAR'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ============================================================
+// DEMO DATA (cuando no hay backend conectado)
+// ============================================================
+const DEMO = {
+  folio: 'XC2-DEMO01', nombre: 'Carlos Martínez',
+  email: 'carlos@ejemplo.com', tel: '81 1234 5678', empresa: 'Industrias Demo',
+  materiales: 'PETG', descripcion: 'Soporte de cámara de seguridad para techo de aluminio, con inclinación ajustable y paso de cable interno. Necesito resistencia a rayos UV.',
+  cantidad: '3 piezas', urgencia: 'Normal', fecha: '09/06/2026 10:30',
+  estatus: 'cotizado', cotizacion: '1,250.00', cm: '320', ct: '480', fc: '×1.20',
+  comentarios: 'Color negro preferentemente.',
+  historial: JSON.stringify([
+    { estatus: 'pendiente', fecha: '09/06/2026 10:30' },
+    { estatus: 'cotizado',  fecha: '09/06/2026 14:15' },
+  ])
+};
+</script>
+</body>
+</html>
