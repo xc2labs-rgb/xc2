@@ -4,46 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>XC² Labs — Tu trabajo</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* =============================================
-   TOKENS
+   TOKENS — BRANDING XC² LABS
    ============================================= */
 :root {
-  --ink:        #0a0a0f;
-  --ink2:       #13131a;
-  --ink3:       #1c1c26;
-  --wire:       #26263a;
-  --wire2:      #32324a;
-  --dim:        #55556a;
-  --ghost:      #88889a;
-  --text:       #e8e8f0;
-  --text2:      #b0b0c4;
-  --volt:       #c8ff00;      /* verde voltaje — firma */
-  --volt-dim:   #c8ff0018;
-  --volt-mid:   #c8ff0040;
-  --amber:      #ffaa00;
-  --coral:      #ff5544;
-  --teal:       #00d4aa;
-  --blue:       #4488ff;
+  /* Paleta oficial */
+  --navy:       #0D1B3D;   /* azul marino — fondo principal */
+  --navy2:      #112040;   /* navy ligeramente más claro */
+  --navy3:      #162850;   /* cards / superficies */
+  --navy4:      #1d3160;   /* bordes / divisores */
+  --teal:       #00B4AD;   /* turquesa — acento primario */
+  --teal-dim:   #00B4AD18;
+  --teal-mid:   #00B4AD40;
+  --violet:     #6A4CFF;   /* morado — acento secundario */
+  --violet-dim: #6A4CFF18;
+  --violet-mid: #6A4CFF40;
+  --white:      #FFFFFF;
+  --text:       #E8EDF5;
+  --text2:      #8FA3C8;
+  --muted:      #4A6080;
+  --success:    #00C98D;
+  --warning:    #F59E0B;
+  --error:      #EF4444;
 
   --r-sm: 6px;
   --r-md: 10px;
   --r-lg: 16px;
+  --r-xl: 24px;
 
   --mono: 'Space Mono', monospace;
-  --sans: 'DM Sans', sans-serif;
+  --sans: 'Montserrat', sans-serif;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-teal: 0 8px 32px rgba(0,180,173,0.2);
 }
 
 /* =============================================
-   RESET + BASE
+   RESET
    ============================================= */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { scroll-behavior: smooth; }
-
 body {
-  background: var(--ink);
+  background: var(--navy);
   color: var(--text);
   font-family: var(--sans);
   min-height: 100vh;
@@ -52,21 +58,20 @@ body {
 }
 
 /* =============================================
-   FONDO ANIMADO — FIRMA VISUAL
+   FONDO — SUTIL GRADIENTE + LINEA DECORATIVA
    ============================================= */
-.bg-grid {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background-image:
-    linear-gradient(var(--wire) 1px, transparent 1px),
-    linear-gradient(90deg, var(--wire) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 100%);
-  opacity: 0.35;
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--teal) 0%, var(--violet) 100%);
+  z-index: 100;
 }
 
-.bg-glow {
+.bg-radial {
   position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background: radial-gradient(ellipse 60% 40% at 50% -10%, #c8ff0012 0%, transparent 70%);
+  background:
+    radial-gradient(ellipse 70% 50% at 100% 0%, rgba(106,76,255,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(0,180,173,0.06) 0%, transparent 60%);
 }
 
 /* =============================================
@@ -74,7 +79,7 @@ body {
    ============================================= */
 .shell {
   position: relative; z-index: 1;
-  max-width: 740px;
+  max-width: 720px;
   margin: 0 auto;
   padding: 0 20px 80px;
 }
@@ -84,461 +89,476 @@ body {
    ============================================= */
 nav {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 0 0;
-  margin-bottom: 48px;
+  padding: 24px 0 0;
+  margin-bottom: 40px;
 }
 
 .logo {
-  display: flex; align-items: baseline; gap: 2px;
-  font-family: var(--mono); font-size: 16px; font-weight: 700;
-  letter-spacing: -0.5px; color: var(--text);
+  display: flex; align-items: center; gap: 12px;
   text-decoration: none;
 }
+.logo-mark {
+  display: flex; align-items: baseline; gap: 1px;
+  font-family: var(--sans); font-size: 22px; font-weight: 800;
+  color: var(--white); letter-spacing: -1px;
+}
 .logo-sq {
-  color: var(--volt);
-  font-size: 18px;
-  line-height: 1;
-  position: relative;
-  top: 1px;
+  color: var(--violet);
+  font-size: 15px;
+  position: relative; top: -4px;
+}
+.logo-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal);
+  margin: 0 1px 0 -2px;
+  position: relative; top: -1px;
+  display: inline-block;
+}
+.logo-divider {
+  width: 1px; height: 28px; background: var(--navy4);
 }
 .logo-sub {
   font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
-  color: var(--dim); text-transform: uppercase; margin-left: 10px;
-  border-left: 1px solid var(--wire2); padding-left: 10px;
+  color: var(--muted); text-transform: uppercase; line-height: 1.3;
 }
 
 .nav-folio {
-  font-family: var(--mono); font-size: 11px; color: var(--volt);
-  background: var(--volt-dim); border: 1px solid var(--volt-mid);
-  padding: 5px 12px; border-radius: 20px; letter-spacing: 1px;
+  font-family: var(--mono); font-size: 11px; color: var(--teal);
+  background: var(--teal-dim); border: 1px solid var(--teal-mid);
+  padding: 6px 14px; border-radius: 20px; letter-spacing: 1px;
 }
 
 /* =============================================
-   HERO — ESTADO PRINCIPAL
+   HERO
    ============================================= */
 .hero {
-  margin-bottom: 36px;
-  padding: 36px 32px;
-  background: var(--ink2);
-  border: 1px solid var(--wire);
-  border-radius: var(--r-lg);
+  margin-bottom: 28px;
+  padding: 32px 28px 28px;
+  background: var(--navy3);
+  border: 1px solid var(--navy4);
+  border-radius: var(--r-xl);
   position: relative;
   overflow: hidden;
 }
 
-/* acento de color según estatus */
-.hero::before {
+.hero::after {
   content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--status-color, var(--volt));
-  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--teal) 0%, var(--violet) 100%);
+  opacity: 0.6;
 }
 
-.hero-eyebrow {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
-  color: var(--dim); text-transform: uppercase; margin-bottom: 16px;
+.hero-top {
+  display: flex; align-items: flex-start; gap: 18px; margin-bottom: 28px;
 }
 
-.hero-status {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
-}
-
-.status-icon-big {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--volt-dim); border: 1px solid var(--volt-mid);
+.status-icon {
+  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 26px; flex-shrink: 0;
+  font-size: 24px;
+  background: var(--teal-dim); border: 1px solid var(--teal-mid);
   transition: all .3s;
 }
 
-.status-text-big { flex: 1; }
-.status-label-big {
-  font-size: 26px; font-weight: 700; line-height: 1.1;
-  letter-spacing: -0.5px;
+.hero-text { flex: 1; }
+.hero-eyebrow {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  color: var(--text2); text-transform: uppercase; margin-bottom: 8px;
 }
-.status-desc {
-  font-size: 14px; color: var(--text2); margin-top: 5px; line-height: 1.5;
+.hero-title {
+  font-size: 24px; font-weight: 800; line-height: 1.15;
+  letter-spacing: -0.5px; color: var(--white);
+}
+.hero-desc {
+  font-size: 13px; color: var(--text2); margin-top: 6px; line-height: 1.6;
+  font-weight: 400;
 }
 
-/* BARRA DE PROGRESO */
-.progress-track {
-  margin-top: 28px;
+/* PROGRESS */
+.progress-wrap {
   display: flex; align-items: center; gap: 0;
 }
-.pt-step {
+.pw-step {
   flex: 1; display: flex; flex-direction: column; align-items: center;
   position: relative;
 }
-.pt-step:not(:last-child)::after {
+.pw-step:not(:last-child)::after {
   content: '';
-  position: absolute; top: 11px; left: calc(50% + 11px);
-  width: calc(100% - 22px); height: 2px;
-  background: var(--wire2);
-  transition: background .5s;
+  position: absolute; top: 13px; left: calc(50% + 13px);
+  width: calc(100% - 26px); height: 2px;
+  background: var(--navy4); transition: background .4s;
 }
-.pt-step.done::after { background: var(--volt); }
-.pt-step.active::after { background: linear-gradient(90deg, var(--volt), var(--wire2)); }
+.pw-step.done::after {
+  background: linear-gradient(90deg, var(--teal), var(--teal));
+}
+.pw-step.active::after {
+  background: linear-gradient(90deg, var(--teal), var(--navy4));
+}
 
-.pt-dot {
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 2px solid var(--wire2);
-  background: var(--ink);
+.pw-dot {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid var(--navy4);
+  background: var(--navy);
   display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-family: var(--mono); color: var(--dim);
-  position: relative; z-index: 1;
-  transition: all .3s;
+  font-size: 9px; font-family: var(--mono); color: var(--muted);
+  position: relative; z-index: 1; transition: all .3s;
 }
-.pt-step.done .pt-dot {
-  background: var(--volt); border-color: var(--volt); color: #000; font-weight: 700;
+.pw-step.done .pw-dot {
+  background: var(--teal); border-color: var(--teal);
+  color: var(--navy); font-weight: 700; font-size: 11px;
 }
-.pt-step.active .pt-dot {
-  border-color: var(--volt); color: var(--volt);
-  box-shadow: 0 0 0 4px var(--volt-dim);
-  animation: pulse-dot 2s ease-in-out infinite;
+.pw-step.active .pw-dot {
+  border-color: var(--teal); color: var(--teal);
+  box-shadow: 0 0 0 4px var(--teal-dim);
+  animation: pulse-step 2s ease-in-out infinite;
 }
-@keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 4px var(--volt-dim); }
+@keyframes pulse-step {
+  0%,100% { box-shadow: 0 0 0 4px var(--teal-dim); }
   50% { box-shadow: 0 0 0 8px transparent; }
 }
 
-.pt-label {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 1px;
-  color: var(--dim); text-transform: uppercase; margin-top: 7px;
-  text-align: center; line-height: 1.3;
+.pw-label {
+  font-family: var(--mono); font-size: 7px; letter-spacing: 1px;
+  color: var(--muted); text-transform: uppercase; margin-top: 7px;
+  text-align: center;
 }
-.pt-step.done .pt-label, .pt-step.active .pt-label { color: var(--text2); }
+.pw-step.done .pw-label  { color: var(--teal); }
+.pw-step.active .pw-label { color: var(--text2); }
 
 /* =============================================
-   SECCIÓN: COTIZACIÓN
+   SECTION HEADER
    ============================================= */
-.section { margin-bottom: 16px; }
-
-.section-header {
+.sec-head {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 12px;
 }
-.section-label {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
-  color: var(--dim); text-transform: uppercase;
+.sec-label {
   display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  color: var(--text2); text-transform: uppercase; font-weight: 700;
 }
-.section-label::before {
-  content: ''; width: 3px; height: 12px;
-  background: var(--volt); border-radius: 2px;
+.sec-label::before {
+  content: '';
+  width: 3px; height: 14px;
+  background: linear-gradient(180deg, var(--teal), var(--violet));
+  border-radius: 2px;
 }
 
+/* =============================================
+   CARD BASE
+   ============================================= */
 .card {
-  background: var(--ink2); border: 1px solid var(--wire);
-  border-radius: var(--r-lg); overflow: hidden;
+  background: var(--navy3);
+  border: 1px solid var(--navy4);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 16px;
 }
 
-/* PRECIO HERO */
+/* =============================================
+   BADGE
+   ============================================= */
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 20px;
+  font-family: var(--mono); font-size: 9px;
+  font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+}
+.b-teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid var(--teal-mid); }
+.b-violet { background: var(--violet-dim); color: var(--violet); border: 1px solid var(--violet-mid); }
+.b-warn   { background: #F59E0B18; color: var(--warning); border: 1px solid #F59E0B40; }
+.b-success{ background: #00C98D18; color: var(--success); border: 1px solid #00C98D40; }
+.b-error  { background: #EF444418; color: var(--error);   border: 1px solid #EF444440; }
+.b-dim    { background: var(--navy4);      color: var(--muted);  border: 1px solid var(--navy4); }
+
+/* =============================================
+   PRECIO
+   ============================================= */
 .precio-block {
   padding: 28px 28px 20px;
-  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
-  flex-wrap: wrap;
+  display: flex; align-items: flex-end;
+  justify-content: space-between; gap: 20px; flex-wrap: wrap;
 }
-.precio-main { }
 .precio-lbl {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
-  color: var(--dim); text-transform: uppercase; margin-bottom: 6px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  color: var(--text2); text-transform: uppercase; margin-bottom: 8px; font-weight: 700;
 }
 .precio-num {
-  font-family: var(--mono); font-size: 52px; font-weight: 700;
-  color: var(--volt); line-height: 1; letter-spacing: -2px;
+  font-family: var(--sans); font-size: 52px; font-weight: 800;
+  color: var(--white); line-height: 1; letter-spacing: -2px;
 }
-.precio-currency {
-  font-size: 20px; color: var(--ghost); margin-left: 4px; letter-spacing: 0;
+.precio-teal { color: var(--teal); }
+.precio-cur { font-size: 18px; color: var(--text2); margin-left: 4px; font-weight: 600; }
+.precio-valid {
+  font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 6px;
 }
-.precio-validity {
-  font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 6px;
-}
+.precio-divider { height: 1px; background: var(--navy4); margin: 0 28px; }
 
-.precio-desglose {
-  display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
+/* DESGLOSE LIMPIO */
+.desglose-box {
+  margin: 4px 28px 20px;
+  background: var(--navy2); border: 1px solid var(--navy4);
+  border-radius: var(--r-md); overflow: hidden;
 }
-.pd-row {
-  display: flex; gap: 10px; align-items: center;
-  font-family: var(--mono); font-size: 11px;
+.dsg-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 13px 18px; border-bottom: 1px solid var(--navy4); font-size: 14px;
 }
-.pd-label { color: var(--dim); }
-.pd-value { color: var(--text2); min-width: 70px; text-align: right; }
+.dsg-row:last-child { border-bottom: none; }
+.dsg-label { color: var(--text2); font-weight: 600; }
+.dsg-value { font-family: var(--mono); font-size: 13px; color: var(--text); font-weight: 700; }
+.dsg-row.express .dsg-label { color: var(--warning); }
+.dsg-row.express .dsg-value { color: var(--warning); }
+.dsg-row.total-row { background: rgba(0,180,173,0.08); }
+.dsg-row.total-row .dsg-label { color: var(--white); font-weight: 800; font-size: 15px; }
+.dsg-row.total-row .dsg-value { color: var(--teal); font-size: 16px; }
 
-.precio-divider {
-  height: 1px; background: var(--wire); margin: 0 28px;
+/* DETALLE TRABAJO */
+.det-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1px; background: var(--navy4);
 }
-
-/* DETALLE TÉCNICO */
-.detalle-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
-  background: var(--wire);
+.det-item { background: var(--navy3); padding: 16px 18px; }
+.det-lbl {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+  color: var(--text2); text-transform: uppercase; margin-bottom: 5px; font-weight: 700;
 }
-.dg-item {
-  background: var(--ink2); padding: 16px 18px;
-}
-.dg-label {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 2px;
-  color: var(--dim); text-transform: uppercase; margin-bottom: 5px;
-}
-.dg-value { font-size: 13px; font-weight: 500; color: var(--text); }
-.dg-value.mono { font-family: var(--mono); font-size: 12px; }
+.det-val { font-size: 13px; font-weight: 600; color: var(--text); }
 
 /* DECISIÓN */
 .decision-block { padding: 20px 28px 28px; }
 .decision-lbl {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
-  color: var(--dim); text-transform: uppercase; margin-bottom: 14px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  color: var(--text2); text-transform: uppercase; margin-bottom: 14px; font-weight: 700;
 }
-.decision-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.decision-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
+/* =============================================
+   BOTONES
+   ============================================= */
 .btn {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   padding: 13px 20px; border: none; cursor: pointer;
-  font-family: var(--mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  border-radius: var(--r-md); transition: all .2s;
+  font-family: var(--sans); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.5px; border-radius: var(--r-md);
+  transition: all .2s; text-decoration: none;
 }
-.btn-volt {
-  background: var(--volt); color: #000;
+.btn-primary {
+  background: linear-gradient(135deg, var(--teal) 0%, #00968f 100%);
+  color: var(--white);
+  box-shadow: var(--shadow-teal);
 }
-.btn-volt:hover {
-  background: #d8ff20;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px #c8ff0030;
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,180,173,0.35); }
+
+.btn-violet {
+  background: linear-gradient(135deg, var(--violet) 0%, #5538e0 100%);
+  color: var(--white);
 }
-.btn-reject {
-  background: transparent; color: var(--coral);
-  border: 1px solid #3a1a18;
-}
-.btn-reject:hover { border-color: var(--coral); background: #1a0a08; }
-.btn-ghost {
+.btn-violet:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(106,76,255,0.3); }
+
+.btn-outline {
   background: transparent; color: var(--text2);
-  border: 1px solid var(--wire2);
+  border: 1px solid var(--navy4);
 }
-.btn-ghost:hover { border-color: var(--volt); color: var(--volt); }
+.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+.btn-reject {
+  background: transparent; color: var(--error);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+.btn-reject:hover { border-color: var(--error); background: rgba(239,68,68,0.06); }
+
 .btn:disabled {
-  background: var(--ink3) !important; color: var(--dim) !important;
-  border-color: var(--wire) !important; cursor: not-allowed;
+  background: var(--navy4) !important; color: var(--muted) !important;
+  border-color: transparent !important; cursor: not-allowed;
   transform: none !important; box-shadow: none !important;
 }
 
 /* =============================================
-   SECCIÓN: PAGO
+   PAGO
    ============================================= */
 .pago-metodos {
   display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
   padding: 20px 20px 0;
 }
-.pago-opcion {
-  background: var(--ink3); border: 1px solid var(--wire);
+.pago-opt {
+  background: var(--navy2); border: 1px solid var(--navy4);
   border-radius: var(--r-md); padding: 16px;
   cursor: pointer; transition: all .2s;
 }
-.pago-opcion:hover { border-color: var(--wire2); }
-.pago-opcion.sel { border-color: var(--volt); background: var(--volt-dim); }
+.pago-opt:hover { border-color: var(--teal); }
+.pago-opt.sel { border-color: var(--teal); background: var(--teal-dim); }
 .po-icon { font-size: 22px; margin-bottom: 8px; }
-.po-name { font-size: 14px; font-weight: 600; }
-.po-sub { font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 3px; }
+.po-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.po-sub  { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-top: 3px; }
 
-.datos-bancarios {
+.banco-box {
   margin: 16px 20px 0;
-  background: var(--ink3); border: 1px solid var(--wire);
-  border-radius: var(--r-md); padding: 16px;
+  background: var(--navy2); border: 1px solid var(--navy4);
+  border-radius: var(--r-md); padding: 4px 16px;
 }
-.db-row {
+.banco-row {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 0; border-bottom: 1px solid var(--wire);
-  font-size: 13px;
+  padding: 11px 0; border-bottom: 1px solid var(--navy4); font-size: 13px;
 }
-.db-row:last-child { border-bottom: none; }
-.db-label { color: var(--dim); font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
-.db-val { font-family: var(--mono); font-size: 12px; color: var(--text); }
-.db-val.highlight { color: var(--volt); font-size: 14px; font-weight: 700; }
+.banco-row:last-child { border-bottom: none; }
+.banco-lbl { color: var(--text2); font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
+.banco-val { font-family: var(--mono); font-size: 12px; color: var(--text); }
+.banco-val.hi { color: var(--teal); font-size: 14px; font-weight: 700; }
 
 .copy-btn {
-  background: transparent; border: 1px solid var(--wire2); color: var(--ghost);
+  background: transparent; border: 1px solid var(--navy4); color: var(--muted);
   padding: 3px 8px; border-radius: 4px; font-family: var(--mono); font-size: 9px;
   cursor: pointer; transition: all .15s; letter-spacing: 1px;
 }
-.copy-btn:hover { border-color: var(--volt); color: var(--volt); }
-.copy-btn.copied { border-color: var(--teal); color: var(--teal); }
+.copy-btn:hover { border-color: var(--teal); color: var(--teal); }
+.copy-btn.ok { border-color: var(--success); color: var(--success); }
 
-/* UPLOAD COMPROBANTE */
+/* UPLOAD */
 .upload-zone {
   margin: 16px 20px 20px;
-  border: 2px dashed var(--wire2); border-radius: var(--r-md);
+  border: 2px dashed var(--navy4); border-radius: var(--r-md);
   padding: 28px 20px; text-align: center; cursor: pointer;
-  transition: all .2s; position: relative; background: var(--ink3);
+  transition: all .2s; position: relative; background: var(--navy2);
 }
 .upload-zone:hover, .upload-zone.drag {
-  border-color: var(--volt); background: var(--volt-dim);
+  border-color: var(--teal); background: var(--teal-dim);
 }
 .upload-zone input {
   position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
 }
 .uz-icon { font-size: 28px; margin-bottom: 10px; }
-.uz-label { font-size: 14px; font-weight: 600; }
-.uz-sub { font-size: 11px; color: var(--dim); font-family: var(--mono); margin-top: 5px; }
-.uz-preview {
-  display: none; margin-top: 14px;
-  background: var(--ink); border-radius: var(--r-sm);
-  padding: 10px 14px; font-family: var(--mono); font-size: 11px; color: var(--volt);
-}
+.uz-label { font-size: 14px; font-weight: 600; color: var(--text); }
+.uz-sub { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 5px; }
+.uz-preview { display: none; margin-top: 12px; }
 
 .btn-pagar {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   width: calc(100% - 40px); margin: 0 20px 20px;
-  padding: 14px; background: var(--teal); color: #000;
-  border: none; border-radius: var(--r-md); cursor: pointer;
-  font-family: var(--mono); font-size: 12px; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase; transition: all .2s;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--success) 0%, #00a876 100%);
+  color: var(--white); border: none; border-radius: var(--r-md);
+  cursor: pointer; font-family: var(--sans); font-size: 13px;
+  font-weight: 700; transition: all .2s;
 }
-.btn-pagar:hover { background: #00e8bb; transform: translateY(-1px); }
-.btn-pagar:disabled { background: var(--wire); color: var(--dim); cursor: not-allowed; transform: none; }
+.btn-pagar:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,201,141,0.3); }
+.btn-pagar:disabled { background: var(--navy4); color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* =============================================
+   ALERT
+   ============================================= */
+.alert {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 18px; border-radius: var(--r-md);
+  font-size: 13px; line-height: 1.6; font-weight: 500;
+  margin: 16px 20px 0;
+}
+.al-teal   { background: var(--teal-dim);   border: 1px solid var(--teal-mid);   color: #7fded9; }
+.al-violet { background: var(--violet-dim); border: 1px solid var(--violet-mid); color: #a99aff; }
+.al-warn   { background: #F59E0B15; border: 1px solid #F59E0B35; color: #fbbf24; }
+.al-success{ background: #00C98D15; border: 1px solid #00C98D35; color: #34d399; }
 
 /* =============================================
    TIMELINE
    ============================================= */
-.timeline { padding: 4px 0; }
 .tl-item {
   display: flex; gap: 16px; padding: 16px 24px;
-  border-bottom: 1px solid var(--wire); position: relative;
+  border-bottom: 1px solid var(--navy4);
+  position: relative;
 }
 .tl-item:last-child { border-bottom: none; }
 
-.tl-dot-wrap {
-  display: flex; flex-direction: column; align-items: center; gap: 0;
-  flex-shrink: 0; width: 28px;
-}
 .tl-dot {
   width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; font-family: var(--mono);
-  border: 2px solid var(--wire2); background: var(--ink);
-  color: var(--dim); transition: all .3s;
+  font-size: 11px; font-weight: 700; font-family: var(--mono);
+  border: 2px solid var(--navy4); background: var(--navy);
+  color: var(--muted); transition: all .3s; margin-top: 2px;
 }
-.tl-dot.done { background: var(--volt); border-color: var(--volt); color: #000; }
-.tl-dot.active {
-  border-color: var(--volt); color: var(--volt);
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-.tl-dot.pending { }
+.tl-dot.done   { background: var(--teal); border-color: var(--teal); color: var(--navy); }
+.tl-dot.active { border-color: var(--teal); color: var(--teal); animation: pulse-step 2s ease-in-out infinite; }
 
-.tl-body { flex: 1; padding-top: 4px; }
-.tl-title { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
-.tl-title.dim { color: var(--dim); font-weight: 400; }
-.tl-date {
-  font-family: var(--mono); font-size: 10px; color: var(--dim);
-  letter-spacing: 0.5px;
-}
+.tl-body { flex: 1; }
+.tl-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.tl-title.dim { color: var(--muted); font-weight: 400; }
+.tl-date { font-family: var(--mono); font-size: 10px; color: var(--muted); }
 .tl-note {
-  margin-top: 6px; font-size: 12px; color: var(--text2);
-  background: var(--ink3); border-radius: var(--r-sm);
-  padding: 8px 12px; border-left: 2px solid var(--volt);
-  line-height: 1.5;
+  margin-top: 8px; font-size: 12px; color: var(--text2);
+  background: var(--navy2); border-radius: var(--r-sm);
+  padding: 8px 12px; border-left: 2px solid var(--teal); line-height: 1.5;
 }
 
 /* =============================================
-   DESCRIPCIÓN DEL TRABAJO
+   TRABAJO INFO
    ============================================= */
-.trabajo-info {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-  background: var(--wire); border-radius: var(--r-md); overflow: hidden;
+.trabajo-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--navy4); border-radius: var(--r-lg); overflow: hidden;
 }
-.ti-item {
-  background: var(--ink2); padding: 14px 18px;
+.tg-item { background: var(--navy3); padding: 14px 18px; }
+.tg-lbl {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+  color: var(--text2); text-transform: uppercase; margin-bottom: 5px; font-weight: 700;
 }
-.ti-label {
-  font-family: var(--mono); font-size: 8px; letter-spacing: 2px;
-  color: var(--dim); text-transform: uppercase; margin-bottom: 5px;
-}
-.ti-value { font-size: 14px; color: var(--text); }
-.ti-full { grid-column: 1 / -1; }
-.ti-value.desc {
-  font-size: 13px; color: var(--text2); line-height: 1.6;
-}
+.tg-val { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.5; }
+.tg-full { grid-column: 1 / -1; }
 
 /* =============================================
    CONTACTO
    ============================================= */
-.contacto-strip {
+.contacto-row {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px; flex-wrap: wrap; gap: 12px;
+  padding: 18px 22px; flex-wrap: wrap; gap: 12px;
 }
-.cs-text { font-size: 13px; color: var(--text2); }
-.cs-btns { display: flex; gap: 8px; }
+.ct-text { font-size: 13px; color: var(--text2); font-weight: 500; }
+.ct-btns { display: flex; gap: 8px; }
 .btn-wa {
   display: flex; align-items: center; gap: 6px; padding: 9px 16px;
-  background: #25d366; color: #000; border: none; border-radius: var(--r-md);
-  font-family: var(--mono); font-size: 10px; font-weight: 700; cursor: pointer;
-  text-decoration: none; letter-spacing: 1px; transition: all .15s;
+  background: #25D366; color: #000; border: none; border-radius: var(--r-md);
+  font-family: var(--sans); font-size: 12px; font-weight: 700;
+  cursor: pointer; text-decoration: none; transition: all .15s;
 }
-.btn-wa:hover { background: #1fba58; }
-.btn-mail {
+.btn-wa:hover { background: #1fba58; transform: translateY(-1px); }
+.btn-email {
   display: flex; align-items: center; gap: 6px; padding: 9px 16px;
-  background: transparent; color: var(--text2); border: 1px solid var(--wire2);
-  border-radius: var(--r-md); font-family: var(--mono); font-size: 10px;
-  cursor: pointer; text-decoration: none; letter-spacing: 1px; transition: all .15s;
+  background: transparent; color: var(--text2);
+  border: 1px solid var(--navy4); border-radius: var(--r-md);
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  cursor: pointer; text-decoration: none; transition: all .15s;
 }
-.btn-mail:hover { border-color: var(--volt); color: var(--volt); }
+.btn-email:hover { border-color: var(--teal); color: var(--teal); }
 
 /* =============================================
-   FOOTER
+   ENTREGADO
    ============================================= */
-footer {
-  margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--wire);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px;
+.entregado-wrap {
+  text-align: center; padding: 52px 24px;
 }
-.footer-logo { font-family: var(--mono); font-size: 13px; color: var(--dim); }
-.footer-logo em { color: var(--volt); font-style: normal; }
-.footer-meta { font-family: var(--mono); font-size: 10px; color: var(--wire2); }
-.auto-refresh {
-  font-family: var(--mono); font-size: 9px; color: var(--wire2); letter-spacing: 1px;
-}
+.entregado-icon { font-size: 60px; margin-bottom: 20px; }
+.entregado-title { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 10px; }
+.entregado-sub { font-size: 14px; color: var(--text2); line-height: 1.7; }
 
 /* =============================================
    LOADING
    ============================================= */
 #loadScreen {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 80vh; gap: 20px;
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; min-height: 80vh; gap: 24px;
 }
-.load-logo { font-family: var(--mono); font-size: 36px; color: var(--volt); font-weight: 700; }
-.load-bar {
-  width: 200px; height: 2px; background: var(--wire); border-radius: 2px; overflow: hidden;
+.load-logo {
+  display: flex; align-items: baseline; gap: 2px;
+  font-family: var(--sans); font-size: 40px; font-weight: 800;
+  color: var(--white); letter-spacing: -2px;
 }
+.load-logo span { color: var(--violet); font-size: 26px; position: relative; top: -5px; }
+.load-bar { width: 180px; height: 2px; background: var(--navy4); border-radius: 2px; overflow: hidden; }
 .load-fill {
-  height: 100%; width: 0; background: var(--volt); border-radius: 2px;
-  animation: loadfill 1.2s ease forwards;
+  height: 100%; width: 0; border-radius: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--violet));
+  animation: loadfill 1.4s ease forwards;
 }
 @keyframes loadfill { to { width: 100%; } }
-.load-text { font-family: var(--mono); font-size: 10px; color: var(--dim); letter-spacing: 3px; text-transform: uppercase; }
-
-/* =============================================
-   ALERTS / BADGES
-   ============================================= */
-.alert {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 14px 18px; border-radius: var(--r-md); font-size: 13px; line-height: 1.6;
-  margin-bottom: 12px;
-}
-.alert-volt  { background: var(--volt-dim); border: 1px solid var(--volt-mid); color: #c8ff80; }
-.alert-teal  { background: #00d4aa12; border: 1px solid #00d4aa30; color: #00d4aa; }
-.alert-amber { background: #ffaa0012; border: 1px solid #ffaa0030; color: var(--amber); }
-.alert-coral { background: #ff554412; border: 1px solid #ff554430; color: var(--coral); }
-
-.badge {
-  display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px;
-  border-radius: 20px; font-family: var(--mono); font-size: 9px;
-  font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-}
-.b-volt   { background: var(--volt-dim);  color: var(--volt);  border: 1px solid var(--volt-mid); }
-.b-teal   { background: #00d4aa12; color: var(--teal); border: 1px solid #00d4aa30; }
-.b-amber  { background: #ffaa0012; color: var(--amber); border: 1px solid #ffaa0030; }
-.b-coral  { background: #ff554412; color: var(--coral); border: 1px solid #ff554430; }
-.b-dim    { background: var(--ink3);      color: var(--dim);   border: 1px solid var(--wire); }
-.b-blue   { background: #4488ff12; color: var(--blue); border: 1px solid #4488ff30; }
+.load-text { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
 
 /* =============================================
    SPINNER
@@ -551,174 +571,216 @@ footer {
 @keyframes spinning { to { transform: rotate(360deg); } }
 
 /* =============================================
-   ENTREGADO
+   SALUDO PERSONALIZADO
    ============================================= */
-.entregado-screen {
-  text-align: center; padding: 48px 20px;
+.saludo {
+  margin-bottom: 24px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(0,180,173,0.08) 0%, rgba(106,76,255,0.08) 100%);
+  border: 1px solid var(--navy4);
+  border-left: 3px solid var(--teal);
+  border-radius: var(--r-lg);
 }
-.entregado-icon { font-size: 64px; margin-bottom: 20px; }
-.entregado-title { font-size: 28px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
-.entregado-sub { font-size: 15px; color: var(--text2); line-height: 1.6; }
+.saludo-text {
+  font-size: 17px; font-weight: 700; color: var(--white); line-height: 1.5;
+}
+.saludo-text span { color: var(--teal); }
+.saludo-text em { color: var(--violet); font-style: normal; }
+
+/* =============================================
+   FECHA LÍMITE DE ENTREGA
+   ============================================= */
+.entrega-limite {
+  margin: 0 28px 20px;
+  background: rgba(0,180,173,0.06);
+  border: 1px solid var(--teal-mid);
+  border-radius: var(--r-md);
+  padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
+}
+.el-icon { font-size: 24px; flex-shrink: 0; }
+.el-body { flex: 1; }
+.el-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+  color: var(--teal); text-transform: uppercase; font-weight: 700; margin-bottom: 4px;
+}
+.el-fecha { font-size: 16px; font-weight: 800; color: var(--white); }
+.el-nota { font-size: 12px; color: var(--text2); margin-top: 6px; line-height: 1.6; }
+
+/* =============================================
+   NOTA SERVICIO
+   ============================================= */
+.nota-servicio {
+  font-size: 11px; color: var(--text2); font-style: italic;
+  margin-top: 4px; line-height: 1.4;
+}
+
+/* =============================================
+   SALUDO
+   ============================================= */
+footer {
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--navy4);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 10px;
+}
+.footer-logo {
+  display: flex; align-items: baseline; gap: 2px;
+  font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--muted);
+}
+.footer-logo span { color: var(--violet); font-size: 10px; position: relative; top: -3px; }
+.footer-meta { font-family: var(--mono); font-size: 9px; color: var(--navy4); letter-spacing: 1px; }
 
 /* =============================================
    RESPONSIVE
    ============================================= */
-@media (max-width: 580px) {
-  .detalle-grid { grid-template-columns: 1fr 1fr; }
+@media (max-width: 560px) {
+  .det-grid { grid-template-columns: 1fr 1fr; }
   .decision-btns { grid-template-columns: 1fr; }
   .pago-metodos { grid-template-columns: 1fr; }
-  .trabajo-info { grid-template-columns: 1fr; }
-  .ti-full { grid-column: 1; }
+  .trabajo-grid { grid-template-columns: 1fr; }
+  .tg-full { grid-column: 1; }
   .precio-num { font-size: 40px; }
-  .hero { padding: 24px 18px; }
+  .hero { padding: 22px 18px 22px; }
   .precio-block { padding: 20px 18px 16px; }
-  .precio-desglose { align-items: flex-start; }
-  .datos-bancarios { margin: 12px 14px 0; }
+  .banco-box { margin: 12px 14px 0; }
   .upload-zone { margin: 12px 14px 14px; }
   .btn-pagar { width: calc(100% - 28px); margin: 0 14px 14px; }
-  footer { flex-direction: column; align-items: flex-start; gap: 6px; }
+  nav { padding: 16px 0 0; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 </style>
 </head>
 <body>
 
-<div class="bg-grid"></div>
-<div class="bg-glow"></div>
+<div class="bg-radial"></div>
 
 <!-- LOADING -->
 <div class="shell" id="loadScreen">
-  <div class="load-logo">XC²</div>
+  <div class="load-logo">XC<span>²</span> Labs</div>
   <div class="load-bar"><div class="load-fill"></div></div>
   <div class="load-text">Cargando tu trabajo</div>
 </div>
 
-<!-- CONTENIDO PRINCIPAL -->
+<!-- CONTENIDO -->
 <div class="shell" id="mainShell" style="display:none">
 
-  <!-- NAV -->
   <nav>
     <a class="logo" href="#">
-      XC<span class="logo-sq">²</span> Labs
-      <span class="logo-sub">Portal de trabajo</span>
+      <div class="logo-mark">XC<span class="logo-sq">²</span><span class="logo-dot"></span>Labs</div>
+      <div class="logo-divider"></div>
+      <div class="logo-sub">Portal<br>de trabajo</div>
     </a>
     <div class="nav-folio" id="navFolio">—</div>
   </nav>
 
-  <!-- HERO ESTATUS -->
+  <!-- SALUDO PERSONALIZADO -->
+  <div class="saludo" id="saludoBlock" style="display:none">
+    <div class="saludo-text" id="saludoText">—</div>
+  </div>
+
+  <!-- HERO -->
   <div class="hero" id="heroCard">
-    <div class="hero-eyebrow">Estado de tu trabajo</div>
-    <div class="hero-status">
-      <div class="status-icon-big" id="heroIcon">⏳</div>
-      <div class="status-text-big">
-        <div class="status-label-big" id="heroTitle">—</div>
-        <div class="status-desc" id="heroDesc">—</div>
+    <div class="hero-top">
+      <div class="status-icon" id="heroIcon">⏳</div>
+      <div class="hero-text">
+        <div class="hero-eyebrow">Estado de tu trabajo</div>
+        <div class="hero-title" id="heroTitle">—</div>
+        <div class="hero-desc" id="heroDesc">—</div>
       </div>
     </div>
-    <div class="progress-track" id="progressTrack">
-      <div class="pt-step" id="ps1"><div class="pt-dot">✓</div><div class="pt-label">Solicitud</div></div>
-      <div class="pt-step" id="ps2"><div class="pt-dot">2</div><div class="pt-label">Cotización</div></div>
-      <div class="pt-step" id="ps3"><div class="pt-dot">3</div><div class="pt-label">Pago</div></div>
-      <div class="pt-step" id="ps4"><div class="pt-dot">4</div><div class="pt-label">Producción</div></div>
-      <div class="pt-step" id="ps5"><div class="pt-dot">5</div><div class="pt-label">Entrega</div></div>
+    <div class="progress-wrap">
+      <div class="pw-step" id="ps1"><div class="pw-dot">✓</div><div class="pw-label">Solicitud</div></div>
+      <div class="pw-step" id="ps2"><div class="pw-dot">2</div><div class="pw-label">Cotización</div></div>
+      <div class="pw-step" id="ps3"><div class="pw-dot">3</div><div class="pw-label">Pago</div></div>
+      <div class="pw-step" id="ps4"><div class="pw-dot">4</div><div class="pw-label">Producción</div></div>
+      <div class="pw-step" id="ps5"><div class="pw-dot">5</div><div class="pw-label">Entrega</div></div>
     </div>
   </div>
 
-  <!-- COTIZACIÓN (visible cuando estatus = cotizado) -->
-  <div class="section" id="secCotizacion" style="display:none">
-    <div class="section-header">
-      <div class="section-label">Cotización</div>
-      <div class="badge b-volt" id="badgeValidez">Válida 7 días</div>
+  <!-- COTIZACIÓN -->
+  <div id="secCotizacion" style="display:none">
+    <div class="sec-head">
+      <div class="sec-label">Cotización</div>
+      <div class="badge b-teal">Válida 7 días</div>
     </div>
     <div class="card">
       <div class="precio-block">
-        <div class="precio-main">
+        <div>
           <div class="precio-lbl">Total de tu proyecto</div>
-          <div class="precio-num" id="precioNum">$0<span class="precio-currency">MXN</span></div>
-          <div class="precio-validity" id="precioValidez">—</div>
+          <div class="precio-num"><span class="precio-teal" id="precioNum">$0</span><span class="precio-cur">MXN</span></div>
+          <div class="precio-valid" id="precioValid">—</div>
         </div>
-        <div class="precio-desglose" id="precioDesglose"></div>
       </div>
       <div class="precio-divider"></div>
-      <div class="detalle-grid" id="detalleCot"></div>
+      <div class="desglose-box" id="desgloseBox"></div>
+      <div class="det-grid" id="detCot"></div>
+      <!-- Fecha límite de entrega -->
+      <div class="entrega-limite" id="entregaLimite" style="display:none">
+        <div class="el-icon">🗓</div>
+        <div class="el-body">
+          <div class="el-label" id="entregaLabel">📅 Fecha tentativa de entrega</div>
+          <div class="el-fecha" id="entregaFecha">—</div>
+          <div class="el-nota" id="entregaNota">—</div>
+        </div>
+      </div>
       <div class="decision-block" id="decisionBlock">
         <div class="decision-lbl">Tu respuesta</div>
         <div class="decision-btns">
-          <button class="btn btn-volt" id="btnAceptar" onclick="aceptarCotizacion()">
-            ✓ Aceptar cotización
-          </button>
-          <button class="btn btn-reject" id="btnRechazar" onclick="rechazarCotizacion()">
-            ✗ Rechazar
-          </button>
+          <button class="btn btn-primary" id="btnAceptar" onclick="aceptarCotizacion()">✓ Aceptar cotización</button>
+          <button class="btn btn-reject" id="btnRechazar" onclick="rechazarCotizacion()">✗ Rechazar</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PAGO (visible cuando estatus = aceptado) -->
-  <div class="section" id="secPago" style="display:none">
-    <div class="section-header">
-      <div class="section-label">Pago</div>
-      <div class="badge b-amber">Pendiente</div>
+  <!-- PAGO -->
+  <div id="secPago" style="display:none">
+    <div class="sec-head">
+      <div class="sec-label">Pago</div>
+      <div class="badge b-warn">Pendiente</div>
     </div>
     <div class="card">
-      <div class="alert alert-amber" style="margin:20px 20px 0">
+      <div class="alert al-warn">
         <span>⚡</span>
-        <span>Realiza el pago y sube tu comprobante para que iniciemos producción de inmediato.</span>
+        <span>Realiza el pago y sube tu comprobante para iniciar producción de inmediato.</span>
       </div>
-
       <div class="pago-metodos">
-        <div class="pago-opcion sel" id="pago-trans" onclick="selMetodo('trans')">
+        <div class="pago-opt sel" id="pago-trans" onclick="selMetodo('trans')">
           <div class="po-icon">🏦</div>
           <div class="po-name">Transferencia</div>
           <div class="po-sub">SPEI · BBVA</div>
         </div>
-        <div class="pago-opcion" id="pago-oxxo" onclick="selMetodo('oxxo')">
+        <div class="pago-opt" id="pago-oxxo" onclick="selMetodo('oxxo')">
           <div class="po-icon">🏪</div>
           <div class="po-name">OXXO Pay</div>
           <div class="po-sub">Efectivo</div>
         </div>
       </div>
-
-      <div class="datos-bancarios" id="datosBancarios">
-        <div class="db-row">
-          <span class="db-label">Banco</span>
-          <span class="db-val">BBVA</span>
-        </div>
-        <div class="db-row">
-          <span class="db-label">Titular</span>
-          <span class="db-val">XC² Labs</span>
-        </div>
-        <div class="db-row">
-          <span class="db-label">CLABE</span>
+      <div class="banco-box" id="datosBanco">
+        <div class="banco-row"><span class="banco-lbl">Banco</span><span class="banco-val">BBVA</span></div>
+        <div class="banco-row"><span class="banco-lbl">Titular</span><span class="banco-val">XC² Labs</span></div>
+        <div class="banco-row">
+          <span class="banco-lbl">CLABE</span>
           <div style="display:flex;align-items:center;gap:8px">
-            <span class="db-val mono" id="clabeNum">012 345 678 901 234 567</span>
-            <button class="copy-btn" onclick="copiar('012345678901234567', this)">COPIAR</button>
+            <span class="banco-val">012 345 678 901 234 567</span>
+            <button class="copy-btn" onclick="copiar('012345678901234567',this)">COPIAR</button>
           </div>
         </div>
-        <div class="db-row">
-          <span class="db-label">Concepto</span>
+        <div class="banco-row">
+          <span class="banco-lbl">Concepto</span>
           <div style="display:flex;align-items:center;gap:8px">
-            <span class="db-val mono" id="conceptoPago">—</span>
-            <button class="copy-btn" id="btnCopyFolio" onclick="">COPIAR</button>
+            <span class="banco-val" id="conceptoPago">—</span>
+            <button class="copy-btn" id="btnCopyFolio">COPIAR</button>
           </div>
         </div>
-        <div class="db-row">
-          <span class="db-label">Monto</span>
-          <span class="db-val highlight" id="montoAPagar">$0.00</span>
-        </div>
+        <div class="banco-row"><span class="banco-lbl">Monto</span><span class="banco-val hi" id="montoAPagar">$0.00</span></div>
       </div>
-
-      <div class="datos-bancarios" id="datosOxxo" style="display:none">
-        <div class="db-row">
-          <span class="db-label">Referencia</span>
-          <span class="db-val">Te enviamos la referencia al correo en minutos.</span>
-        </div>
+      <div class="banco-box" id="datosOxxo" style="display:none">
+        <div class="banco-row"><span class="banco-lbl">Referencia</span><span class="banco-val">Te enviamos la referencia al correo en minutos.</span></div>
       </div>
-
       <div class="upload-zone" id="uploadZone">
         <input type="file" accept="image/*,.pdf" id="compInput" onchange="handleComp(this)">
         <div class="uz-icon">📸</div>
@@ -726,233 +788,347 @@ footer {
         <div class="uz-sub">JPG · PNG · PDF — Máx. 10MB</div>
         <div class="uz-preview" id="uzPreview"></div>
       </div>
-
       <button class="btn-pagar" id="btnPagar" onclick="enviarComprobante()" disabled>
         Confirmar pago e iniciar producción
       </button>
     </div>
   </div>
 
-  <!-- PAGO CONFIRMADO (pagado / produccion / listo) -->
-  <div class="section" id="secPagoOk" style="display:none">
-    <div class="section-header">
-      <div class="section-label">Pago</div>
-      <div class="badge b-teal">Confirmado ✓</div>
-    </div>
+  <div id="secPagoOk" style="display:none">
+    <div class="sec-head"><div class="sec-label">Pago</div><div class="badge b-success">Confirmado ✓</div></div>
     <div class="card">
-      <div class="alert alert-teal" style="margin:16px 16px 16px">
-        <span>✅</span>
-        <span>Pago recibido y verificado. Tu pieza está en proceso.</span>
+      <div class="alert al-success" style="margin-bottom:0">
+        <span>✅</span><span>Pago recibido y verificado. Tu pieza está en proceso.</span>
+      </div>
+      <div class="entrega-limite" id="entregaLimite2" style="display:none;margin:16px 16px 16px">
+        <div class="el-icon">🗓</div>
+        <div class="el-body">
+          <div class="el-label" id="entregaLabel2">📅 Fecha máxima de entrega</div>
+          <div class="el-fecha" id="entregaFecha2">—</div>
+          <div class="el-nota" id="entregaNota2">—</div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- TIMELINE -->
-  <div class="section" id="secTimeline">
-    <div class="section-header">
-      <div class="section-label">Historial del trabajo</div>
-    </div>
-    <div class="card">
-      <div class="timeline" id="timelineList"></div>
-    </div>
+  <div style="margin-bottom:16px">
+    <div class="sec-head"><div class="sec-label">Historial del trabajo</div></div>
+    <div class="card"><div id="timelineList"></div></div>
   </div>
 
-  <!-- DETALLE DEL TRABAJO -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-label">Tu solicitud original</div>
-    </div>
-    <div class="trabajo-info" id="trabajoInfo"></div>
+  <!-- SOLICITUD ORIGINAL -->
+  <div style="margin-bottom:16px">
+    <div class="sec-head"><div class="sec-label">Tu solicitud</div></div>
+    <div class="trabajo-grid" id="trabajoGrid"></div>
   </div>
 
   <!-- CONTACTO -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-label">¿Tienes dudas?</div>
-    </div>
+  <div style="margin-bottom:16px">
+    <div class="sec-head"><div class="sec-label">¿Tienes dudas?</div></div>
     <div class="card">
-      <div class="contacto-strip">
-        <div class="cs-text">Escríbenos directamente, estamos disponibles de lunes a viernes.</div>
-        <div class="cs-btns">
+      <div class="contacto-row">
+        <div class="ct-text">Lunes a viernes · Respuesta en menos de 2 horas</div>
+        <div class="ct-btns">
           <a class="btn-wa" id="btnWa" href="#" target="_blank">💬 WhatsApp</a>
-          <a class="btn-mail" href="mailto:xc2labs@gmail.com">✉ Email</a>
+          <a class="btn-email" href="mailto:xc2labs@gmail.com">✉ Email</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ENTREGADO -->
-  <div class="section" id="secEntregado" style="display:none">
+  <div id="secEntregado" style="display:none">
     <div class="card">
-      <div class="entregado-screen">
+      <div class="entregado-wrap">
         <div class="entregado-icon">🎉</div>
         <div class="entregado-title">¡Trabajo entregado!</div>
-        <div class="entregado-sub">
-          Gracias por confiar en XC² Labs.<br>
-          Fue un placer fabricar tu proyecto.
-        </div>
-        <a href="1-solicitud-cliente.html" style="display:inline-block;margin-top:24px;padding:12px 28px;background:var(--volt);color:#000;border-radius:var(--r-md);font-family:var(--mono);font-size:11px;font-weight:700;text-decoration:none;letter-spacing:2px">
-          NUEVO TRABAJO →
+        <div class="entregado-sub">Gracias por confiar en XC² Labs.<br>Fue un placer fabricar tu proyecto.</div>
+        <a href="https://forms.gle/fNn4CLLPr47uhMLP6" style="display:inline-flex;align-items:center;gap:8px;margin-top:24px;padding:13px 28px;background:linear-gradient(135deg,var(--teal),#00968f);color:var(--white);border-radius:var(--r-md);font-family:var(--sans);font-size:13px;font-weight:700;text-decoration:none;box-shadow:var(--shadow-teal)">
+          Nuevo trabajo →
         </a>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">XC<em>²</em> Labs · Monterrey, México</div>
-    <div class="auto-refresh">Auto-actualiza cada 30s · <span id="lastUpdate">—</span></div>
+    <div class="footer-logo">XC<span>²</span> Labs · Monterrey, México</div>
+    <div class="footer-meta">AUTO-ACTUALIZA CADA 30s · <span id="lastUpdate">—</span></div>
   </footer>
 
-</div><!-- /mainShell -->
+</div>
 
 <script>
-// ============================================================
-// CONFIG
-// ============================================================
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUylooDG5yd9KVKjZChrB1KoB2SPunkTESyjN4EBl-MadVhLehGwnunCqUD5tHQKAU/exec';
-const WHATSAPP_NUM    = '528110220262'; // reemplaza con tu número real
+const WHATSAPP_NUM    = '528110220262';
 
-// ============================================================
-// ESTADO
-// ============================================================
-const params  = new URLSearchParams(window.location.search);
-const FOLIO   = params.get('folio') || 'XC2-DEMO01';
-let pedido    = null;
-let compFile  = null;
-let metodo    = 'trans';
+const params = new URLSearchParams(window.location.search);
+const FOLIO  = params.get('folio') || 'XC2-DEMO01';
+let pedido   = null;
+let compFile = null;
+let metodo   = 'trans';
 
-// ============================================================
-// INIT
-// ============================================================
 window.addEventListener('load', () => {
   document.getElementById('navFolio').textContent = FOLIO;
   cargarPedido();
   setInterval(cargarPedido, 30000);
 });
 
-// ============================================================
-// CARGA
-// ============================================================
 async function cargarPedido() {
   try {
     const r = await fetch(`${APPS_SCRIPT_URL}?action=getPedido&folio=${encodeURIComponent(FOLIO)}`);
     pedido = await r.json();
-  } catch {
-    pedido = DEMO; // modo demo si no hay backend
-  }
+    if (pedido.error) pedido = DEMO;
+  } catch { pedido = DEMO; }
   renderTodo(pedido);
   document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('es-MX');
 }
 
-// ============================================================
-// RENDER PRINCIPAL
-// ============================================================
 function renderTodo(p) {
-  // Ocultar loader
   document.getElementById('loadScreen').style.display = 'none';
   document.getElementById('mainShell').style.display  = 'block';
-
   const st = (p.estatus || 'pendiente').toLowerCase();
+
+  // Saludo personalizado
+  const nombre    = (p.nombre || '').split(' ')[0]; // solo primer nombre
+  const proyecto  = p.palabraClave || p.folio || FOLIO;
+  const saludoEl  = document.getElementById('saludoBlock');
+  const saludoTxt = document.getElementById('saludoText');
+  if (nombre) {
+    const msgs = {
+      pendiente:  `Hola, <span>${nombre}</span>. Ya recibimos tu solicitud para el proyecto <em>"${proyecto}"</em>.`,
+      cotizado:   `Hola, <span>${nombre}</span>. Confírmanos tu proyecto <em>"${proyecto}"</em>.`,
+      aceptado:   `Hola, <span>${nombre}</span>. ¡Gracias por aceptar! Completa el pago para iniciar <em>"${proyecto}"</em>.`,
+      pagado:     `Hola, <span>${nombre}</span>. Recibimos tu pago. Iniciamos <em>"${proyecto}"</em> en breve.`,
+      produccion: `Hola, <span>${nombre}</span>. Estamos trabajando en <em>"${proyecto}"</em> para cumplir tu fecha.`,
+      listo:      `Hola, <span>${nombre}</span>. ¡Tu proyecto <em>"${proyecto}"</em> está listo para recoger!`,
+      entregado:  `Hola, <span>${nombre}</span>. El proyecto <em>"${proyecto}"</em> fue entregado. ¡Gracias!`,
+      rechazado:  `Hola, <span>${nombre}</span>. Lamentamos que no hayamos podido continuar con <em>"${proyecto}"</em>.`,
+    };
+    saludoTxt.innerHTML = msgs[st] || msgs.pendiente;
+    saludoEl.style.display = 'block';
+  }
 
   updateHero(st);
   updateProgress(st);
   renderTimeline(p);
   renderTrabajo(p);
   setupContacto(p);
-
-  // Secciones condicionales
   show('secCotizacion', st === 'cotizado');
   show('secPago',       st === 'aceptado');
   show('secPagoOk',     ['pagado','produccion','listo'].includes(st));
   show('secEntregado',  st === 'entregado');
-
   if (p.cotizacion) renderCotizacion(p);
+  if (['pagado','produccion','listo'].includes(st)) renderCotizacion(p);
   if (st === 'aceptado') renderPago(p);
 }
 
-// ============================================================
-// HERO
-// ============================================================
-const STATUS_CFG = {
-  pendiente:  { icon:'⏳', title:'Solicitud recibida',       desc:'Estamos analizando tu proyecto. Recibirás la cotización en menos de 24 h hábiles.', color:'var(--amber)' },
-  cotizado:   { icon:'💰', title:'Tienes una cotización',    desc:'Revisa el precio y acepta o rechaza para continuar.', color:'var(--volt)' },
-  aceptado:   { icon:'✅', title:'Cotización aceptada',      desc:'Realiza el pago para que iniciemos producción de tu pieza.', color:'var(--teal)' },
-  pagado:     { icon:'💳', title:'Pago en verificación',     desc:'Recibimos tu comprobante. Verificamos y comenzamos producción.', color:'var(--blue)' },
-  produccion: { icon:'⚙️', title:'En producción',            desc:'Tu pieza está siendo fabricada. Te avisamos cuando esté lista.', color:'var(--amber)' },
-  listo:      { icon:'📦', title:'¡Tu pieza está lista!',   desc:'Ya puedes pasar a recogerla. Contáctanos para coordinar horario.', color:'var(--volt)' },
-  entregado:  { icon:'🎉', title:'Trabajo entregado',        desc:'Pedido completado. ¡Gracias por elegir XC² Labs!', color:'var(--teal)' },
-  rechazado:  { icon:'❌', title:'Cotización rechazada',     desc:'Si deseas un nuevo presupuesto, envía otra solicitud.', color:'var(--coral)' },
+const SCFG = {
+  pendiente:  { icon:'⏳', title:'Solicitud recibida',      desc:'Estamos analizando tu proyecto. Recibirás la cotización en menos de 24 h hábiles.', c:'var(--teal)' },
+  cotizado:   { icon:'💰', title:'Tienes una cotización',   desc:'Revisa el precio y acepta o rechaza para continuar.', c:'var(--violet)' },
+  aceptado:   { icon:'✅', title:'Cotización aceptada',     desc:'Realiza el pago para que iniciemos producción.', c:'var(--teal)' },
+  pagado:     { icon:'💳', title:'Pago en verificación',    desc:'Recibimos tu comprobante. Verificamos y comenzamos producción en breve.', c:'var(--teal)' },
+  produccion: { icon:'⚙️', title:'En producción',           desc:'Tu pieza está siendo fabricada. Te avisamos cuando esté lista.', c:'var(--warning)' },
+  listo:      { icon:'📦', title:'¡Tu pieza está lista!',  desc:'Ya puedes pasar a recogerla. Contáctanos para coordinar.', c:'var(--teal)' },
+  entregado:  { icon:'🎉', title:'Trabajo entregado',       desc:'Pedido completado. ¡Gracias por elegir XC² Labs!', c:'var(--success)' },
+  rechazado:  { icon:'❌', title:'Cotización rechazada',    desc:'Si deseas un nuevo presupuesto, envía otra solicitud.', c:'var(--error)' },
 };
 
 function updateHero(st) {
-  const cfg = STATUS_CFG[st] || STATUS_CFG.pendiente;
-  document.getElementById('heroIcon').textContent   = cfg.icon;
-  document.getElementById('heroTitle').textContent  = cfg.title;
-  document.getElementById('heroDesc').textContent   = cfg.desc;
-  document.getElementById('heroCard').style.setProperty('--status-color', cfg.color);
-  document.getElementById('heroIcon').style.background = cfg.color + '20';
-  document.getElementById('heroIcon').style.border  = `1px solid ${cfg.color}40`;
+  const c = SCFG[st] || SCFG.pendiente;
+  document.getElementById('heroIcon').textContent  = c.icon;
+  document.getElementById('heroTitle').textContent = c.title;
+  document.getElementById('heroDesc').textContent  = c.desc;
+  const icon = document.getElementById('heroIcon');
+  icon.style.background = c.c + '18';
+  icon.style.border = `1px solid ${c.c}40`;
 }
 
 function updateProgress(st) {
   const map = { pendiente:1, cotizado:2, aceptado:3, pagado:3, produccion:4, listo:4, entregado:5, rechazado:2 };
-  const step = map[st] || 1;
+  const cur = map[st] || 1;
   for (let i = 1; i <= 5; i++) {
-    const el = document.getElementById(`ps${i}`);
-    el.className = 'pt-step';
-    const dot = el.querySelector('.pt-dot');
-    if (i < step)      { el.classList.add('done');   dot.textContent = '✓'; }
-    else if (i===step) { el.classList.add('active');  dot.textContent = i; }
-    else               {                              dot.textContent = i; }
+    const el  = document.getElementById(`ps${i}`);
+    const dot = el.querySelector('.pw-dot');
+    el.className = 'pw-step';
+    if (i < cur)      { el.classList.add('done');   dot.textContent = '✓'; }
+    else if (i === cur){ el.classList.add('active'); dot.textContent = i; }
+    else               {                             dot.textContent = i; }
   }
 }
 
-// ============================================================
-// COTIZACIÓN
-// ============================================================
 function renderCotizacion(p) {
-  const monto = parseFloat(p.cotizacion) || 0;
-  document.getElementById('precioNum').innerHTML =
-    `$${monto.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}<span class="precio-currency">MXN</span>`;
+  const cotizacion = parseFloat(p.cotizacion) || 0;
 
-  const fecha = new Date(); fecha.setDate(fecha.getDate() + 7);
-  document.getElementById('precioValidez').textContent =
-    `Cotización válida hasta ${fecha.toLocaleDateString('es-MX', {day:'numeric',month:'long',year:'numeric'})}`;
+  // Tipo de servicio y costo
+  let costoServicio = 0;
+  let labelServicio = '';
+  let hrsEntrega    = 120; // Regular = 5 días hábiles aprox
+  let notaEntrega   = 'Tiempo calculado a partir de la confirmación y pago del servicio.';
 
-  // Desglose si viene en datos
-  if (p.cm || p.ct) {
-    document.getElementById('precioDesglose').innerHTML = `
-      <div class="pd-row"><span class="pd-label">Material</span><span class="pd-value">$${(parseFloat(p.cm)||0).toFixed(2)}</span></div>
-      <div class="pd-row"><span class="pd-label">Impresión</span><span class="pd-value">$${(parseFloat(p.ct)||0).toFixed(2)}</span></div>
-      <div class="pd-row"><span class="pd-label">Factor</span><span class="pd-value">${p.fc||'×1.00'}</span></div>
-    `;
+  if ((p.servicio||'').toLowerCase().includes('express light')) {
+    costoServicio = 250; labelServicio = 'Servicio Express Light'; hrsEntrega = 72;
+    notaEntrega = 'Express Light: 72 hrs a partir de la confirmación y pago.';
+  } else if ((p.servicio||'').toLowerCase().includes('express')) {
+    costoServicio = 450; labelServicio = 'Servicio Express'; hrsEntrega = 48;
+    notaEntrega = 'Express: 48 hrs a partir de la confirmación y pago.';
+  } else {
+    notaEntrega = 'Regular: 3–5 días hábiles a partir de la confirmación y pago.';
   }
 
+  const costoTrabajo = cotizacion - costoServicio;
+
+  // Precio grande
+  document.getElementById('precioNum').textContent =
+    `$${cotizacion.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
+  const fValid = new Date(); fValid.setDate(fValid.getDate()+7);
+  document.getElementById('precioValid').textContent =
+    `Cotización válida hasta ${fValid.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'})}`;
+
+  // Desglose
+  let desgloseHTML = `
+    <div class="dsg-row">
+      <span class="dsg-label">Costo del trabajo</span>
+      <span class="dsg-value">$${costoTrabajo.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}</span>
+    </div>`;
+  if (costoServicio > 0) {
+    desgloseHTML += `
+    <div class="dsg-row express">
+      <span class="dsg-label">⚡ ${labelServicio}</span>
+      <span class="dsg-value">+$${costoServicio.toFixed(2)}</span>
+    </div>`;
+  }
+  desgloseHTML += `
+    <div class="dsg-row total-row">
+      <span class="dsg-label">Total de tu proyecto</span>
+      <span class="dsg-value">$${cotizacion.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')} MXN</span>
+    </div>`;
+  document.getElementById('desgloseBox').innerHTML = desgloseHTML;
+
   // Detalle técnico
-  document.getElementById('detalleCot').innerHTML = `
-    <div class="dg-item"><div class="dg-label">Material</div><div class="dg-value">${p.materiales||'—'}</div></div>
-    <div class="dg-item"><div class="dg-label">Cantidad</div><div class="dg-value">${p.cantidad||'1'}</div></div>
-    <div class="dg-item"><div class="dg-label">Urgencia</div><div class="dg-value">${p.urgencia||'Normal'}</div></div>
+  const svcLabel = (p.servicio||'—').split('(')[0].trim();
+  document.getElementById('detCot').innerHTML = `
+    <div class="det-item">
+      <div class="det-lbl">Material</div>
+      <div class="det-val">${p.materiales||'—'}</div>
+    </div>
+    <div class="det-item">
+      <div class="det-lbl">Cantidad</div>
+      <div class="det-val">${p.cantidad||'1'}</div>
+    </div>
+    <div class="det-item">
+      <div class="det-lbl">Servicio</div>
+      <div class="det-val">${svcLabel}</div>
+      <div class="nota-servicio">Tiempo desde confirmación y pago</div>
+    </div>`;
+
+  // Fecha: tentativa antes del pago, máxima después del pago
+  const pagado = ['pagado','produccion','listo','entregado'].includes((p.estatus||'').toLowerCase());
+
+  const fLimite = new Date();
+  // Si ya pagó, calcular desde fecha de pago real si existe
+  if (pagado && p.historial) {
+    try {
+      const hist = typeof p.historial === 'string' ? JSON.parse(p.historial) : p.historial;
+      const pagadoEntry = hist.find(e => e.estatus === 'pagado');
+      if (pagadoEntry) {
+        const partes = pagadoEntry.fecha.split(/[/ :]/);
+        // formato dd/MM/yyyy HH:mm
+        const fechaPago = new Date(partes[2], partes[1]-1, partes[0], partes[3], partes[4]);
+        if (!isNaN(fechaPago)) {
+          fLimite.setTime(fechaPago.getTime());
+        }
+      }
+    } catch {}
+  }
+  fLimite.setHours(fLimite.getHours() + hrsEntrega);
+
+  const optsDate = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
+  const optsTime = { hour:'2-digit', minute:'2-digit' };
+  const fechaStr = fLimite.toLocaleDateString('es-MX', optsDate);
+  const horaStr  = fLimite.toLocaleTimeString('es-MX', optsTime);
+  const fechaFmt = `${fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1)}, ${horaStr} hrs`;
+
+  const labelEntrega = pagado ? '📅 Fecha máxima de entrega' : '📅 Fecha tentativa de entrega';
+  const notaFinal = pagado
+    ? `${notaEntrega}<br><strong style="color:var(--white)">Tu proyecto podría estar listo antes — te avisamos en cuanto esté.</strong>`
+    : `${notaEntrega}<br><strong style="color:var(--warning)">La fecha se confirma a partir de tu pago.</strong>`;
+
+  document.getElementById('entregaLabel').textContent = labelEntrega;
+  document.getElementById('entregaFecha').textContent = fechaFmt;
+  document.getElementById('entregaNota').innerHTML = notaFinal;
+  document.getElementById('entregaLimite').style.display = 'flex';
+
+  // También actualizar bloque en sección de pago confirmado
+  const el2 = document.getElementById('entregaLimite2');
+  if (el2 && pagado) {
+    document.getElementById('entregaLabel2').textContent = labelEntrega;
+    document.getElementById('entregaFecha2').textContent = fechaFmt;
+    document.getElementById('entregaNota2').innerHTML = notaFinal;
+    el2.style.display = 'flex';
+  }
+
+function renderPago(p) {
+  document.getElementById('conceptoPago').textContent = p.folio || FOLIO;
+  document.getElementById('montoAPagar').textContent  = `$${(+p.cotizacion||0).toFixed(2)} MXN`;
+  document.getElementById('btnCopyFolio').onclick = () => copiar(p.folio||FOLIO, document.getElementById('btnCopyFolio'));
+}
+
+const TL = [
+  { key:'pendiente',  label:'Solicitud recibida',    sub:'Tu proyecto fue registrado' },
+  { key:'cotizado',   label:'Cotización enviada',     sub:'Revisamos tu solicitud y enviamos el precio' },
+  { key:'aceptado',   label:'Cotización aceptada',    sub:'Confirmaste continuar con el trabajo' },
+  { key:'pagado',     label:'Pago recibido',          sub:'Comprobante verificado' },
+  { key:'produccion', label:'En producción',          sub:'Tu pieza está siendo fabricada' },
+  { key:'listo',      label:'Listo para recoger',     sub:'Tu pieza está terminada' },
+  { key:'entregado',  label:'Entregado',              sub:'Trabajo completado' },
+];
+
+function renderTimeline(p) {
+  const st = (p.estatus||'pendiente').toLowerCase();
+  const cur = TL.findIndex(x => x.key === (st==='aceptado'?'pagado':st));
+  const hmap = {};
+  try {
+    const h = typeof p.historial==='string' ? JSON.parse(p.historial) : (p.historial||[]);
+    h.forEach(e => hmap[e.estatus] = e.fecha);
+  } catch {}
+  document.getElementById('timelineList').innerHTML = TL.map((s,i) => {
+    let cls='pending', icon=(i+1).toString();
+    if (i<cur)       { cls='done';   icon='✓'; }
+    else if(i===cur) { cls='active'; icon='●'; }
+    return `<div class="tl-item">
+      <div class="tl-dot ${cls}">${icon}</div>
+      <div class="tl-body">
+        <div class="tl-title ${cls==='pending'?'dim':''}">${s.label}</div>
+        <div class="tl-date">${hmap[s.key]||( cls==='pending'?'Pendiente':'' )}</div>
+        ${cls==='active'?`<div class="tl-note">${SCFG[st]?.desc||''}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTrabajo(p) {
+  document.getElementById('trabajoGrid').innerHTML = `
+    <div class="tg-item"><div class="tg-lbl">Folio</div><div class="tg-val" style="color:var(--teal);font-family:var(--mono)">${p.folio||FOLIO}</div></div>
+    <div class="tg-item"><div class="tg-lbl">Fecha</div><div class="tg-val">${p.fecha||'—'}</div></div>
+    <div class="tg-item"><div class="tg-lbl">Material</div><div class="tg-val">${p.materiales||'—'}</div></div>
+    <div class="tg-item"><div class="tg-lbl">Servicio</div><div class="tg-val">${p.servicio||'—'}</div></div>
+    ${p.palabraClave?`<div class="tg-item tg-full"><div class="tg-lbl">Palabra clave</div><div class="tg-val">${p.palabraClave}</div></div>`:''}
+    ${p.comentarios?`<div class="tg-item tg-full"><div class="tg-lbl">Comentarios</div><div class="tg-val">${p.comentarios}</div></div>`:''}
   `;
 }
 
-// ============================================================
-// PAGO
-// ============================================================
-function renderPago(p) {
-  const folio = p.folio || FOLIO;
-  document.getElementById('conceptoPago').textContent = folio;
-  document.getElementById('montoAPagar').textContent  = `$${(parseFloat(p.cotizacion)||0).toFixed(2)} MXN`;
-  document.getElementById('btnCopyFolio').onclick = () => copiar(folio, document.getElementById('btnCopyFolio'));
+function setupContacto(p) {
+  const msg = `Hola XC² Labs, tengo una pregunta sobre mi trabajo ${p.folio||FOLIO}`;
+  document.getElementById('btnWa').href = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
 }
 
 function selMetodo(m) {
   metodo = m;
-  document.querySelectorAll('.pago-opcion').forEach(el => el.classList.remove('sel'));
+  document.querySelectorAll('.pago-opt').forEach(e => e.classList.remove('sel'));
   document.getElementById(`pago-${m}`).classList.add('sel');
-  document.getElementById('datosBancarios').style.display = m === 'trans' ? 'block' : 'none';
-  document.getElementById('datosOxxo').style.display      = m === 'oxxo'  ? 'block' : 'none';
+  document.getElementById('datosBanco').style.display = m==='trans'?'block':'none';
+  document.getElementById('datosOxxo').style.display  = m==='oxxo'?'block':'none';
 }
 
 function handleComp(input) {
@@ -961,18 +1137,14 @@ function handleComp(input) {
   const zone = document.getElementById('uploadZone');
   const prev = document.getElementById('uzPreview');
   zone.style.borderColor = 'var(--teal)';
-  zone.style.background  = '#00d4aa10';
-  if (compFile.type.startsWith('image/')) {
-    const url = URL.createObjectURL(compFile);
-    prev.innerHTML = `<img src="${url}" style="max-width:180px;max-height:160px;border-radius:6px;border:1px solid var(--wire2)">`;
-  } else {
-    prev.innerHTML = `<div style="color:var(--teal);font-family:var(--mono);font-size:11px">📎 ${compFile.name}</div>`;
-  }
+  zone.style.background  = 'var(--teal-dim)';
+  prev.innerHTML = compFile.type.startsWith('image/')
+    ? `<img src="${URL.createObjectURL(compFile)}" style="max-width:180px;max-height:150px;border-radius:8px;border:1px solid var(--navy4)">`
+    : `<div style="color:var(--teal);font-family:var(--mono);font-size:11px">📎 ${compFile.name}</div>`;
   prev.style.display = 'block';
   document.getElementById('btnPagar').disabled = false;
 }
 
-// Drag & drop
 const uz = document.getElementById('uploadZone');
 if (uz) {
   uz.addEventListener('dragover',  e => { e.preventDefault(); uz.classList.add('drag'); });
@@ -984,151 +1156,50 @@ if (uz) {
   });
 }
 
-// ============================================================
-// TIMELINE
-// ============================================================
-const TL_CFG = [
-  { key: 'pendiente',  label: 'Solicitud recibida',     sub: 'Tu proyecto fue registrado en nuestro sistema' },
-  { key: 'cotizado',   label: 'Cotización enviada',      sub: 'Revisamos tu solicitud y enviamos el precio' },
-  { key: 'aceptado',   label: 'Cotización aceptada',     sub: 'Confirmaste continuar con el trabajo' },
-  { key: 'pagado',     label: 'Pago recibido',           sub: 'Comprobante verificado — listo para producir' },
-  { key: 'produccion', label: 'En producción',           sub: 'Tu pieza está siendo fabricada en este momento' },
-  { key: 'listo',      label: 'Listo para recoger',      sub: 'Tu pieza está terminada y esperándote' },
-  { key: 'entregado',  label: 'Entregado',               sub: 'Trabajo completado con éxito' },
-];
-
-function renderTimeline(p) {
-  const st = (p.estatus || 'pendiente').toLowerCase();
-  const stOrder = TL_CFG.map(x => x.key);
-  const curIdx  = stOrder.indexOf(st === 'aceptado' ? 'pagado' : st);
-
-  // Historial real si viene en datos
-  const histMap = {};
-  if (p.historial) {
-    try {
-      const h = typeof p.historial === 'string' ? JSON.parse(p.historial) : p.historial;
-      h.forEach(e => { histMap[e.estatus] = e.fecha; });
-    } catch {}
-  }
-
-  document.getElementById('timelineList').innerHTML = TL_CFG.map((s, i) => {
-    let cls = 'pending'; let icon = (i + 1).toString();
-    if (i < curIdx)      { cls = 'done';   icon = '✓'; }
-    else if (i === curIdx) { cls = 'active'; icon = '●'; }
-    const fecha = histMap[s.key] || (i <= curIdx ? '' : '');
-    return `
-      <div class="tl-item">
-        <div class="tl-dot-wrap">
-          <div class="tl-dot ${cls}">${icon}</div>
-        </div>
-        <div class="tl-body">
-          <div class="tl-title ${cls === 'pending' ? 'dim' : ''}">${s.label}</div>
-          <div class="tl-date">${fecha || (cls === 'pending' ? 'Pendiente' : '')}</div>
-          ${cls === 'active' && s.key !== 'entregado' ? `<div class="tl-note">${STATUS_CFG[st]?.desc || ''}</div>` : ''}
-        </div>
-      </div>`;
-  }).join('');
-}
-
-// ============================================================
-// DETALLE TRABAJO
-// ============================================================
-function renderTrabajo(p) {
-  document.getElementById('trabajoInfo').innerHTML = `
-    <div class="ti-item"><div class="ti-label">Folio</div><div class="ti-value" style="font-family:var(--mono);color:var(--volt)">${p.folio||FOLIO}</div></div>
-    <div class="ti-item"><div class="ti-label">Fecha solicitud</div><div class="ti-value">${p.fecha||'—'}</div></div>
-    <div class="ti-item"><div class="ti-label">Material</div><div class="ti-value">${p.materiales||'—'}</div></div>
-    <div class="ti-item"><div class="ti-label">Cantidad</div><div class="ti-value">${p.cantidad||'1'}</div></div>
-    <div class="ti-item ti-full"><div class="ti-label">Descripción</div><div class="ti-value desc">${p.descripcion||'—'}</div></div>
-    ${p.comentarios ? `<div class="ti-item ti-full"><div class="ti-label">Comentarios</div><div class="ti-value desc">${p.comentarios}</div></div>` : ''}
-  `;
-}
-
-// ============================================================
-// CONTACTO
-// ============================================================
-function setupContacto(p) {
-  const folio = p?.folio || FOLIO;
-  const nombre = p?.nombre || '';
-  const wa = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(`Hola XC² Labs, tengo una pregunta sobre mi pedido ${folio} — ${nombre}`)}`;
-  document.getElementById('btnWa').href = wa;
-}
-
-// ============================================================
-// ACCIONES
-// ============================================================
 async function aceptarCotizacion() {
   const btn = document.getElementById('btnAceptar');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span> Procesando…';
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'responderCotizacion', folio: FOLIO, respuesta: 'aceptado' })
-    });
-  } catch {}
-  pedido.estatus = 'aceptado';
-  renderTodo(pedido);
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Procesando…';
+  try { await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'responderCotizacion',folio:FOLIO,respuesta:'aceptado'}) }); } catch {}
+  pedido.estatus = 'aceptado'; renderTodo(pedido);
 }
 
 async function rechazarCotizacion() {
   if (!confirm('¿Confirmas que deseas rechazar esta cotización?')) return;
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'responderCotizacion', folio: FOLIO, respuesta: 'rechazado' })
-    });
-  } catch {}
-  pedido.estatus = 'rechazado';
-  renderTodo(pedido);
+  try { await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'responderCotizacion',folio:FOLIO,respuesta:'rechazado'}) }); } catch {}
+  pedido.estatus = 'rechazado'; renderTodo(pedido);
 }
 
 async function enviarComprobante() {
   if (!compFile) return;
   const btn = document.getElementById('btnPagar');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spin"></span> Enviando comprobante…';
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Enviando…';
   const fd = new FormData();
-  fd.append('action', 'recibirComprobante');
-  fd.append('folio', FOLIO);
-  fd.append('metodo', metodo);
-  fd.append('comprobante', compFile);
-  try {
-    await fetch(APPS_SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
-  } catch {}
-  pedido.estatus = 'pagado';
-  renderTodo(pedido);
+  fd.append('action','recibirComprobante'); fd.append('folio',FOLIO);
+  fd.append('metodo',metodo); fd.append('comprobante',compFile);
+  try { await fetch(APPS_SCRIPT_URL, {method:'POST',body:fd,mode:'no-cors'}); } catch {}
+  pedido.estatus = 'pagado'; renderTodo(pedido);
 }
 
-// ============================================================
-// UTILIDADES
-// ============================================================
-function show(id, visible) {
-  const el = document.getElementById(id);
-  if (el) el.style.display = visible ? 'block' : 'none';
-}
-
-function copiar(texto, btn) {
-  navigator.clipboard.writeText(texto).then(() => {
-    btn.textContent = '✓ OK';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = 'COPIAR'; btn.classList.remove('copied'); }, 2000);
+function copiar(txt, btn) {
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = '✓ OK'; btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'COPIAR'; btn.classList.remove('ok'); }, 2000);
   });
 }
 
-// ============================================================
-// DEMO DATA (cuando no hay backend conectado)
-// ============================================================
+function show(id, v) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = v ? 'block' : 'none';
+}
+
 const DEMO = {
-  folio: 'XC2-DEMO01', nombre: 'Carlos Martínez',
-  email: 'carlos@ejemplo.com', tel: '81 1234 5678', empresa: 'Industrias Demo',
-  materiales: 'PETG', descripcion: 'Soporte de cámara de seguridad para techo de aluminio, con inclinación ajustable y paso de cable interno. Necesito resistencia a rayos UV.',
-  cantidad: '3 piezas', urgencia: 'Normal', fecha: '09/06/2026 10:30',
-  estatus: 'cotizado', cotizacion: '1,250.00', cm: '320', ct: '480', fc: '×1.20',
-  comentarios: 'Color negro preferentemente.',
+  folio:'XC2-DEMO01', nombre:'Carlos Martínez', email:'carlos@ejemplo.com',
+  materiales:'PETG', palabraClave:'soporte-camara', servicio:'Express (1-2 días)',
+  comentarios:'Color negro preferentemente.', fecha:'10/06/2026 22:14',
+  estatus:'cotizado', cotizacion:'1700.00',
   historial: JSON.stringify([
-    { estatus: 'pendiente', fecha: '09/06/2026 10:30' },
-    { estatus: 'cotizado',  fecha: '09/06/2026 14:15' },
+    {estatus:'pendiente', fecha:'10/06/2026 22:14'},
+    {estatus:'cotizado',  fecha:'11/06/2026 09:30'},
   ])
 };
 </script>
