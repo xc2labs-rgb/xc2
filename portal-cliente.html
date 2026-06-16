@@ -859,7 +859,7 @@ footer {
 </div>
 
 <script>
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUylooDG5yd9KVKjZChrB1KoB2SPunkTESyjN4EBl-MadVhLehGwnunCqUD5tHQKAU/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUyIooDG5yd9KVKjZChrB1KoB2SPunkTESyjN4EBI-MadVhLehGwnunCqUD5tHQKAU/exec';
 const WHATSAPP_NUM    = '528110220262';
 
 const params = new URLSearchParams(window.location.search);
@@ -877,11 +877,28 @@ window.addEventListener('load', () => {
 async function cargarPedido() {
   try {
     const r = await fetch(`${APPS_SCRIPT_URL}?action=getPedido&folio=${encodeURIComponent(FOLIO)}`);
-    pedido = await r.json();
-    if (pedido.error) pedido = DEMO;
-  } catch { pedido = DEMO; }
+    const data = await r.json();
+    if (data.error) {
+      mostrarError(`No encontramos el pedido <strong>${FOLIO}</strong>. Verifica el link o contáctanos.`);
+      return;
+    }
+    pedido = data;
+  } catch (err) {
+    mostrarError(`No pudimos conectar con el sistema. Intenta de nuevo en unos segundos.`);
+    return;
+  }
   renderTodo(pedido);
   document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('es-MX');
+}
+
+function mostrarError(msg) {
+  document.getElementById('loadScreen').innerHTML = `
+    <div style="text-align:center">
+      <div class="load-logo">XC<span>²</span> Labs</div>
+      <div style="margin-top:24px;padding:16px 20px;background:#EF444412;border:1px solid #EF444440;border-radius:10px;color:#ff8888;font-size:14px;max-width:320px">
+        ⚠ ${msg}
+      </div>
+    </div>`;
 }
 
 function renderTodo(p) {
