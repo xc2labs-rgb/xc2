@@ -794,9 +794,9 @@ async function enviarCotizacion(folio, sid, numMats) {
   const totalMax = Math.max(...opciones.map(o => o.total));
 
   try {
-    await fetch(SCRIPT_URL, {
+    const resp = await fetch(SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
         action: 'enviarCotizacion',
         folio,
@@ -807,15 +807,14 @@ async function enviarCotizacion(folio, sid, numMats) {
         notas,
       })
     });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
     toast(`✅ Cotización enviada a ${p.email}`);
     p.estatus    = 'cotizado';
     p.cotizacion = totalMax.toFixed(2);
     await cargarPedidos();
-  } catch {
-    toast('✅ Enviando… (demo)');
-    p.estatus    = 'cotizado';
-    p.cotizacion = totalMax.toFixed(2);
-    renderLista(); actualizarStats();
+  } catch (err) {
+    toast(`❌ Error: ${err.message || 'no se pudo enviar'}`);
   }
 }
 
@@ -827,12 +826,17 @@ async function cambiarEstatus(folio, estatus, sid) {
   if (!p) return;
 
   try {
-    await fetch(SCRIPT_URL, {
+    const resp = await fetch(SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action: 'cambiarEstatus', folio, estatus, email: p.email, nombre: p.nombre })
     });
-  } catch {}
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+  } catch (err) {
+    toast(`❌ Error al cambiar estatus: ${err.message || 'desconocido'}`);
+    return;
+  }
 
   const msgs = {
     listo:     `📦 Cliente notificado — pieza lista`,
@@ -848,13 +852,17 @@ async function reenviar(folio) {
   const p = pedidos.find(x => x.folio === folio);
   if (!p) return;
   try {
-    await fetch(SCRIPT_URL, {
+    const resp = await fetch(SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({ action: 'enviarCotizacion', folio, cotizacion: p.cotizacion })
     });
-  } catch {}
-  toast(`↻ Cotización reenviada a ${p.email}`);
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+    toast(`↻ Cotización reenviada a ${p.email}`);
+  } catch (err) {
+    toast(`❌ Error al reenviar: ${err.message || 'desconocido'}`);
+  }
 }
 
 // ============================================================
