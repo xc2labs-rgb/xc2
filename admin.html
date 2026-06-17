@@ -479,7 +479,7 @@ function renderCard(p) {
         <div class="sec-lbl">Solicitud del cliente</div>
         <div class="sol-grid">
           <div class="sol-item"><div class="sol-lbl">Nombre</div><div class="sol-val">${p.nombre||'—'}</div></div>
-          <div class="sol-item"><div class="sol-lbl">WhatsApp</div><div class="sol-val"><a href="https://wa.me/52${(p.whatsapp||'').replace(/\D/g,'')}" style="color:var(--teal);text-decoration:none" target="_blank">${p.whatsapp||'—'}</a></div></div>
+          <div class="sol-item"><div class="sol-lbl">WhatsApp</div><div class="sol-val"><a href="https://wa.me/52${String(p.whatsapp||'').replace(/\D/g,'')}" style="color:var(--teal);text-decoration:none" target="_blank">${p.whatsapp||'—'}</a></div></div>
           <div class="sol-item"><div class="sol-lbl">Email</div><div class="sol-val" style="font-size:12px">${p.email||'—'}</div></div>
           <div class="sol-item"><div class="sol-lbl">Servicio solicitado</div><div class="sol-val">${p.servicio||'—'}</div></div>
           <div class="sol-item"><div class="sol-lbl">Material</div><div class="sol-val">${p.materiales||'—'}</div></div>
