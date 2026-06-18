@@ -102,28 +102,84 @@ nav { display: flex; align-items: center; justify-content: space-between; paddin
 /* ── SELECCIÓN DE MATERIALES ── */
 .sel-mat-wrap { padding: 20px 28px 8px; }
 .sel-mat-title { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+
+/* Tarjeta de material — estado base (no seleccionado) */
 .mat-opcion {
+  position: relative; overflow: hidden;
   display: flex; align-items: center; gap: 16px;
-  padding: 16px 18px; margin-bottom: 10px;
+  padding: 18px 20px; margin-bottom: 12px;
   background: var(--navy2); border: 2px solid var(--navy4);
-  border-radius: var(--r-md); cursor: pointer; transition: all .2s;
-  user-select: none;
+  border-radius: var(--r-lg); cursor: pointer;
+  transition: all .25s; user-select: none;
 }
-.mat-opcion:hover { border-color: var(--teal-mid); }
-.mat-opcion.seleccionado { border-color: var(--teal); background: var(--teal-dim); }
+.mat-opcion:hover { border-color: var(--teal-mid); background: rgba(0,180,173,0.04); }
+
+/* Seleccionado — primer material con express */
+.mat-opcion.seleccionado {
+  border-color: var(--teal);
+  background: linear-gradient(135deg, rgba(0,180,173,0.12) 0%, rgba(0,180,173,0.04) 100%);
+  box-shadow: 0 4px 20px rgba(0,180,173,0.15);
+}
+/* Seleccionado — materiales adicionales (sin express) */
+.mat-opcion.seleccionado.adicional {
+  border-color: var(--violet);
+  background: linear-gradient(135deg, rgba(106,76,255,0.12) 0%, rgba(106,76,255,0.04) 100%);
+  box-shadow: 0 4px 20px rgba(106,76,255,0.15);
+}
+
+/* Checkbox */
 .mat-check {
-  width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+  width: 24px; height: 24px; border-radius: 7px; flex-shrink: 0;
   border: 2px solid var(--navy4); background: var(--navy);
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: transparent;
+  font-size: 13px; font-weight: 700; color: transparent;
   transition: all .2s;
 }
 .mat-opcion.seleccionado .mat-check { background: var(--teal); border-color: var(--teal); color: var(--navy); }
-.mat-info { flex: 1; }
+.mat-opcion.seleccionado.adicional .mat-check { background: var(--violet); border-color: var(--violet); color: var(--white); }
+
+/* Info del material */
+.mat-info { flex: 1; min-width: 0; }
 .mat-nombre { font-size: 15px; font-weight: 700; color: var(--text); }
-.mat-detalle { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 3px; }
-.mat-precio { font-family: var(--mono); font-size: 18px; font-weight: 800; color: var(--text2); transition: color .2s; }
-.mat-opcion.seleccionado .mat-precio { color: var(--teal); }
+.mat-folio  { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-top: 2px; letter-spacing: 1px; }
+
+/* Etiqueta de ahorro */
+.mat-badge-ahorro {
+  display: none; margin-top: 6px;
+  font-size: 11px; font-weight: 700;
+  color: var(--violet); font-family: var(--mono);
+}
+.mat-opcion.seleccionado.adicional .mat-badge-ahorro { display: block; }
+
+/* Bloque de precio */
+.mat-precio-wrap { text-align: right; flex-shrink: 0; }
+.mat-precio-original {
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+  color: var(--muted); text-decoration: line-through;
+  display: none; margin-bottom: 2px;
+}
+.mat-precio-actual {
+  font-family: var(--mono); font-size: 20px; font-weight: 800;
+  color: var(--text2); transition: color .2s; line-height: 1;
+}
+.mat-opcion.seleccionado .mat-precio-actual { color: var(--teal); }
+.mat-opcion.seleccionado.adicional .mat-precio-actual { color: var(--violet); }
+
+/* Mensaje "Agrégalo" para no seleccionados cuando hay otros activos */
+.mat-agregar {
+  display: none; margin-top: 6px;
+  font-size: 11px; color: var(--teal); font-weight: 700; font-family: var(--mono);
+}
+
+/* Badge "Express incluido" */
+.mat-express-badge {
+  display: none;
+  margin-top: 4px;
+  font-size: 9px; letter-spacing: 1px;
+  color: var(--warning); font-family: var(--mono);
+  text-transform: uppercase; font-weight: 700;
+}
+.mat-opcion.seleccionado:not(.adicional) .mat-express-badge { display: block; }
 
 /* Total dinámico */
 .sel-total-box {
@@ -477,9 +533,10 @@ let compFile  = null;
 let metodo    = 'trans';
 
 // Estado de selección multi-material
-let opcionesDisponibles = []; // [{ mat, costoBase, costoSvc, total }]
+let opcionesDisponibles = [];
 let seleccionActiva     = new Set();
 let svcCostoTotal       = 0;
+let ordenSeleccion      = []; // orden de clic — el primero paga el Express
 
 window.addEventListener('load', () => {
   document.getElementById('navFolio').textContent = FOLIO;
@@ -682,6 +739,7 @@ function renderCotizacion(p) {
   if ((p.estatus||'').toLowerCase() === 'cotizado') {
     opcionesDisponibles = opts;
     seleccionActiva     = new Set();
+    ordenSeleccion      = [];
 
     if (opts.length > 1) {
       // Multi-material: mostrar checkboxes
@@ -698,57 +756,115 @@ function renderCotizacion(p) {
 
 function renderOpciones(opts, svcCosto, totalOpts) {
   const sufijos = ['A','B','C','D','E'];
-  document.getElementById('listaOpciones').innerHTML = opts.map((o, i) => {
-    // El costo base sin servicio express
-    const costoBase = o.total - (svcCosto / totalOpts);
-    return `
-      <div class="mat-opcion" id="matOpt-${i}" onclick="toggleMat(${i})">
-        <div class="mat-check" id="matCheck-${i}">✓</div>
-        <div class="mat-info">
-          <div class="mat-nombre">${o.mat}</div>
-          <div class="mat-detalle">Folio: ${FOLIO}-${sufijos[i]}</div>
-        </div>
-        <div class="mat-precio" id="matPrecio-${i}">${fmt(o.total)}</div>
-      </div>`;
-  }).join('');
-  actualizarTotal();
+  // Guardar costo de impresión puro (sin express) por opción
+  opts.forEach(o => { o.costoImpresion = o.total - svcCosto; });
+
+  document.getElementById('listaOpciones').innerHTML = opts.map((o, i) => `
+    <div class="mat-opcion" id="matOpt-${i}" onclick="toggleMat(${i})">
+      <div class="mat-check" id="matCheck-${i}">✓</div>
+      <div class="mat-info">
+        <div class="mat-nombre">${o.mat}</div>
+        <div class="mat-folio" id="matFolio-${i}">Folio: ${FOLIO}-${sufijos[i]}</div>
+        <div class="mat-express-badge">⚡ Express incluido</div>
+        <div class="mat-badge-ahorro" id="matAhorro-${i}"></div>
+        <div class="mat-agregar" id="matAgregar-${i}"></div>
+      </div>
+      <div class="mat-precio-wrap">
+        <div class="mat-precio-original" id="matPrecioOrig-${i}">${fmt(o.total)}</div>
+        <div class="mat-precio-actual" id="matPrecio-${i}">${fmt(o.total)}</div>
+      </div>
+    </div>`).join('');
+  actualizarUI();
 }
 
 const fmt = n => `$${(+n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
 
+// Orden de selección — el primero en la lista mantiene el Express
+let ordenSeleccion = []; // array de índices en orden de clic
+
 function toggleMat(idx) {
   if (seleccionActiva.has(idx)) {
+    // Desmarcar
     seleccionActiva.delete(idx);
+    ordenSeleccion = ordenSeleccion.filter(i => i !== idx);
   } else {
+    // Marcar
     seleccionActiva.add(idx);
+    ordenSeleccion.push(idx);
   }
-  // Recalcular express dividido según cuántos están seleccionados
-  const nSel = seleccionActiva.size;
-  opcionesDisponibles.forEach((o, i) => {
-    // Recalcular total: costo base + express / nSel seleccionados
-    // El costo base es el total original menos el express completo dividido entre todos
-    const costoBase = o.total - (svcCostoTotal / opcionesDisponibles.length);
-    const svcParte  = nSel > 0 ? svcCostoTotal / nSel : svcCostoTotal / opcionesDisponibles.length;
-    o.totalAjustado = costoBase + svcParte;
-    document.getElementById(`matPrecio-${i}`).textContent = fmt(o.totalAjustado);
-  });
-
-  document.getElementById(`matOpt-${idx}`).classList.toggle('seleccionado', seleccionActiva.has(idx));
-  document.getElementById(`matCheck-${idx}`).style.color = seleccionActiva.has(idx) ? 'var(--navy)' : 'transparent';
-  actualizarTotal();
+  actualizarUI();
 }
 
-function actualizarTotal() {
-  const nSel = seleccionActiva.size;
-  let total = 0;
-  seleccionActiva.forEach(idx => { total += opcionesDisponibles[idx].totalAjustado || opcionesDisponibles[idx].total; });
+function actualizarUI() {
+  const nSel      = seleccionActiva.size;
+  const primerIdx = ordenSeleccion[0]; // quién paga el Express
+  const svc       = svcCostoTotal;
+  let totalFinal  = 0;
 
-  document.getElementById('selTotalNum').textContent = fmt(total);
-  document.getElementById('selAviso').textContent = nSel === 0
-    ? 'Selecciona al menos un material'
-    : nSel === 1
-      ? '1 trabajo seleccionado · Express incluido'
-      : `${nSel} trabajos · Express dividido entre ${nSel}`;
+  opcionesDisponibles.forEach((o, i) => {
+    const card        = document.getElementById(`matOpt-${i}`);
+    const checkEl     = document.getElementById(`matCheck-${i}`);
+    const precioEl    = document.getElementById(`matPrecio-${i}`);
+    const precioOrig  = document.getElementById(`matPrecioOrig-${i}`);
+    const agregarEl   = document.getElementById(`matAgregar-${i}`);
+    const ahorroEl    = document.getElementById(`matAhorro-${i}`);
+    const esSel       = seleccionActiva.has(i);
+    const esPrimero   = i === primerIdx;
+
+    // Limpiar clases
+    card.classList.toggle('seleccionado', esSel);
+    card.classList.toggle('adicional', esSel && !esPrimero);
+    checkEl.style.color = esSel ? (esPrimero ? 'var(--navy)' : 'var(--white)') : 'transparent';
+
+    if (esSel) {
+      // Seleccionado
+      if (esPrimero) {
+        // Primer marcado: precio completo con Express
+        precioEl.textContent = fmt(o.total);
+        precioOrig.style.display = 'none';
+        ahorroEl.textContent = '';
+        agregarEl.style.display = 'none';
+        totalFinal += o.total;
+      } else {
+        // Adicional: precio sin Express
+        const precioSinSvc = o.costoImpresion;
+        precioEl.textContent = fmt(precioSinSvc);
+        precioOrig.textContent = fmt(o.total);
+        precioOrig.style.display = 'block';
+        ahorroEl.textContent = `Ahorras ${fmt(svc)} en Express`;
+        agregarEl.style.display = 'none';
+        totalFinal += precioSinSvc;
+      }
+    } else {
+      // No seleccionado
+      precioOrig.style.display = 'none';
+      ahorroEl.textContent = '';
+      if (nSel > 0) {
+        // Hay otros seleccionados — mostrar precio de oportunidad
+        const precioSinSvc = o.costoImpresion;
+        precioEl.textContent = fmt(precioSinSvc);
+        agregarEl.innerHTML = `<span style="color:var(--muted);text-decoration:line-through">${fmt(o.total)}</span> → solo ${fmt(precioSinSvc)} más`;
+        agregarEl.style.display = 'block';
+      } else {
+        // Nada seleccionado — precio base
+        precioEl.textContent = fmt(o.total);
+        agregarEl.style.display = 'none';
+      }
+    }
+  });
+
+  // Total y aviso
+  document.getElementById('selTotalNum').textContent = fmt(totalFinal);
+  let aviso = '';
+  if (nSel === 0) {
+    aviso = 'Selecciona al menos un material';
+  } else if (nSel === 1) {
+    aviso = '1 trabajo · Express incluido';
+  } else {
+    const ahorro = svc * (nSel - 1);
+    aviso = `${nSel} trabajos · Ahorras ${fmt(ahorro)} en Express`;
+  }
+  document.getElementById('selAviso').textContent = aviso;
   document.getElementById('btnConfirmarSel').disabled = nSel === 0;
 }
 
@@ -767,21 +883,25 @@ async function confirmarSeleccion() {
   const btn = document.getElementById('btnConfirmarSel');
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Procesando…';
 
-  // Mostrar sección de pago con el total correcto
-  const sufijos = ['A','B','C','D','E'];
-  const selArr  = Array.from(seleccionActiva).map(idx => ({
+  const sufijos  = ['A','B','C','D','E'];
+  const primerIdx = ordenSeleccion[0];
+  const svc       = svcCostoTotal;
+
+  const selArr = ordenSeleccion.map((idx, pos) => ({
     mat:    opcionesDisponibles[idx].mat,
-    total:  parseFloat((opcionesDisponibles[idx].totalAjustado || opcionesDisponibles[idx].total).toFixed(2)),
+    total:  parseFloat((pos === 0
+      ? opcionesDisponibles[idx].total                // primer: precio completo con Express
+      : opcionesDisponibles[idx].costoImpresion       // adicionales: sin Express
+    ).toFixed(2)),
     sufijo: sufijos[idx],
   }));
 
   const totalSel = selArr.reduce((s, x) => s + x.total, 0);
 
-  // Guardar para enviar al confirmar pago
-  pedido._seleccion  = selArr;
-  pedido._totalSel   = totalSel;
-  pedido.estatus     = 'aceptado';
-  pedido.cotizacion  = totalSel.toFixed(2);
+  pedido._seleccion = selArr;
+  pedido._totalSel  = totalSel;
+  pedido.estatus    = 'aceptado';
+  pedido.cotizacion = totalSel.toFixed(2);
 
   renderTodo(pedido);
 }
