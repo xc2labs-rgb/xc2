@@ -600,16 +600,19 @@ function renderCotizacion(p) {
 
   svcCostoTotal = costoServicio;
 
-  // ── Parsear cotizaciones multi-material del campo "cotizaciones" ──
-  // El admin envía al backend "PLA:1400|PVA:900" y el backend lo guarda en notasAdmin
-  // Intentamos parsear desde notasAdmin o desde el campo materiales
+  // ── Parsear cotizaciones multi-material desde notasAdmin ──
+  // El backend guarda "OPTS:PLA:1400|PVA:900\nNOTAS:texto" en notasAdmin
   let opts = [];
-  if (p.notasAdmin && p.notasAdmin.includes(':') && p.notasAdmin.includes('|')) {
-    // Formato "PLA:1400|PVA:900" guardado en notas temporalmente
-    opts = p.notasAdmin.split('|').map(o => {
-      const [mat, val] = o.split(':');
-      return { mat: (mat||'').trim(), total: parseFloat(val)||0 };
-    }).filter(o => o.total > 0);
+  if (p.notasAdmin) {
+    const lineas = p.notasAdmin.split('\n');
+    const optsLine = lineas.find(l => l.startsWith('OPTS:'));
+    if (optsLine) {
+      const optsStr = optsLine.replace('OPTS:', '').trim();
+      opts = optsStr.split('|').map(o => {
+        const [mat, val] = o.split(':');
+        return { mat: (mat||'').trim(), total: parseFloat(val)||0 };
+      }).filter(o => o.total > 0);
+    }
   }
 
   // Si no hay multi-material, tratar como opción única
