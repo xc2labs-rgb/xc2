@@ -6,19 +6,15 @@
 <title>XC² Labs — Tu trabajo</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* =============================================
-   TOKENS — BRANDING XC² LABS
-   ============================================= */
 :root {
-  /* Paleta oficial */
-  --navy:       #0D1B3D;   /* azul marino — fondo principal */
-  --navy2:      #112040;   /* navy ligeramente más claro */
-  --navy3:      #162850;   /* cards / superficies */
-  --navy4:      #1d3160;   /* bordes / divisores */
-  --teal:       #00B4AD;   /* turquesa — acento primario */
+  --navy:       #0D1B3D;
+  --navy2:      #112040;
+  --navy3:      #162850;
+  --navy4:      #1d3160;
+  --teal:       #00B4AD;
   --teal-dim:   #00B4AD18;
   --teal-mid:   #00B4AD40;
-  --violet:     #6A4CFF;   /* morado — acento secundario */
+  --violet:     #6A4CFF;
   --violet-dim: #6A4CFF18;
   --violet-mid: #6A4CFF40;
   --white:      #FFFFFF;
@@ -28,282 +24,67 @@
   --success:    #00C98D;
   --warning:    #F59E0B;
   --error:      #EF4444;
-
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 16px;
-  --r-xl: 24px;
-
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 24px;
   --mono: 'Space Mono', monospace;
   --sans: 'Montserrat', sans-serif;
-
-  /* Sombras */
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
   --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
   --shadow-teal: 0 8px 32px rgba(0,180,173,0.2);
 }
-
-/* =============================================
-   RESET
-   ============================================= */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  background: var(--navy);
-  color: var(--text);
-  font-family: var(--sans);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-/* =============================================
-   FONDO — SUTIL GRADIENTE + LINEA DECORATIVA
-   ============================================= */
-body::before {
-  content: '';
-  position: fixed; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--teal) 0%, var(--violet) 100%);
-  z-index: 100;
-}
-
-.bg-radial {
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 50% at 100% 0%, rgba(106,76,255,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(0,180,173,0.06) 0%, transparent 60%);
-}
-
-/* =============================================
-   LAYOUT
-   ============================================= */
-.shell {
-  position: relative; z-index: 1;
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 0 20px 80px;
-}
-
-/* =============================================
-   NAV
-   ============================================= */
-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 24px 0 0;
-  margin-bottom: 40px;
-}
-
-.logo {
-  display: flex; align-items: center; gap: 12px;
-  text-decoration: none;
-}
-.logo-mark {
-  display: flex; align-items: baseline; gap: 1px;
-  font-family: var(--sans); font-size: 22px; font-weight: 800;
-  color: var(--white); letter-spacing: -1px;
-}
-.logo-sq {
-  color: var(--violet);
-  font-size: 15px;
-  position: relative; top: -4px;
-}
-.logo-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--teal);
-  margin: 0 1px 0 -2px;
-  position: relative; top: -1px;
-  display: inline-block;
-}
-.logo-divider {
-  width: 1px; height: 28px; background: var(--navy4);
-}
-.logo-sub {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 3px;
-  color: var(--muted); text-transform: uppercase; line-height: 1.3;
-}
-
-.nav-folio {
-  font-family: var(--mono); font-size: 11px; color: var(--teal);
-  background: var(--teal-dim); border: 1px solid var(--teal-mid);
-  padding: 6px 14px; border-radius: 20px; letter-spacing: 1px;
-}
-
-/* =============================================
-   HERO
-   ============================================= */
-.hero {
-  margin-bottom: 28px;
-  padding: 32px 28px 28px;
-  background: var(--navy3);
-  border: 1px solid var(--navy4);
-  border-radius: var(--r-xl);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, var(--teal) 0%, var(--violet) 100%);
-  opacity: 0.6;
-}
-
-.hero-top {
-  display: flex; align-items: flex-start; gap: 18px; margin-bottom: 28px;
-}
-
-.status-icon {
-  width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-  background: var(--teal-dim); border: 1px solid var(--teal-mid);
-  transition: all .3s;
-}
-
+body { background: var(--navy); color: var(--text); font-family: var(--sans); min-height: 100vh; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--teal) 0%, var(--violet) 100%); z-index: 100; }
+.bg-radial { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(ellipse 70% 50% at 100% 0%, rgba(106,76,255,0.08) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 0% 100%, rgba(0,180,173,0.06) 0%, transparent 60%); }
+.shell { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 20px 80px; }
+nav { display: flex; align-items: center; justify-content: space-between; padding: 24px 0 0; margin-bottom: 40px; }
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-mark { display: flex; align-items: baseline; gap: 1px; font-family: var(--sans); font-size: 22px; font-weight: 800; color: var(--white); letter-spacing: -1px; }
+.logo-sq { color: var(--violet); font-size: 15px; position: relative; top: -4px; }
+.logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); margin: 0 1px 0 -2px; position: relative; top: -1px; display: inline-block; }
+.logo-divider { width: 1px; height: 28px; background: var(--navy4); }
+.logo-sub { font-family: var(--mono); font-size: 9px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; line-height: 1.3; }
+.nav-folio { font-family: var(--mono); font-size: 11px; color: var(--teal); background: var(--teal-dim); border: 1px solid var(--teal-mid); padding: 6px 14px; border-radius: 20px; letter-spacing: 1px; }
+.hero { margin-bottom: 28px; padding: 32px 28px 28px; background: var(--navy3); border: 1px solid var(--navy4); border-radius: var(--r-xl); position: relative; overflow: hidden; }
+.hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--teal) 0%, var(--violet) 100%); opacity: 0.6; }
+.hero-top { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 28px; }
+.status-icon { width: 52px; height: 52px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 24px; background: var(--teal-dim); border: 1px solid var(--teal-mid); transition: all .3s; }
 .hero-text { flex: 1; }
-.hero-eyebrow {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
-  color: var(--text2); text-transform: uppercase; margin-bottom: 8px;
-}
-.hero-title {
-  font-size: 24px; font-weight: 800; line-height: 1.15;
-  letter-spacing: -0.5px; color: var(--white);
-}
-.hero-desc {
-  font-size: 13px; color: var(--text2); margin-top: 6px; line-height: 1.6;
-  font-weight: 400;
-}
-
-/* PROGRESS */
-.progress-wrap {
-  display: flex; align-items: center; gap: 0;
-}
-.pw-step {
-  flex: 1; display: flex; flex-direction: column; align-items: center;
-  position: relative;
-}
-.pw-step:not(:last-child)::after {
-  content: '';
-  position: absolute; top: 13px; left: calc(50% + 13px);
-  width: calc(100% - 26px); height: 2px;
-  background: var(--navy4); transition: background .4s;
-}
-.pw-step.done::after {
-  background: linear-gradient(90deg, var(--teal), var(--teal));
-}
-.pw-step.active::after {
-  background: linear-gradient(90deg, var(--teal), var(--navy4));
-}
-
-.pw-dot {
-  width: 26px; height: 26px; border-radius: 50%;
-  border: 2px solid var(--navy4);
-  background: var(--navy);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 9px; font-family: var(--mono); color: var(--muted);
-  position: relative; z-index: 1; transition: all .3s;
-}
-.pw-step.done .pw-dot {
-  background: var(--teal); border-color: var(--teal);
-  color: var(--navy); font-weight: 700; font-size: 11px;
-}
-.pw-step.active .pw-dot {
-  border-color: var(--teal); color: var(--teal);
-  box-shadow: 0 0 0 4px var(--teal-dim);
-  animation: pulse-step 2s ease-in-out infinite;
-}
-@keyframes pulse-step {
-  0%,100% { box-shadow: 0 0 0 4px var(--teal-dim); }
-  50% { box-shadow: 0 0 0 8px transparent; }
-}
-
-.pw-label {
-  font-family: var(--mono); font-size: 7px; letter-spacing: 1px;
-  color: var(--muted); text-transform: uppercase; margin-top: 7px;
-  text-align: center;
-}
-.pw-step.done .pw-label  { color: var(--teal); }
+.hero-eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; margin-bottom: 8px; }
+.hero-title { font-size: 24px; font-weight: 800; line-height: 1.15; letter-spacing: -0.5px; color: var(--white); }
+.hero-desc { font-size: 13px; color: var(--text2); margin-top: 6px; line-height: 1.6; font-weight: 400; }
+.progress-wrap { display: flex; align-items: center; gap: 0; }
+.pw-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+.pw-step:not(:last-child)::after { content: ''; position: absolute; top: 13px; left: calc(50% + 13px); width: calc(100% - 26px); height: 2px; background: var(--navy4); transition: background .4s; }
+.pw-step.done::after { background: linear-gradient(90deg, var(--teal), var(--teal)); }
+.pw-step.active::after { background: linear-gradient(90deg, var(--teal), var(--navy4)); }
+.pw-dot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--navy4); background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 9px; font-family: var(--mono); color: var(--muted); position: relative; z-index: 1; transition: all .3s; }
+.pw-step.done .pw-dot { background: var(--teal); border-color: var(--teal); color: var(--navy); font-weight: 700; font-size: 11px; }
+.pw-step.active .pw-dot { border-color: var(--teal); color: var(--teal); box-shadow: 0 0 0 4px var(--teal-dim); animation: pulse-step 2s ease-in-out infinite; }
+@keyframes pulse-step { 0%,100% { box-shadow: 0 0 0 4px var(--teal-dim); } 50% { box-shadow: 0 0 0 8px transparent; } }
+.pw-label { font-family: var(--mono); font-size: 7px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-top: 7px; text-align: center; }
+.pw-step.done .pw-label { color: var(--teal); }
 .pw-step.active .pw-label { color: var(--text2); }
-
-/* =============================================
-   SECTION HEADER
-   ============================================= */
-.sec-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 12px;
-}
-.sec-label {
-  display: flex; align-items: center; gap: 8px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
-  color: var(--text2); text-transform: uppercase; font-weight: 700;
-}
-.sec-label::before {
-  content: '';
-  width: 3px; height: 14px;
-  background: linear-gradient(180deg, var(--teal), var(--violet));
-  border-radius: 2px;
-}
-
-/* =============================================
-   CARD BASE
-   ============================================= */
-.card {
-  background: var(--navy3);
-  border: 1px solid var(--navy4);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-
-/* =============================================
-   BADGE
-   ============================================= */
-.badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 20px;
-  font-family: var(--mono); font-size: 9px;
-  font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
-}
+.sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sec-label { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; font-weight: 700; }
+.sec-label::before { content: ''; width: 3px; height: 14px; background: linear-gradient(180deg, var(--teal), var(--violet)); border-radius: 2px; }
+.card { background: var(--navy3); border: 1px solid var(--navy4); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 16px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 20px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 .b-teal   { background: var(--teal-dim);   color: var(--teal);   border: 1px solid var(--teal-mid); }
 .b-violet { background: var(--violet-dim); color: var(--violet); border: 1px solid var(--violet-mid); }
 .b-warn   { background: #F59E0B18; color: var(--warning); border: 1px solid #F59E0B40; }
 .b-success{ background: #00C98D18; color: var(--success); border: 1px solid #00C98D40; }
 .b-error  { background: #EF444418; color: var(--error);   border: 1px solid #EF444440; }
-.b-dim    { background: var(--navy4);      color: var(--muted);  border: 1px solid var(--navy4); }
-
-/* =============================================
-   PRECIO
-   ============================================= */
-.precio-block {
-  padding: 28px 28px 20px;
-  display: flex; align-items: flex-end;
-  justify-content: space-between; gap: 20px; flex-wrap: wrap;
-}
-.precio-lbl {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
-  color: var(--text2); text-transform: uppercase; margin-bottom: 8px; font-weight: 700;
-}
-.precio-num {
-  font-family: var(--sans); font-size: 52px; font-weight: 800;
-  color: var(--white); line-height: 1; letter-spacing: -2px;
-}
+.b-dim    { background: var(--navy4); color: var(--muted); border: 1px solid var(--navy4); }
+.precio-block { padding: 28px 28px 20px; display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.precio-lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+.precio-num { font-family: var(--sans); font-size: 52px; font-weight: 800; color: var(--white); line-height: 1; letter-spacing: -2px; }
 .precio-teal { color: var(--teal); }
 .precio-cur { font-size: 18px; color: var(--text2); margin-left: 4px; font-weight: 600; }
-.precio-valid {
-  font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 6px;
-}
+.precio-valid { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 6px; }
 .precio-divider { height: 1px; background: var(--navy4); margin: 0 28px; }
-
-/* DESGLOSE LIMPIO */
-.desglose-box {
-  margin: 4px 28px 20px;
-  background: var(--navy2); border: 1px solid var(--navy4);
-  border-radius: var(--r-md); overflow: hidden;
-}
-.dsg-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 13px 18px; border-bottom: 1px solid var(--navy4); font-size: 14px;
-}
+.desglose-box { margin: 4px 28px 20px; background: var(--navy2); border: 1px solid var(--navy4); border-radius: var(--r-md); overflow: hidden; }
+.dsg-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 18px; border-bottom: 1px solid var(--navy4); font-size: 14px; }
 .dsg-row:last-child { border-bottom: none; }
 .dsg-label { color: var(--text2); font-weight: 600; }
 .dsg-value { font-family: var(--mono); font-size: 13px; color: var(--text); font-weight: 700; }
@@ -312,328 +93,140 @@ nav {
 .dsg-row.total-row { background: rgba(0,180,173,0.08); }
 .dsg-row.total-row .dsg-label { color: var(--white); font-weight: 800; font-size: 15px; }
 .dsg-row.total-row .dsg-value { color: var(--teal); font-size: 16px; }
-
-/* DETALLE TRABAJO */
-.det-grid {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 1px; background: var(--navy4);
-}
+.det-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--navy4); }
 .det-item { background: var(--navy3); padding: 16px 18px; }
-.det-lbl {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
-  color: var(--text2); text-transform: uppercase; margin-bottom: 5px; font-weight: 700;
-}
+.det-lbl { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; color: var(--text2); text-transform: uppercase; margin-bottom: 5px; font-weight: 700; }
 .det-val { font-size: 13px; font-weight: 600; color: var(--text); }
+.nota-servicio { font-size: 11px; color: var(--text2); font-style: italic; margin-top: 4px; line-height: 1.4; }
 
-/* DECISIÓN */
+/* ── SELECCIÓN DE MATERIALES ── */
+.sel-mat-wrap { padding: 20px 28px 8px; }
+.sel-mat-title { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; font-weight: 700; margin-bottom: 14px; }
+.mat-opcion {
+  display: flex; align-items: center; gap: 16px;
+  padding: 16px 18px; margin-bottom: 10px;
+  background: var(--navy2); border: 2px solid var(--navy4);
+  border-radius: var(--r-md); cursor: pointer; transition: all .2s;
+  user-select: none;
+}
+.mat-opcion:hover { border-color: var(--teal-mid); }
+.mat-opcion.seleccionado { border-color: var(--teal); background: var(--teal-dim); }
+.mat-check {
+  width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+  border: 2px solid var(--navy4); background: var(--navy);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: transparent;
+  transition: all .2s;
+}
+.mat-opcion.seleccionado .mat-check { background: var(--teal); border-color: var(--teal); color: var(--navy); }
+.mat-info { flex: 1; }
+.mat-nombre { font-size: 15px; font-weight: 700; color: var(--text); }
+.mat-detalle { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 3px; }
+.mat-precio { font-family: var(--mono); font-size: 18px; font-weight: 800; color: var(--text2); transition: color .2s; }
+.mat-opcion.seleccionado .mat-precio { color: var(--teal); }
+
+/* Total dinámico */
+.sel-total-box {
+  margin: 4px 28px 20px;
+  background: rgba(0,180,173,0.08); border: 1px solid var(--teal-mid);
+  border-radius: var(--r-md); padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sel-total-lbl { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; font-weight: 700; }
+.sel-total-num { font-family: var(--mono); font-size: 24px; font-weight: 800; color: var(--teal); }
+.sel-aviso { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
 .decision-block { padding: 20px 28px 28px; }
-.decision-lbl {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
-  color: var(--text2); text-transform: uppercase; margin-bottom: 14px; font-weight: 700;
-}
+.decision-lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; color: var(--text2); text-transform: uppercase; margin-bottom: 14px; font-weight: 700; }
 .decision-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-/* =============================================
-   BOTONES
-   ============================================= */
-.btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 13px 20px; border: none; cursor: pointer;
-  font-family: var(--sans); font-size: 13px; font-weight: 700;
-  letter-spacing: 0.5px; border-radius: var(--r-md);
-  transition: all .2s; text-decoration: none;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--teal) 0%, #00968f 100%);
-  color: var(--white);
-  box-shadow: var(--shadow-teal);
-}
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 20px; border: none; cursor: pointer; font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: 0.5px; border-radius: var(--r-md); transition: all .2s; text-decoration: none; }
+.btn-primary { background: linear-gradient(135deg, var(--teal) 0%, #00968f 100%); color: var(--white); box-shadow: var(--shadow-teal); }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,180,173,0.35); }
-
-.btn-violet {
-  background: linear-gradient(135deg, var(--violet) 0%, #5538e0 100%);
-  color: var(--white);
-}
-.btn-violet:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(106,76,255,0.3); }
-
-.btn-outline {
-  background: transparent; color: var(--text2);
-  border: 1px solid var(--navy4);
-}
-.btn-outline:hover { border-color: var(--teal); color: var(--teal); }
-
-.btn-reject {
-  background: transparent; color: var(--error);
-  border: 1px solid rgba(239,68,68,0.2);
-}
+.btn-reject { background: transparent; color: var(--error); border: 1px solid rgba(239,68,68,0.2); }
 .btn-reject:hover { border-color: var(--error); background: rgba(239,68,68,0.06); }
+.btn:disabled { background: var(--navy4) !important; color: var(--muted) !important; border-color: transparent !important; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
 
-.btn:disabled {
-  background: var(--navy4) !important; color: var(--muted) !important;
-  border-color: transparent !important; cursor: not-allowed;
-  transform: none !important; box-shadow: none !important;
-}
-
-/* =============================================
-   PAGO
-   ============================================= */
-.pago-metodos {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-  padding: 20px 20px 0;
-}
-.pago-opt {
-  background: var(--navy2); border: 1px solid var(--navy4);
-  border-radius: var(--r-md); padding: 16px;
-  cursor: pointer; transition: all .2s;
-}
+/* ── PAGO ── */
+.pago-metodos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px 20px 0; }
+.pago-opt { background: var(--navy2); border: 1px solid var(--navy4); border-radius: var(--r-md); padding: 16px; cursor: pointer; transition: all .2s; }
 .pago-opt:hover { border-color: var(--teal); }
 .pago-opt.sel { border-color: var(--teal); background: var(--teal-dim); }
 .po-icon { font-size: 22px; margin-bottom: 8px; }
 .po-name { font-size: 14px; font-weight: 700; color: var(--text); }
 .po-sub  { font-size: 10px; color: var(--muted); font-family: var(--mono); margin-top: 3px; }
-
-.banco-box {
-  margin: 16px 20px 0;
-  background: var(--navy2); border: 1px solid var(--navy4);
-  border-radius: var(--r-md); padding: 4px 16px;
-}
-.banco-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 11px 0; border-bottom: 1px solid var(--navy4); font-size: 13px;
-}
+.banco-box { margin: 16px 20px 0; background: var(--navy2); border: 1px solid var(--navy4); border-radius: var(--r-md); padding: 4px 16px; }
+.banco-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--navy4); font-size: 13px; }
 .banco-row:last-child { border-bottom: none; }
 .banco-lbl { color: var(--text2); font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; }
 .banco-val { font-family: var(--mono); font-size: 12px; color: var(--text); }
 .banco-val.hi { color: var(--teal); font-size: 14px; font-weight: 700; }
-
-.copy-btn {
-  background: transparent; border: 1px solid var(--navy4); color: var(--muted);
-  padding: 3px 8px; border-radius: 4px; font-family: var(--mono); font-size: 9px;
-  cursor: pointer; transition: all .15s; letter-spacing: 1px;
-}
+.copy-btn { background: transparent; border: 1px solid var(--navy4); color: var(--muted); padding: 3px 8px; border-radius: 4px; font-family: var(--mono); font-size: 9px; cursor: pointer; transition: all .15s; letter-spacing: 1px; }
 .copy-btn:hover { border-color: var(--teal); color: var(--teal); }
 .copy-btn.ok { border-color: var(--success); color: var(--success); }
-
-/* UPLOAD */
-.upload-zone {
-  margin: 16px 20px 20px;
-  border: 2px dashed var(--navy4); border-radius: var(--r-md);
-  padding: 28px 20px; text-align: center; cursor: pointer;
-  transition: all .2s; position: relative; background: var(--navy2);
-}
-.upload-zone:hover, .upload-zone.drag {
-  border-color: var(--teal); background: var(--teal-dim);
-}
-.upload-zone input {
-  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-}
+.upload-zone { margin: 16px 20px 20px; border: 2px dashed var(--navy4); border-radius: var(--r-md); padding: 28px 20px; text-align: center; cursor: pointer; transition: all .2s; position: relative; background: var(--navy2); }
+.upload-zone:hover, .upload-zone.drag { border-color: var(--teal); background: var(--teal-dim); }
+.upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
 .uz-icon { font-size: 28px; margin-bottom: 10px; }
 .uz-label { font-size: 14px; font-weight: 600; color: var(--text); }
 .uz-sub { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-top: 5px; }
 .uz-preview { display: none; margin-top: 12px; }
-
-.btn-pagar {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  width: calc(100% - 40px); margin: 0 20px 20px;
-  padding: 14px;
-  background: linear-gradient(135deg, var(--success) 0%, #00a876 100%);
-  color: var(--white); border: none; border-radius: var(--r-md);
-  cursor: pointer; font-family: var(--sans); font-size: 13px;
-  font-weight: 700; transition: all .2s;
-}
+.btn-pagar { display: flex; align-items: center; justify-content: center; gap: 8px; width: calc(100% - 40px); margin: 0 20px 20px; padding: 14px; background: linear-gradient(135deg, var(--success) 0%, #00a876 100%); color: var(--white); border: none; border-radius: var(--r-md); cursor: pointer; font-family: var(--sans); font-size: 13px; font-weight: 700; transition: all .2s; }
 .btn-pagar:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,201,141,0.3); }
 .btn-pagar:disabled { background: var(--navy4); color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
-
-/* =============================================
-   ALERT
-   ============================================= */
-.alert {
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 14px 18px; border-radius: var(--r-md);
-  font-size: 13px; line-height: 1.6; font-weight: 500;
-  margin: 16px 20px 0;
-}
+.alert { display: flex; gap: 12px; align-items: flex-start; padding: 14px 18px; border-radius: var(--r-md); font-size: 13px; line-height: 1.6; font-weight: 500; margin: 16px 20px 0; }
 .al-teal   { background: var(--teal-dim);   border: 1px solid var(--teal-mid);   color: #7fded9; }
 .al-violet { background: var(--violet-dim); border: 1px solid var(--violet-mid); color: #a99aff; }
 .al-warn   { background: #F59E0B15; border: 1px solid #F59E0B35; color: #fbbf24; }
 .al-success{ background: #00C98D15; border: 1px solid #00C98D35; color: #34d399; }
-
-/* =============================================
-   TIMELINE
-   ============================================= */
-.tl-item {
-  display: flex; gap: 16px; padding: 16px 24px;
-  border-bottom: 1px solid var(--navy4);
-  position: relative;
-}
+.tl-item { display: flex; gap: 16px; padding: 16px 24px; border-bottom: 1px solid var(--navy4); position: relative; }
 .tl-item:last-child { border-bottom: none; }
-
-.tl-dot {
-  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; font-family: var(--mono);
-  border: 2px solid var(--navy4); background: var(--navy);
-  color: var(--muted); transition: all .3s; margin-top: 2px;
-}
+.tl-dot { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; font-family: var(--mono); border: 2px solid var(--navy4); background: var(--navy); color: var(--muted); transition: all .3s; margin-top: 2px; }
 .tl-dot.done   { background: var(--teal); border-color: var(--teal); color: var(--navy); }
 .tl-dot.active { border-color: var(--teal); color: var(--teal); animation: pulse-step 2s ease-in-out infinite; }
-
 .tl-body { flex: 1; }
 .tl-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
 .tl-title.dim { color: var(--muted); font-weight: 400; }
 .tl-date { font-family: var(--mono); font-size: 10px; color: var(--muted); }
-.tl-note {
-  margin-top: 8px; font-size: 12px; color: var(--text2);
-  background: var(--navy2); border-radius: var(--r-sm);
-  padding: 8px 12px; border-left: 2px solid var(--teal); line-height: 1.5;
-}
-
-/* =============================================
-   TRABAJO INFO
-   ============================================= */
-.trabajo-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 1px; background: var(--navy4); border-radius: var(--r-lg); overflow: hidden;
-}
+.tl-note { margin-top: 8px; font-size: 12px; color: var(--text2); background: var(--navy2); border-radius: var(--r-sm); padding: 8px 12px; border-left: 2px solid var(--teal); line-height: 1.5; }
+.trabajo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--navy4); border-radius: var(--r-lg); overflow: hidden; }
 .tg-item { background: var(--navy3); padding: 14px 18px; }
-.tg-lbl {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
-  color: var(--text2); text-transform: uppercase; margin-bottom: 5px; font-weight: 700;
-}
+.tg-lbl { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; color: var(--text2); text-transform: uppercase; margin-bottom: 5px; font-weight: 700; }
 .tg-val { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.5; }
 .tg-full { grid-column: 1 / -1; }
-
-/* =============================================
-   CONTACTO
-   ============================================= */
-.contacto-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 18px 22px; flex-wrap: wrap; gap: 12px;
-}
+.contacto-row { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; flex-wrap: wrap; gap: 12px; }
 .ct-text { font-size: 13px; color: var(--text2); font-weight: 500; }
 .ct-btns { display: flex; gap: 8px; }
-.btn-wa {
-  display: flex; align-items: center; gap: 6px; padding: 9px 16px;
-  background: #25D366; color: #000; border: none; border-radius: var(--r-md);
-  font-family: var(--sans); font-size: 12px; font-weight: 700;
-  cursor: pointer; text-decoration: none; transition: all .15s;
-}
+.btn-wa { display: flex; align-items: center; gap: 6px; padding: 9px 16px; background: #25D366; color: #000; border: none; border-radius: var(--r-md); font-family: var(--sans); font-size: 12px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all .15s; }
 .btn-wa:hover { background: #1fba58; transform: translateY(-1px); }
-.btn-email {
-  display: flex; align-items: center; gap: 6px; padding: 9px 16px;
-  background: transparent; color: var(--text2);
-  border: 1px solid var(--navy4); border-radius: var(--r-md);
-  font-family: var(--sans); font-size: 12px; font-weight: 600;
-  cursor: pointer; text-decoration: none; transition: all .15s;
-}
+.btn-email { display: flex; align-items: center; gap: 6px; padding: 9px 16px; background: transparent; color: var(--text2); border: 1px solid var(--navy4); border-radius: var(--r-md); font-family: var(--sans); font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: none; transition: all .15s; }
 .btn-email:hover { border-color: var(--teal); color: var(--teal); }
-
-/* =============================================
-   ENTREGADO
-   ============================================= */
-.entregado-wrap {
-  text-align: center; padding: 52px 24px;
-}
+.entregado-wrap { text-align: center; padding: 52px 24px; }
 .entregado-icon { font-size: 60px; margin-bottom: 20px; }
 .entregado-title { font-size: 28px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 10px; }
 .entregado-sub { font-size: 14px; color: var(--text2); line-height: 1.7; }
-
-/* =============================================
-   LOADING
-   ============================================= */
-#loadScreen {
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; min-height: 80vh; gap: 24px;
-}
-.load-logo {
-  display: flex; align-items: baseline; gap: 2px;
-  font-family: var(--sans); font-size: 40px; font-weight: 800;
-  color: var(--white); letter-spacing: -2px;
-}
+#loadScreen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; gap: 24px; }
+.load-logo { display: flex; align-items: baseline; gap: 2px; font-family: var(--sans); font-size: 40px; font-weight: 800; color: var(--white); letter-spacing: -2px; }
 .load-logo span { color: var(--violet); font-size: 26px; position: relative; top: -5px; }
 .load-bar { width: 180px; height: 2px; background: var(--navy4); border-radius: 2px; overflow: hidden; }
-.load-fill {
-  height: 100%; width: 0; border-radius: 2px;
-  background: linear-gradient(90deg, var(--teal), var(--violet));
-  animation: loadfill 1.4s ease forwards;
-}
+.load-fill { height: 100%; width: 0; border-radius: 2px; background: linear-gradient(90deg, var(--teal), var(--violet)); animation: loadfill 1.4s ease forwards; }
 @keyframes loadfill { to { width: 100%; } }
 .load-text { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
-
-/* =============================================
-   SPINNER
-   ============================================= */
-.spin {
-  display: inline-block; width: 14px; height: 14px;
-  border: 2px solid currentColor; border-top-color: transparent;
-  border-radius: 50%; animation: spinning .6s linear infinite;
-}
+.spin { display: inline-block; width: 14px; height: 14px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spinning .6s linear infinite; }
 @keyframes spinning { to { transform: rotate(360deg); } }
-
-/* =============================================
-   SALUDO PERSONALIZADO
-   ============================================= */
-.saludo {
-  margin-bottom: 24px;
-  padding: 20px 24px;
-  background: linear-gradient(135deg, rgba(0,180,173,0.08) 0%, rgba(106,76,255,0.08) 100%);
-  border: 1px solid var(--navy4);
-  border-left: 3px solid var(--teal);
-  border-radius: var(--r-lg);
-}
-.saludo-text {
-  font-size: 17px; font-weight: 700; color: var(--white); line-height: 1.5;
-}
+.saludo { margin-bottom: 24px; padding: 20px 24px; background: linear-gradient(135deg, rgba(0,180,173,0.08) 0%, rgba(106,76,255,0.08) 100%); border: 1px solid var(--navy4); border-left: 3px solid var(--teal); border-radius: var(--r-lg); }
+.saludo-text { font-size: 17px; font-weight: 700; color: var(--white); line-height: 1.5; }
 .saludo-text span { color: var(--teal); }
 .saludo-text em { color: var(--violet); font-style: normal; }
-
-/* =============================================
-   FECHA LÍMITE DE ENTREGA
-   ============================================= */
-.entrega-limite {
-  margin: 0 28px 20px;
-  background: rgba(0,180,173,0.06);
-  border: 1px solid var(--teal-mid);
-  border-radius: var(--r-md);
-  padding: 14px 18px;
-  display: flex; align-items: center; gap: 14px;
-}
+.entrega-limite { margin: 0 28px 20px; background: rgba(0,180,173,0.06); border: 1px solid var(--teal-mid); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
 .el-icon { font-size: 24px; flex-shrink: 0; }
 .el-body { flex: 1; }
-.el-label {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
-  color: var(--teal); text-transform: uppercase; font-weight: 700; margin-bottom: 4px;
-}
+.el-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
 .el-fecha { font-size: 16px; font-weight: 800; color: var(--white); }
 .el-nota { font-size: 12px; color: var(--text2); margin-top: 6px; line-height: 1.6; }
-
-/* =============================================
-   NOTA SERVICIO
-   ============================================= */
-.nota-servicio {
-  font-size: 11px; color: var(--text2); font-style: italic;
-  margin-top: 4px; line-height: 1.4;
-}
-
-/* =============================================
-   SALUDO
-   ============================================= */
-footer {
-  margin-top: 48px; padding-top: 24px;
-  border-top: 1px solid var(--navy4);
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 10px;
-}
-.footer-logo {
-  display: flex; align-items: baseline; gap: 2px;
-  font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--muted);
-}
+footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--navy4); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.footer-logo { display: flex; align-items: baseline; gap: 2px; font-family: var(--sans); font-size: 13px; font-weight: 700; color: var(--muted); }
 .footer-logo span { color: var(--violet); font-size: 10px; position: relative; top: -3px; }
 .footer-meta { font-family: var(--mono); font-size: 9px; color: var(--navy4); letter-spacing: 1px; }
-
-/* =============================================
-   RESPONSIVE
-   ============================================= */
 @media (max-width: 560px) {
   .det-grid { grid-template-columns: 1fr 1fr; }
   .decision-btns { grid-template-columns: 1fr; }
@@ -647,6 +240,9 @@ footer {
   .upload-zone { margin: 12px 14px 14px; }
   .btn-pagar { width: calc(100% - 28px); margin: 0 14px 14px; }
   nav { padding: 16px 0 0; }
+  .sel-mat-wrap { padding: 16px 16px 8px; }
+  .sel-total-box { margin: 4px 16px 16px; }
+  .decision-block { padding: 16px 16px 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
@@ -654,19 +250,15 @@ footer {
 </style>
 </head>
 <body>
-
 <div class="bg-radial"></div>
 
-<!-- LOADING -->
 <div class="shell" id="loadScreen">
   <div class="load-logo">XC<span>²</span> Labs</div>
   <div class="load-bar"><div class="load-fill"></div></div>
   <div class="load-text">Cargando tu trabajo</div>
 </div>
 
-<!-- CONTENIDO -->
 <div class="shell" id="mainShell" style="display:none">
-
   <nav>
     <a class="logo" href="#">
       <div class="logo-mark">XC<span class="logo-sq">²</span><span class="logo-dot"></span>Labs</div>
@@ -676,12 +268,10 @@ footer {
     <div class="nav-folio" id="navFolio">—</div>
   </nav>
 
-  <!-- SALUDO PERSONALIZADO -->
   <div class="saludo" id="saludoBlock" style="display:none">
     <div class="saludo-text" id="saludoText">—</div>
   </div>
 
-  <!-- HERO -->
   <div class="hero" id="heroCard">
     <div class="hero-top">
       <div class="status-icon" id="heroIcon">⏳</div>
@@ -700,7 +290,7 @@ footer {
     </div>
   </div>
 
-  <!-- COTIZACIÓN -->
+  <!-- COTIZACIÓN CON SELECCIÓN DE MATERIALES -->
   <div id="secCotizacion" style="display:none">
     <div class="sec-head">
       <div class="sec-label">Cotización</div>
@@ -717,20 +307,43 @@ footer {
       <div class="precio-divider"></div>
       <div class="desglose-box" id="desgloseBox"></div>
       <div class="det-grid" id="detCot"></div>
-      <!-- Fecha límite de entrega -->
       <div class="entrega-limite" id="entregaLimite" style="display:none">
         <div class="el-icon">🗓</div>
         <div class="el-body">
-          <div class="el-label" id="entregaLabel">📅 Fecha tentativa de entrega</div>
+          <div class="el-label" id="entregaLabel">Fecha tentativa de entrega</div>
           <div class="el-fecha" id="entregaFecha">—</div>
           <div class="el-nota" id="entregaNota">—</div>
         </div>
       </div>
-      <div class="decision-block" id="decisionBlock">
+
+      <!-- SELECCIÓN DE MATERIALES -->
+      <div id="selMatBlock" style="display:none">
+        <div class="sel-mat-wrap">
+          <div class="sel-mat-title">Selecciona los materiales que deseas</div>
+          <div id="listaOpciones"></div>
+        </div>
+        <div class="sel-total-box">
+          <div>
+            <div class="sel-total-lbl">Total seleccionado</div>
+            <div class="sel-aviso" id="selAviso">Selecciona al menos un material</div>
+          </div>
+          <div class="sel-total-num" id="selTotalNum">$0.00</div>
+        </div>
+        <div class="decision-block">
+          <div class="decision-lbl">Tu respuesta</div>
+          <div class="decision-btns">
+            <button class="btn btn-primary" id="btnConfirmarSel" onclick="confirmarSeleccion()" disabled>✓ Confirmar selección</button>
+            <button class="btn btn-reject" onclick="rechazarCotizacion()">✗ Rechazar todo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DECISIÓN SIMPLE (1 solo material) -->
+      <div class="decision-block" id="decisionBlock" style="display:none">
         <div class="decision-lbl">Tu respuesta</div>
         <div class="decision-btns">
-          <button class="btn btn-primary" id="btnAceptar" onclick="aceptarCotizacion()">✓ Aceptar cotización</button>
-          <button class="btn btn-reject" id="btnRechazar" onclick="rechazarCotizacion()">✗ Rechazar</button>
+          <button class="btn btn-primary" id="btnAceptar" onclick="confirmarSeleccionSimple()">✓ Aceptar cotización</button>
+          <button class="btn btn-reject" onclick="rechazarCotizacion()">✗ Rechazar</button>
         </div>
       </div>
     </div>
@@ -803,7 +416,7 @@ footer {
       <div class="entrega-limite" id="entregaLimite2" style="display:none;margin:16px 16px 16px">
         <div class="el-icon">🗓</div>
         <div class="el-body">
-          <div class="el-label" id="entregaLabel2">📅 Fecha máxima de entrega</div>
+          <div class="el-label" id="entregaLabel2">Fecha máxima de entrega</div>
           <div class="el-fecha" id="entregaFecha2">—</div>
           <div class="el-nota" id="entregaNota2">—</div>
         </div>
@@ -811,19 +424,16 @@ footer {
     </div>
   </div>
 
-  <!-- TIMELINE -->
   <div style="margin-bottom:16px">
     <div class="sec-head"><div class="sec-label">Historial del trabajo</div></div>
     <div class="card"><div id="timelineList"></div></div>
   </div>
 
-  <!-- SOLICITUD ORIGINAL -->
   <div style="margin-bottom:16px">
     <div class="sec-head"><div class="sec-label">Tu solicitud</div></div>
     <div class="trabajo-grid" id="trabajoGrid"></div>
   </div>
 
-  <!-- CONTACTO -->
   <div style="margin-bottom:16px">
     <div class="sec-head"><div class="sec-label">¿Tienes dudas?</div></div>
     <div class="card">
@@ -837,7 +447,6 @@ footer {
     </div>
   </div>
 
-  <!-- ENTREGADO -->
   <div id="secEntregado" style="display:none">
     <div class="card">
       <div class="entregado-wrap">
@@ -855,7 +464,6 @@ footer {
     <div class="footer-logo">XC<span>²</span> Labs · Monterrey, México</div>
     <div class="footer-meta">AUTO-ACTUALIZA CADA 30s · <span id="lastUpdate">—</span></div>
   </footer>
-
 </div>
 
 <script>
@@ -864,9 +472,14 @@ const WHATSAPP_NUM    = '528110220262';
 
 const params = new URLSearchParams(window.location.search);
 const FOLIO  = params.get('folio') || 'XC2-DEMO01';
-let pedido   = null;
-let compFile = null;
-let metodo   = 'trans';
+let pedido    = null;
+let compFile  = null;
+let metodo    = 'trans';
+
+// Estado de selección multi-material
+let opcionesDisponibles = []; // [{ mat, costoBase, costoSvc, total }]
+let seleccionActiva     = new Set();
+let svcCostoTotal       = 0;
 
 window.addEventListener('load', () => {
   document.getElementById('navFolio').textContent = FOLIO;
@@ -876,15 +489,12 @@ window.addEventListener('load', () => {
 
 async function cargarPedido() {
   try {
-    const r = await fetch(`${APPS_SCRIPT_URL}?action=getPedido&folio=${encodeURIComponent(FOLIO)}`);
+    const r    = await fetch(`${APPS_SCRIPT_URL}?action=getPedido&folio=${encodeURIComponent(FOLIO)}`);
     const data = await r.json();
-    if (data.error) {
-      mostrarError(`No encontramos el pedido <strong>${FOLIO}</strong>. Verifica el link o contáctanos.`);
-      return;
-    }
+    if (data.error) { mostrarError(`No encontramos el pedido <strong>${FOLIO}</strong>. Verifica el link o contáctanos.`); return; }
     pedido = data;
-  } catch (err) {
-    mostrarError(`No pudimos conectar con el sistema. Intenta de nuevo en unos segundos.`);
+  } catch {
+    mostrarError('No pudimos conectar con el sistema. Intenta de nuevo en unos segundos.');
     return;
   }
   renderTodo(pedido);
@@ -895,9 +505,7 @@ function mostrarError(msg) {
   document.getElementById('loadScreen').innerHTML = `
     <div style="text-align:center">
       <div class="load-logo">XC<span>²</span> Labs</div>
-      <div style="margin-top:24px;padding:16px 20px;background:#EF444412;border:1px solid #EF444440;border-radius:10px;color:#ff8888;font-size:14px;max-width:320px">
-        ⚠ ${msg}
-      </div>
+      <div style="margin-top:24px;padding:16px 20px;background:#EF444412;border:1px solid #EF444440;border-radius:10px;color:#ff8888;font-size:14px;max-width:320px">⚠ ${msg}</div>
     </div>`;
 }
 
@@ -906,23 +514,21 @@ function renderTodo(p) {
   document.getElementById('mainShell').style.display  = 'block';
   const st = (p.estatus || 'pendiente').toLowerCase();
 
-  // Saludo personalizado
-  const nombre    = (p.nombre || '').split(' ')[0]; // solo primer nombre
-  const proyecto  = p.palabraClave || p.folio || FOLIO;
-  const saludoEl  = document.getElementById('saludoBlock');
-  const saludoTxt = document.getElementById('saludoText');
+  const nombre   = (p.nombre || '').split(' ')[0];
+  const proyecto = p.palabraClave || p.folio || FOLIO;
+  const saludoEl = document.getElementById('saludoBlock');
   if (nombre) {
     const msgs = {
       pendiente:  `Hola, <span>${nombre}</span>. Ya recibimos tu solicitud para el proyecto <em>"${proyecto}"</em>.`,
-      cotizado:   `Hola, <span>${nombre}</span>. Confírmanos tu proyecto <em>"${proyecto}"</em>.`,
+      cotizado:   `Hola, <span>${nombre}</span>. Tienes una cotización lista para <em>"${proyecto}"</em>. Selecciona los materiales que deseas.`,
       aceptado:   `Hola, <span>${nombre}</span>. ¡Gracias por aceptar! Completa el pago para iniciar <em>"${proyecto}"</em>.`,
       pagado:     `Hola, <span>${nombre}</span>. Recibimos tu pago. Iniciamos <em>"${proyecto}"</em> en breve.`,
-      produccion: `Hola, <span>${nombre}</span>. Estamos trabajando en <em>"${proyecto}"</em> para cumplir tu fecha.`,
+      produccion: `Hola, <span>${nombre}</span>. Estamos trabajando en <em>"${proyecto}"</em>.`,
       listo:      `Hola, <span>${nombre}</span>. ¡Tu proyecto <em>"${proyecto}"</em> está listo para recoger!`,
       entregado:  `Hola, <span>${nombre}</span>. El proyecto <em>"${proyecto}"</em> fue entregado. ¡Gracias!`,
       rechazado:  `Hola, <span>${nombre}</span>. Lamentamos que no hayamos podido continuar con <em>"${proyecto}"</em>.`,
     };
-    saludoTxt.innerHTML = msgs[st] || msgs.pendiente;
+    document.getElementById('saludoText').innerHTML = msgs[st] || msgs.pendiente;
     saludoEl.style.display = 'block';
   }
 
@@ -941,14 +547,14 @@ function renderTodo(p) {
 }
 
 const SCFG = {
-  pendiente:  { icon:'⏳', title:'Solicitud recibida',      desc:'Estamos analizando tu proyecto. Recibirás la cotización en menos de 24 h hábiles.', c:'var(--teal)' },
-  cotizado:   { icon:'💰', title:'Tienes una cotización',   desc:'Revisa el precio y acepta o rechaza para continuar.', c:'var(--violet)' },
-  aceptado:   { icon:'✅', title:'Cotización aceptada',     desc:'Realiza el pago para que iniciemos producción.', c:'var(--teal)' },
-  pagado:     { icon:'💳', title:'Pago en verificación',    desc:'Recibimos tu comprobante. Verificamos y comenzamos producción en breve.', c:'var(--teal)' },
-  produccion: { icon:'⚙️', title:'En producción',           desc:'Tu pieza está siendo fabricada. Te avisamos cuando esté lista.', c:'var(--warning)' },
-  listo:      { icon:'📦', title:'¡Tu pieza está lista!',  desc:'Ya puedes pasar a recogerla. Contáctanos para coordinar.', c:'var(--teal)' },
-  entregado:  { icon:'🎉', title:'Trabajo entregado',       desc:'Pedido completado. ¡Gracias por elegir XC² Labs!', c:'var(--success)' },
-  rechazado:  { icon:'❌', title:'Cotización rechazada',    desc:'Si deseas un nuevo presupuesto, envía otra solicitud.', c:'var(--error)' },
+  pendiente:  { icon:'⏳', title:'Solicitud recibida',     desc:'Estamos analizando tu proyecto. Recibirás la cotización en menos de 24 h hábiles.', c:'var(--teal)' },
+  cotizado:   { icon:'💰', title:'Tienes una cotización',  desc:'Selecciona el material o materiales que deseas y confirma.', c:'var(--violet)' },
+  aceptado:   { icon:'✅', title:'Cotización aceptada',    desc:'Realiza el pago para que iniciemos producción.', c:'var(--teal)' },
+  pagado:     { icon:'💳', title:'Pago en verificación',   desc:'Recibimos tu comprobante. Verificamos y comenzamos producción en breve.', c:'var(--teal)' },
+  produccion: { icon:'⚙️', title:'En producción',          desc:'Tu pieza está siendo fabricada. Te avisamos cuando esté lista.', c:'var(--warning)' },
+  listo:      { icon:'📦', title:'¡Tu pieza está lista!', desc:'Ya puedes pasar a recogerla. Contáctanos para coordinar.', c:'var(--teal)' },
+  entregado:  { icon:'🎉', title:'Trabajo entregado',      desc:'Pedido completado. ¡Gracias por elegir XC² Labs!', c:'var(--success)' },
+  rechazado:  { icon:'❌', title:'Cotización rechazada',   desc:'Si deseas un nuevo presupuesto, envía otra solicitud.', c:'var(--error)' },
 };
 
 function updateHero(st) {
@@ -968,7 +574,7 @@ function updateProgress(st) {
     const el  = document.getElementById(`ps${i}`);
     const dot = el.querySelector('.pw-dot');
     el.className = 'pw-step';
-    if (i < cur)      { el.classList.add('done');   dot.textContent = '✓'; }
+    if (i < cur)       { el.classList.add('done');   dot.textContent = '✓'; }
     else if (i === cur){ el.classList.add('active'); dot.textContent = i; }
     else               {                             dot.textContent = i; }
   }
@@ -977,10 +583,9 @@ function updateProgress(st) {
 function renderCotizacion(p) {
   const cotizacion = parseFloat(p.cotizacion) || 0;
 
-  // Tipo de servicio y costo
   let costoServicio = 0;
   let labelServicio = '';
-  let hrsEntrega    = 120; // Regular = 5 días hábiles aprox
+  let hrsEntrega    = 120;
   let notaEntrega   = 'Tiempo calculado a partir de la confirmación y pago del servicio.';
 
   if ((p.servicio||'').toLowerCase().includes('express light')) {
@@ -993,152 +598,212 @@ function renderCotizacion(p) {
     notaEntrega = 'Regular: 3–5 días hábiles a partir de la confirmación y pago.';
   }
 
-  const costoTrabajo = cotizacion - costoServicio;
+  svcCostoTotal = costoServicio;
 
-  // Precio grande
-  document.getElementById('precioNum').textContent =
-    `$${cotizacion.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
+  // ── Parsear cotizaciones multi-material del campo "cotizaciones" ──
+  // El admin envía al backend "PLA:1400|PVA:900" y el backend lo guarda en notasAdmin
+  // Intentamos parsear desde notasAdmin o desde el campo materiales
+  let opts = [];
+  if (p.notasAdmin && p.notasAdmin.includes(':') && p.notasAdmin.includes('|')) {
+    // Formato "PLA:1400|PVA:900" guardado en notas temporalmente
+    opts = p.notasAdmin.split('|').map(o => {
+      const [mat, val] = o.split(':');
+      return { mat: (mat||'').trim(), total: parseFloat(val)||0 };
+    }).filter(o => o.total > 0);
+  }
+
+  // Si no hay multi-material, tratar como opción única
+  if (opts.length <= 1) {
+    opts = [{ mat: p.materiales || '—', total: cotizacion }];
+  }
+
+  // Mostrar precio total (máximo de las opciones o cotización directa)
+  const fmt = n => `$${n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
+  document.getElementById('precioNum').textContent = fmt(cotizacion);
   const fValid = new Date(); fValid.setDate(fValid.getDate()+7);
   document.getElementById('precioValid').textContent =
     `Cotización válida hasta ${fValid.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'})}`;
 
   // Desglose
-  let desgloseHTML = `
-    <div class="dsg-row">
-      <span class="dsg-label">Costo del trabajo</span>
-      <span class="dsg-value">$${costoTrabajo.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}</span>
-    </div>`;
+  const costoBase = cotizacion - costoServicio;
+  let desgloseHTML = `<div class="dsg-row"><span class="dsg-label">Costo del trabajo</span><span class="dsg-value">${fmt(costoBase)}</span></div>`;
   if (costoServicio > 0) {
-    desgloseHTML += `
-    <div class="dsg-row express">
-      <span class="dsg-label">⚡ ${labelServicio}</span>
-      <span class="dsg-value">+$${costoServicio.toFixed(2)}</span>
-    </div>`;
+    desgloseHTML += `<div class="dsg-row express"><span class="dsg-label">⚡ ${labelServicio}</span><span class="dsg-value">+$${costoServicio.toFixed(2)}</span></div>`;
   }
-  desgloseHTML += `
-    <div class="dsg-row total-row">
-      <span class="dsg-label">Total de tu proyecto</span>
-      <span class="dsg-value">$${cotizacion.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')} MXN</span>
-    </div>`;
+  desgloseHTML += `<div class="dsg-row total-row"><span class="dsg-label">Total de tu proyecto</span><span class="dsg-value">${fmt(cotizacion)} MXN</span></div>`;
   document.getElementById('desgloseBox').innerHTML = desgloseHTML;
 
-  // Detalle técnico
-  const svcLabel = (p.servicio||'—').split('(')[0].trim();
+  const svcLabel2 = (p.servicio||'—').split('(')[0].trim();
   document.getElementById('detCot').innerHTML = `
-    <div class="det-item">
-      <div class="det-lbl">Material</div>
-      <div class="det-val">${p.materiales||'—'}</div>
-    </div>
-    <div class="det-item">
-      <div class="det-lbl">Cantidad</div>
-      <div class="det-val">${p.cantidad||'1'}</div>
-    </div>
-    <div class="det-item">
-      <div class="det-lbl">Servicio</div>
-      <div class="det-val">${svcLabel}</div>
-      <div class="nota-servicio">Tiempo desde confirmación y pago</div>
-    </div>`;
+    <div class="det-item"><div class="det-lbl">Material(es)</div><div class="det-val">${p.materiales||'—'}</div></div>
+    <div class="det-item"><div class="det-lbl">Servicio</div><div class="det-val">${svcLabel2}</div></div>
+    <div class="det-item"><div class="det-lbl">Folios</div><div class="det-val">${FOLIO}</div></div>`;
 
-  // Fecha: tentativa antes del pago, máxima después del pago
+  // Fecha tentativa
   const pagado = ['pagado','produccion','listo','entregado'].includes((p.estatus||'').toLowerCase());
-
   const fLimite = new Date();
-  // Si ya pagó, calcular desde fecha de pago real si existe
   if (pagado && p.historial) {
     try {
-      const hist = typeof p.historial === 'string' ? JSON.parse(p.historial) : p.historial;
-      const pagadoEntry = hist.find(e => e.estatus === 'pagado');
-      if (pagadoEntry) {
-        const partes = pagadoEntry.fecha.split(/[/ :]/);
-        // formato dd/MM/yyyy HH:mm
-        const fechaPago = new Date(partes[2], partes[1]-1, partes[0], partes[3], partes[4]);
-        if (!isNaN(fechaPago)) {
-          fLimite.setTime(fechaPago.getTime());
-        }
+      const hist = typeof p.historial==='string' ? JSON.parse(p.historial) : p.historial;
+      const entry = hist.find(e => e.estatus === 'pagado');
+      if (entry) {
+        const pts = entry.fecha.split(/[/ :]/);
+        const fp  = new Date(pts[2], pts[1]-1, pts[0], pts[3], pts[4]);
+        if (!isNaN(fp)) fLimite.setTime(fp.getTime());
       }
     } catch {}
   }
   fLimite.setHours(fLimite.getHours() + hrsEntrega);
-
-  const optsDate = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
-  const optsTime = { hour:'2-digit', minute:'2-digit' };
-  const fechaStr = fLimite.toLocaleDateString('es-MX', optsDate);
-  const horaStr  = fLimite.toLocaleTimeString('es-MX', optsTime);
-  const fechaFmt = `${fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1)}, ${horaStr} hrs`;
-
-  const labelEntrega = pagado ? '📅 Fecha máxima de entrega' : '📅 Fecha tentativa de entrega';
+  const fechaStr = fLimite.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const horaStr  = fLimite.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+  const fechaFmt = `${fechaStr.charAt(0).toUpperCase()+fechaStr.slice(1)}, ${horaStr} hrs`;
+  const labelEntrega = pagado ? 'Fecha máxima de entrega' : 'Fecha tentativa de entrega';
   const notaFinal = pagado
     ? `${notaEntrega}<br><strong style="color:var(--white)">Tu proyecto podría estar listo antes — te avisamos en cuanto esté.</strong>`
     : `${notaEntrega}<br><strong style="color:var(--warning)">La fecha se confirma a partir de tu pago.</strong>`;
 
   document.getElementById('entregaLabel').textContent = labelEntrega;
   document.getElementById('entregaFecha').textContent = fechaFmt;
-  document.getElementById('entregaNota').innerHTML = notaFinal;
+  document.getElementById('entregaNota').innerHTML    = notaFinal;
   document.getElementById('entregaLimite').style.display = 'flex';
 
-  // También actualizar bloque en sección de pago confirmado
   const el2 = document.getElementById('entregaLimite2');
   if (el2 && pagado) {
     document.getElementById('entregaLabel2').textContent = labelEntrega;
     document.getElementById('entregaFecha2').textContent = fechaFmt;
-    document.getElementById('entregaNota2').innerHTML = notaFinal;
+    document.getElementById('entregaNota2').innerHTML    = notaFinal;
     el2.style.display = 'flex';
+  }
+
+  // ── Renderizar selección de materiales (solo en estatus cotizado) ──
+  if ((p.estatus||'').toLowerCase() === 'cotizado') {
+    opcionesDisponibles = opts;
+    seleccionActiva     = new Set();
+
+    if (opts.length > 1) {
+      // Multi-material: mostrar checkboxes
+      show('selMatBlock', true);
+      show('decisionBlock', false);
+      renderOpciones(opts, costoServicio, opts.length);
+    } else {
+      // Un solo material: botón simple
+      show('selMatBlock', false);
+      show('decisionBlock', true);
+    }
   }
 }
 
-function renderPago(p) {
-  document.getElementById('conceptoPago').textContent = p.folio || FOLIO;
-  document.getElementById('montoAPagar').textContent  = `$${(+p.cotizacion||0).toFixed(2)} MXN`;
-  document.getElementById('btnCopyFolio').onclick = () => copiar(p.folio||FOLIO, document.getElementById('btnCopyFolio'));
-}
-
-const TL = [
-  { key:'pendiente',  label:'Solicitud recibida',    sub:'Tu proyecto fue registrado' },
-  { key:'cotizado',   label:'Cotización enviada',     sub:'Revisamos tu solicitud y enviamos el precio' },
-  { key:'aceptado',   label:'Cotización aceptada',    sub:'Confirmaste continuar con el trabajo' },
-  { key:'pagado',     label:'Pago recibido',          sub:'Comprobante verificado' },
-  { key:'produccion', label:'En producción',          sub:'Tu pieza está siendo fabricada' },
-  { key:'listo',      label:'Listo para recoger',     sub:'Tu pieza está terminada' },
-  { key:'entregado',  label:'Entregado',              sub:'Trabajo completado' },
-];
-
-function renderTimeline(p) {
-  const st = (p.estatus||'pendiente').toLowerCase();
-  const cur = TL.findIndex(x => x.key === (st==='aceptado'?'pagado':st));
-  const hmap = {};
-  try {
-    const h = typeof p.historial==='string' ? JSON.parse(p.historial) : (p.historial||[]);
-    h.forEach(e => hmap[e.estatus] = e.fecha);
-  } catch {}
-  document.getElementById('timelineList').innerHTML = TL.map((s,i) => {
-    let cls='pending', icon=(i+1).toString();
-    if (i<cur)       { cls='done';   icon='✓'; }
-    else if(i===cur) { cls='active'; icon='●'; }
-    return `<div class="tl-item">
-      <div class="tl-dot ${cls}">${icon}</div>
-      <div class="tl-body">
-        <div class="tl-title ${cls==='pending'?'dim':''}">${s.label}</div>
-        <div class="tl-date">${hmap[s.key]||( cls==='pending'?'Pendiente':'' )}</div>
-        ${cls==='active'?`<div class="tl-note">${SCFG[st]?.desc||''}</div>`:''}
-      </div>
-    </div>`;
+function renderOpciones(opts, svcCosto, totalOpts) {
+  const sufijos = ['A','B','C','D','E'];
+  document.getElementById('listaOpciones').innerHTML = opts.map((o, i) => {
+    // El costo base sin servicio express
+    const costoBase = o.total - (svcCosto / totalOpts);
+    return `
+      <div class="mat-opcion" id="matOpt-${i}" onclick="toggleMat(${i})">
+        <div class="mat-check" id="matCheck-${i}">✓</div>
+        <div class="mat-info">
+          <div class="mat-nombre">${o.mat}</div>
+          <div class="mat-detalle">Folio: ${FOLIO}-${sufijos[i]}</div>
+        </div>
+        <div class="mat-precio" id="matPrecio-${i}">${fmt(o.total)}</div>
+      </div>`;
   }).join('');
+  actualizarTotal();
 }
 
-function renderTrabajo(p) {
-  document.getElementById('trabajoGrid').innerHTML = `
-    <div class="tg-item"><div class="tg-lbl">Folio</div><div class="tg-val" style="color:var(--teal);font-family:var(--mono)">${p.folio||FOLIO}</div></div>
-    <div class="tg-item"><div class="tg-lbl">Fecha</div><div class="tg-val">${p.fecha||'—'}</div></div>
-    <div class="tg-item"><div class="tg-lbl">Material</div><div class="tg-val">${p.materiales||'—'}</div></div>
-    <div class="tg-item"><div class="tg-lbl">Servicio</div><div class="tg-val">${p.servicio||'—'}</div></div>
-    ${p.palabraClave?`<div class="tg-item tg-full"><div class="tg-lbl">Palabra clave</div><div class="tg-val">${p.palabraClave}</div></div>`:''}
-    ${p.comentarios?`<div class="tg-item tg-full"><div class="tg-lbl">Comentarios</div><div class="tg-val">${p.comentarios}</div></div>`:''}
-  `;
+const fmt = n => `$${(+n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
+
+function toggleMat(idx) {
+  if (seleccionActiva.has(idx)) {
+    seleccionActiva.delete(idx);
+  } else {
+    seleccionActiva.add(idx);
+  }
+  // Recalcular express dividido según cuántos están seleccionados
+  const nSel = seleccionActiva.size;
+  opcionesDisponibles.forEach((o, i) => {
+    // Recalcular total: costo base + express / nSel seleccionados
+    // El costo base es el total original menos el express completo dividido entre todos
+    const costoBase = o.total - (svcCostoTotal / opcionesDisponibles.length);
+    const svcParte  = nSel > 0 ? svcCostoTotal / nSel : svcCostoTotal / opcionesDisponibles.length;
+    o.totalAjustado = costoBase + svcParte;
+    document.getElementById(`matPrecio-${i}`).textContent = fmt(o.totalAjustado);
+  });
+
+  document.getElementById(`matOpt-${idx}`).classList.toggle('seleccionado', seleccionActiva.has(idx));
+  document.getElementById(`matCheck-${idx}`).style.color = seleccionActiva.has(idx) ? 'var(--navy)' : 'transparent';
+  actualizarTotal();
 }
 
-function setupContacto(p) {
-  const msg = `Hola XC² Labs, tengo una pregunta sobre mi trabajo ${p.folio||FOLIO}`;
-  document.getElementById('btnWa').href = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
+function actualizarTotal() {
+  const nSel = seleccionActiva.size;
+  let total = 0;
+  seleccionActiva.forEach(idx => { total += opcionesDisponibles[idx].totalAjustado || opcionesDisponibles[idx].total; });
+
+  document.getElementById('selTotalNum').textContent = fmt(total);
+  document.getElementById('selAviso').textContent = nSel === 0
+    ? 'Selecciona al menos un material'
+    : nSel === 1
+      ? '1 trabajo seleccionado · Express incluido'
+      : `${nSel} trabajos · Express dividido entre ${nSel}`;
+  document.getElementById('btnConfirmarSel').disabled = nSel === 0;
+}
+
+async function confirmarSeleccionSimple() {
+  // 1 solo material — flujo directo sin checkboxes
+  const btn = document.getElementById('btnAceptar');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Procesando…';
+  pedido.estatus = 'aceptado';
+  renderTodo(pedido);
+}
+
+async function confirmarSeleccion() {
+  const nSel = seleccionActiva.size;
+  if (nSel === 0) return;
+
+  const btn = document.getElementById('btnConfirmarSel');
+  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Procesando…';
+
+  // Mostrar sección de pago con el total correcto
+  const sufijos = ['A','B','C','D','E'];
+  const selArr  = Array.from(seleccionActiva).map(idx => ({
+    mat:    opcionesDisponibles[idx].mat,
+    total:  parseFloat((opcionesDisponibles[idx].totalAjustado || opcionesDisponibles[idx].total).toFixed(2)),
+    sufijo: sufijos[idx],
+  }));
+
+  const totalSel = selArr.reduce((s, x) => s + x.total, 0);
+
+  // Guardar para enviar al confirmar pago
+  pedido._seleccion  = selArr;
+  pedido._totalSel   = totalSel;
+  pedido.estatus     = 'aceptado';
+  pedido.cotizacion  = totalSel.toFixed(2);
+
+  renderTodo(pedido);
+}
+
+async function rechazarCotizacion() {
+  if (!confirm('¿Confirmas que deseas rechazar esta cotización?')) return;
+  try {
+    const resp = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'responderCotizacion', folio: FOLIO, respuesta: 'rechazado' })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+  } catch (err) {
+    alert(`Error: ${err.message}`); return;
+  }
+  pedido.estatus = 'rechazado'; renderTodo(pedido);
+}
+
+function renderPago(p) {
+  const total = p._totalSel || parseFloat(p.cotizacion) || 0;
+  document.getElementById('conceptoPago').textContent  = p.folio || FOLIO;
+  document.getElementById('montoAPagar').textContent   = `${fmt(total)} MXN`;
+  document.getElementById('btnCopyFolio').onclick = () => copiar(p.folio||FOLIO, document.getElementById('btnCopyFolio'));
 }
 
 function selMetodo(m) {
@@ -1174,28 +839,96 @@ if (uz) {
   });
 }
 
-async function aceptarCotizacion() {
-  const btn = document.getElementById('btnAceptar');
-  btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Procesando…';
-  try { await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'responderCotizacion',folio:FOLIO,respuesta:'aceptado'}) }); } catch {}
-  pedido.estatus = 'aceptado'; renderTodo(pedido);
-}
-
-async function rechazarCotizacion() {
-  if (!confirm('¿Confirmas que deseas rechazar esta cotización?')) return;
-  try { await fetch(APPS_SCRIPT_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({action:'responderCotizacion',folio:FOLIO,respuesta:'rechazado'}) }); } catch {}
-  pedido.estatus = 'rechazado'; renderTodo(pedido);
-}
-
 async function enviarComprobante() {
   if (!compFile) return;
   const btn = document.getElementById('btnPagar');
   btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Enviando…';
+
+  // 1. Subir imagen a Drive vía Apps Script (no-cors)
   const fd = new FormData();
-  fd.append('action','recibirComprobante'); fd.append('folio',FOLIO);
-  fd.append('metodo',metodo); fd.append('comprobante',compFile);
-  try { await fetch(APPS_SCRIPT_URL, {method:'POST',body:fd,mode:'no-cors'}); } catch {}
+  fd.append('action', 'recibirComprobante');
+  fd.append('folio', FOLIO);
+  fd.append('metodo', metodo);
+  fd.append('comprobante', compFile);
+
+  let comprobanteUrl = '';
+  try {
+    await fetch(APPS_SCRIPT_URL, { method:'POST', body: fd, mode:'no-cors' });
+    comprobanteUrl = '[subido]';
+  } catch {}
+
+  // 2. Enviar selección con aceptarSeleccion (con text/plain para evitar CORS preflight)
+  const selArr = pedido._seleccion || [{ mat: pedido.materiales, total: parseFloat(pedido.cotizacion), sufijo: '' }];
+
+  try {
+    const resp = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({
+        action:          'aceptarSeleccion',
+        folio:           FOLIO,
+        seleccion:       selArr,
+        comprobanteUrl:  comprobanteUrl,
+        metodo:          metodo,
+      })
+    });
+    const data = await resp.json();
+    if (data.error) throw new Error(data.error);
+  } catch (err) {
+    btn.disabled = false; btn.textContent = 'Confirmar pago e iniciar producción';
+    alert(`❌ Error al procesar: ${err.message}`);
+    return;
+  }
+
   pedido.estatus = 'pagado'; renderTodo(pedido);
+}
+
+const TL = [
+  { key:'pendiente',  label:'Solicitud recibida',   sub:'Tu proyecto fue registrado' },
+  { key:'cotizado',   label:'Cotización enviada',    sub:'Revisamos tu solicitud y enviamos el precio' },
+  { key:'aceptado',   label:'Cotización aceptada',   sub:'Confirmaste continuar con el trabajo' },
+  { key:'pagado',     label:'Pago recibido',         sub:'Comprobante verificado' },
+  { key:'produccion', label:'En producción',         sub:'Tu pieza está siendo fabricada' },
+  { key:'listo',      label:'Listo para recoger',    sub:'Tu pieza está terminada' },
+  { key:'entregado',  label:'Entregado',             sub:'Trabajo completado' },
+];
+
+function renderTimeline(p) {
+  const st  = (p.estatus||'pendiente').toLowerCase();
+  const cur = TL.findIndex(x => x.key === (st==='aceptado'?'pagado':st));
+  const hmap = {};
+  try {
+    const h = typeof p.historial==='string' ? JSON.parse(p.historial) : (p.historial||[]);
+    h.forEach(e => hmap[e.estatus] = e.fecha);
+  } catch {}
+  document.getElementById('timelineList').innerHTML = TL.map((s,i) => {
+    let cls='pending', icon=(i+1).toString();
+    if (i<cur)       { cls='done';   icon='✓'; }
+    else if(i===cur) { cls='active'; icon='●'; }
+    return `<div class="tl-item">
+      <div class="tl-dot ${cls}">${icon}</div>
+      <div class="tl-body">
+        <div class="tl-title ${cls==='pending'?'dim':''}">${s.label}</div>
+        <div class="tl-date">${hmap[s.key]||(cls==='pending'?'Pendiente':'')}</div>
+        ${cls==='active'?`<div class="tl-note">${SCFG[st]?.desc||''}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTrabajo(p) {
+  document.getElementById('trabajoGrid').innerHTML = `
+    <div class="tg-item"><div class="tg-lbl">Folio</div><div class="tg-val" style="color:var(--teal);font-family:var(--mono)">${p.folio||FOLIO}</div></div>
+    <div class="tg-item"><div class="tg-lbl">Fecha</div><div class="tg-val">${p.fecha||'—'}</div></div>
+    <div class="tg-item"><div class="tg-lbl">Material</div><div class="tg-val">${p.materiales||'—'}</div></div>
+    <div class="tg-item"><div class="tg-lbl">Servicio</div><div class="tg-val">${p.servicio||'—'}</div></div>
+    ${p.palabraClave?`<div class="tg-item tg-full"><div class="tg-lbl">Palabra clave</div><div class="tg-val">${p.palabraClave}</div></div>`:''}
+    ${p.comentarios?`<div class="tg-item tg-full"><div class="tg-lbl">Comentarios</div><div class="tg-val">${p.comentarios}</div></div>`:''}`;
+}
+
+function setupContacto(p) {
+  const msg = `Hola XC² Labs, tengo una pregunta sobre mi trabajo ${p.folio||FOLIO}`;
+  document.getElementById('btnWa').href = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
 }
 
 function copiar(txt, btn) {
@@ -1209,17 +942,6 @@ function show(id, v) {
   const el = document.getElementById(id);
   if (el) el.style.display = v ? 'block' : 'none';
 }
-
-const DEMO = {
-  folio:'XC2-DEMO01', nombre:'Carlos Martínez', email:'carlos@ejemplo.com',
-  materiales:'PETG', palabraClave:'soporte-camara', servicio:'Express (1-2 días)',
-  comentarios:'Color negro preferentemente.', fecha:'10/06/2026 22:14',
-  estatus:'cotizado', cotizacion:'1700.00',
-  historial: JSON.stringify([
-    {estatus:'pendiente', fecha:'10/06/2026 22:14'},
-    {estatus:'cotizado',  fecha:'11/06/2026 09:30'},
-  ])
-};
 </script>
 </body>
 </html>
