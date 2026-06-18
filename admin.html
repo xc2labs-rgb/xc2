@@ -435,7 +435,16 @@ function renderLista() {
     el.innerHTML = `<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Sin pedidos aquí</div></div>`;
     return;
   }
+  // Preservar tarjetas abiertas antes de redibujar
+  const abiertas = new Set(
+    [...document.querySelectorAll('.pedido.open')].map(c => c.id)
+  );
   el.innerHTML = lista.map(p => renderCard(p)).join('');
+  // Restaurar estado abierto
+  abiertas.forEach(id => {
+    const card = document.getElementById(id);
+    if (card) card.classList.add('open');
+  });
 }
 
 function renderCard(p) {
@@ -522,7 +531,8 @@ function renderCotizador(sid, matOptions, svcCosto, p) {
       `<option value="${m}" ${m === matKey ? 'selected' : ''}>${m}</option>`
     ).join('');
     return `
-    <div class="mat-bloque" id="mb-${sid}-${i}" style="background:var(--navy);border:1px solid var(--navy4);border-radius:8px;padding:12px;margin-bottom:10px">
+    <div class="mat-bloque" id="mb-${sid}-${i}" style="background:var(--navy2);border:1px solid var(--teal-mid);border-radius:10px;padding:14px;margin-bottom:14px;position:relative">
+      <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,var(--teal),var(--violet));border-radius:2px;opacity:0.7"></div>
       <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--teal);text-transform:uppercase;font-weight:700;margin-bottom:10px">
         Opción ${i+1} — <span id="matlabel-${sid}-${i}">${matKey}</span>
       </div>
