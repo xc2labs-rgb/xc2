@@ -780,7 +780,7 @@ function renderOpciones(opts, svcCosto, totalOpts) {
 const fmt = n => `$${(+n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
 
 // Orden de selección — el primero en la lista mantiene el Express
-let ordenSeleccion = []; // array de índices en orden de clic
+
 
 function toggleMat(idx) {
   if (seleccionActiva.has(idx)) {
