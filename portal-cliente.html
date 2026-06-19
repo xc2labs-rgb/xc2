@@ -656,17 +656,8 @@ function renderCotizacion(p) {
     opcionesDisponibles = opts;
     seleccionActiva     = new Set();
     ordenSeleccion      = [];
-
-    if (opts.length > 1) {
-      // Multi-material: mostrar checkboxes
-      show('selMatBlock', true);
-      show('decisionBlock', false);
-      renderOpciones(opts, costoServicio, opts.length);
-    } else {
-      // Un solo material: botón simple
-      show('selMatBlock', false);
-      show('decisionBlock', true);
-    }
+    // El render de checkboxes ahora ocurre en renderPasoContenido(),
+    // llamado desde renderAcordeon() después de insertar el HTML del paso.
   }
 }
 
@@ -1077,6 +1068,13 @@ function renderAcordeon(p, st) {
       </div>
     </div>`;
   }).join('');
+
+  // Una vez insertado el HTML, llenar checkboxes de materiales si aplica
+  // (el elemento #listaOpciones solo existe en el DOM después de este punto)
+  if (st === 'cotizado' && opcionesDisponibles.length > 1) {
+    const svcCosto = opcionesDisponibles.reduce((max, o) => Math.max(max, svcCostoTotal), 0);
+    renderOpciones(opcionesDisponibles, svcCostoTotal, opcionesDisponibles.length);
+  }
 }
 
 function togglePaso(idx) {
