@@ -588,27 +588,9 @@ function renderCotizacion(p) {
     opts = [{ mat: p.materiales || '—', total: cotizacion }];
   }
 
-  // Mostrar precio total (máximo de las opciones o cotización directa)
+  // Mostrar precio total — usado por fmt() local, las escrituras DOM
+  // de precio/desglose ahora ocurren dentro de renderPasoContenido()
   const fmt = n => `$${n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',')}`;
-  document.getElementById('precioNum').textContent = fmt(cotizacion);
-  const fValid = new Date(); fValid.setDate(fValid.getDate()+7);
-  document.getElementById('precioValid').textContent =
-    `Cotización válida hasta ${fValid.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'})}`;
-
-  // Desglose
-  const costoBase = cotizacion - costoServicio;
-  let desgloseHTML = `<div class="dsg-row"><span class="dsg-label">Costo del trabajo</span><span class="dsg-value">${fmt(costoBase)}</span></div>`;
-  if (costoServicio > 0) {
-    desgloseHTML += `<div class="dsg-row express"><span class="dsg-label">⚡ ${labelServicio}</span><span class="dsg-value">+$${costoServicio.toFixed(2)}</span></div>`;
-  }
-  desgloseHTML += `<div class="dsg-row total-row"><span class="dsg-label">Total de tu proyecto</span><span class="dsg-value">${fmt(cotizacion)} MXN</span></div>`;
-  document.getElementById('desgloseBox').innerHTML = desgloseHTML;
-
-  const svcLabel2 = (p.servicio||'—').split('(')[0].trim();
-  document.getElementById('detCot').innerHTML = `
-    <div class="det-item"><div class="det-lbl">Material(es)</div><div class="det-val">${p.materiales||'—'}</div></div>
-    <div class="det-item"><div class="det-lbl">Servicio</div><div class="det-val">${svcLabel2}</div></div>
-    <div class="det-item"><div class="det-lbl">Folios</div><div class="det-val">${FOLIO}</div></div>`;
 
   // Fecha tentativa
   const pagado = ['pagado','produccion','listo','entregado'].includes((p.estatus||'').toLowerCase());
@@ -948,39 +930,6 @@ const TL = [
   { key:'listo',      label:'Listo para recoger',    sub:'Tu pieza está terminada' },
   { key:'entregado',  label:'Entregado',             sub:'Trabajo completado' },
 ];
-
-function renderTimeline(p) {
-  const st  = (p.estatus||'pendiente').toLowerCase();
-  const cur = TL.findIndex(x => x.key === (st==='aceptado'?'pagado':st));
-  const hmap = {};
-  try {
-    const h = typeof p.historial==='string' ? JSON.parse(p.historial) : (p.historial||[]);
-    h.forEach(e => hmap[e.estatus] = e.fecha);
-  } catch {}
-  document.getElementById('timelineList').innerHTML = TL.map((s,i) => {
-    let cls='pending', icon=(i+1).toString();
-    if (i<cur)       { cls='done';   icon='✓'; }
-    else if(i===cur) { cls='active'; icon='●'; }
-    return `<div class="tl-item">
-      <div class="tl-dot ${cls}">${icon}</div>
-      <div class="tl-body">
-        <div class="tl-title ${cls==='pending'?'dim':''}">${s.label}</div>
-        <div class="tl-date">${hmap[s.key]||(cls==='pending'?'Pendiente':'')}</div>
-        ${cls==='active'?`<div class="tl-note">${SCFG[st]?.desc||''}</div>`:''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function renderTrabajo(p) {
-  document.getElementById('trabajoGrid').innerHTML = `
-    <div class="tg-item"><div class="tg-lbl">Folio</div><div class="tg-val" style="color:var(--teal);font-family:var(--mono)">${p.folio||FOLIO}</div></div>
-    <div class="tg-item"><div class="tg-lbl">Fecha</div><div class="tg-val">${p.fecha||'—'}</div></div>
-    <div class="tg-item"><div class="tg-lbl">Material</div><div class="tg-val">${p.materiales||'—'}</div></div>
-    <div class="tg-item"><div class="tg-lbl">Servicio</div><div class="tg-val">${p.servicio||'—'}</div></div>
-    ${p.palabraClave?`<div class="tg-item tg-full"><div class="tg-lbl">Palabra clave</div><div class="tg-val">${p.palabraClave}</div></div>`:''}
-    ${p.comentarios?`<div class="tg-item tg-full"><div class="tg-lbl">Comentarios</div><div class="tg-val">${p.comentarios}</div></div>`:''}`;
-}
 
 function setupContacto(p) {
   const msg = `Hola XC² Labs, tengo una pregunta sobre mi trabajo ${p.folio||FOLIO}`;
