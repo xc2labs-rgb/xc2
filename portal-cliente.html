@@ -303,6 +303,58 @@ footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--navy4)
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* ── ACORDEÓN DE PASOS ── */
+.paso-wrap {
+  margin-bottom: 12px;
+  border: 1px solid var(--navy4);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--navy3);
+}
+.paso-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px; cursor: pointer;
+  transition: background .2s; user-select: none;
+}
+.paso-header:hover { background: rgba(0,180,173,0.04); }
+.paso-header.activo { background: rgba(0,180,173,0.06); }
+.paso-num {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; font-family: var(--mono);
+  border: 2px solid var(--navy4); background: var(--navy); color: var(--muted);
+  transition: all .3s;
+}
+.paso-num.done   { background: var(--teal); border-color: var(--teal); color: var(--navy); }
+.paso-num.active { border-color: var(--teal); color: var(--teal); box-shadow: 0 0 0 4px var(--teal-dim); }
+.paso-num.pending{ border-color: var(--navy4); color: var(--muted); }
+.paso-titulo { flex: 1; }
+.paso-titulo-txt {
+  font-size: 14px; font-weight: 700; color: var(--text);
+}
+.paso-titulo-txt.dim { color: var(--muted); font-weight: 500; }
+.paso-fecha-mini {
+  font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 2px;
+}
+.paso-chevron {
+  font-size: 12px; color: var(--muted); transition: transform .25s;
+}
+.paso-header.activo .paso-chevron { transform: rotate(180deg); color: var(--teal); }
+.paso-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height .35s ease;
+}
+.paso-body.open { max-height: 2000px; }
+.paso-body-inner { padding: 0 20px 20px; }
+
+/* ── DESGLOSE TOTAL SELECCIONADO ── */
+.sel-desglose {
+  margin: 0 28px 4px;
+  background: var(--navy2); border: 1px solid var(--navy4);
+  border-radius: var(--r-md); overflow: hidden;
+}
+.sel-desglose .dsg-row { padding: 11px 16px; }
 </style>
 </head>
 <body>
@@ -346,150 +398,10 @@ footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--navy4)
     </div>
   </div>
 
-  <!-- COTIZACIÓN CON SELECCIÓN DE MATERIALES -->
-  <div id="secCotizacion" style="display:none">
-    <div class="sec-head">
-      <div class="sec-label">Cotización</div>
-      <div class="badge b-teal">Válida 7 días</div>
-    </div>
-    <div class="card">
-      <div class="precio-block">
-        <div>
-          <div class="precio-lbl">Total de tu proyecto</div>
-          <div class="precio-num"><span class="precio-teal" id="precioNum">$0</span><span class="precio-cur">MXN</span></div>
-          <div class="precio-valid" id="precioValid">—</div>
-        </div>
-      </div>
-      <div class="precio-divider"></div>
-      <div class="desglose-box" id="desgloseBox"></div>
-      <div class="det-grid" id="detCot"></div>
-      <div class="entrega-limite" id="entregaLimite" style="display:none">
-        <div class="el-icon">🗓</div>
-        <div class="el-body">
-          <div class="el-label" id="entregaLabel">Fecha tentativa de entrega</div>
-          <div class="el-fecha" id="entregaFecha">—</div>
-          <div class="el-nota" id="entregaNota">—</div>
-        </div>
-      </div>
+  <!-- ACORDEÓN DE PASOS — generado por JS en renderAcordeon() -->
+  <div id="acordeonPasos"></div>
 
-      <!-- SELECCIÓN DE MATERIALES -->
-      <div id="selMatBlock" style="display:none">
-        <div class="sel-mat-wrap">
-          <div class="sel-mat-title">Selecciona los materiales que deseas</div>
-          <div id="listaOpciones"></div>
-        </div>
-        <div class="sel-total-box">
-          <div>
-            <div class="sel-total-lbl">Total seleccionado</div>
-            <div class="sel-aviso" id="selAviso">Selecciona al menos un material</div>
-          </div>
-          <div class="sel-total-num" id="selTotalNum">$0.00</div>
-        </div>
-        <div class="decision-block">
-          <div class="decision-lbl">Tu respuesta</div>
-          <div class="decision-btns">
-            <button class="btn btn-primary" id="btnConfirmarSel" onclick="confirmarSeleccion()" disabled>✓ Confirmar selección</button>
-            <button class="btn btn-reject" onclick="rechazarCotizacion()">✗ Rechazar todo</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- DECISIÓN SIMPLE (1 solo material) -->
-      <div class="decision-block" id="decisionBlock" style="display:none">
-        <div class="decision-lbl">Tu respuesta</div>
-        <div class="decision-btns">
-          <button class="btn btn-primary" id="btnAceptar" onclick="confirmarSeleccionSimple()">✓ Aceptar cotización</button>
-          <button class="btn btn-reject" onclick="rechazarCotizacion()">✗ Rechazar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PAGO -->
-  <div id="secPago" style="display:none">
-    <div class="sec-head">
-      <div class="sec-label">Pago</div>
-      <div class="badge b-warn">Pendiente</div>
-    </div>
-    <div class="card">
-      <div class="alert al-warn">
-        <span>⚡</span>
-        <span>Realiza el pago y sube tu comprobante para iniciar producción de inmediato.</span>
-      </div>
-      <div class="pago-metodos">
-        <div class="pago-opt sel" id="pago-trans" onclick="selMetodo('trans')">
-          <div class="po-icon">🏦</div>
-          <div class="po-name">Transferencia</div>
-          <div class="po-sub">SPEI · BBVA</div>
-        </div>
-        <div class="pago-opt" id="pago-oxxo" onclick="selMetodo('oxxo')">
-          <div class="po-icon">🏪</div>
-          <div class="po-name">OXXO Pay</div>
-          <div class="po-sub">Efectivo</div>
-        </div>
-      </div>
-      <div class="banco-box" id="datosBanco">
-        <div class="banco-row"><span class="banco-lbl">Banco</span><span class="banco-val">BBVA</span></div>
-        <div class="banco-row"><span class="banco-lbl">Titular</span><span class="banco-val">XC² Labs</span></div>
-        <div class="banco-row">
-          <span class="banco-lbl">CLABE</span>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="banco-val">012 345 678 901 234 567</span>
-            <button class="copy-btn" onclick="copiar('012345678901234567',this)">COPIAR</button>
-          </div>
-        </div>
-        <div class="banco-row">
-          <span class="banco-lbl">Concepto</span>
-          <div style="display:flex;align-items:center;gap:8px">
-            <span class="banco-val" id="conceptoPago">—</span>
-            <button class="copy-btn" id="btnCopyFolio">COPIAR</button>
-          </div>
-        </div>
-        <div class="banco-row"><span class="banco-lbl">Monto</span><span class="banco-val hi" id="montoAPagar">$0.00</span></div>
-      </div>
-      <div class="banco-box" id="datosOxxo" style="display:none">
-        <div class="banco-row"><span class="banco-lbl">Referencia</span><span class="banco-val">Te enviamos la referencia al correo en minutos.</span></div>
-      </div>
-      <div class="upload-zone" id="uploadZone">
-        <input type="file" accept="image/*,.pdf" id="compInput" onchange="handleComp(this)">
-        <div class="uz-icon">📸</div>
-        <div class="uz-label">Sube tu comprobante de pago</div>
-        <div class="uz-sub">JPG · PNG · PDF — Máx. 10MB</div>
-        <div class="uz-preview" id="uzPreview"></div>
-      </div>
-      <button class="btn-pagar" id="btnPagar" onclick="enviarComprobante()" disabled>
-        Confirmar pago e iniciar producción
-      </button>
-    </div>
-  </div>
-
-  <div id="secPagoOk" style="display:none">
-    <div class="sec-head"><div class="sec-label">Pago</div><div class="badge b-success">Confirmado ✓</div></div>
-    <div class="card">
-      <div class="alert al-success" style="margin-bottom:0">
-        <span>✅</span><span>Pago recibido y verificado. Tu pieza está en proceso.</span>
-      </div>
-      <div class="entrega-limite" id="entregaLimite2" style="display:none;margin:16px 16px 16px">
-        <div class="el-icon">🗓</div>
-        <div class="el-body">
-          <div class="el-label" id="entregaLabel2">Fecha máxima de entrega</div>
-          <div class="el-fecha" id="entregaFecha2">—</div>
-          <div class="el-nota" id="entregaNota2">—</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="margin-bottom:16px">
-    <div class="sec-head"><div class="sec-label">Historial del trabajo</div></div>
-    <div class="card"><div id="timelineList"></div></div>
-  </div>
-
-  <div style="margin-bottom:16px">
-    <div class="sec-head"><div class="sec-label">Tu solicitud</div></div>
-    <div class="trabajo-grid" id="trabajoGrid"></div>
-  </div>
-
+  <!-- CONTACTO — siempre visible -->
   <div style="margin-bottom:16px">
     <div class="sec-head"><div class="sec-label">¿Tienes dudas?</div></div>
     <div class="card">
@@ -503,6 +415,7 @@ footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--navy4)
     </div>
   </div>
 
+  <!-- ENTREGADO -->
   <div id="secEntregado" style="display:none">
     <div class="card">
       <div class="entregado-wrap">
@@ -579,7 +492,7 @@ function renderTodo(p) {
       pendiente:  `Hola, <span>${nombre}</span>. Ya recibimos tu solicitud para el proyecto <em>"${proyecto}"</em>.`,
       cotizado:   `Hola, <span>${nombre}</span>. Tienes una cotización lista para <em>"${proyecto}"</em>. Selecciona los materiales que deseas.`,
       aceptado:   `Hola, <span>${nombre}</span>. ¡Gracias por aceptar! Completa el pago para iniciar <em>"${proyecto}"</em>.`,
-      pagado:     `Hola, <span>${nombre}</span>. Recibimos tu pago. Iniciamos <em>"${proyecto}"</em> en breve.`,
+      pagado:     `Hola, <span>${nombre}</span>. Recibimos tu pago. Te avisaremos al iniciar producción de <em>"${proyecto}"</em>.`,
       produccion: `Hola, <span>${nombre}</span>. Estamos trabajando en <em>"${proyecto}"</em>.`,
       listo:      `Hola, <span>${nombre}</span>. ¡Tu proyecto <em>"${proyecto}"</em> está listo para recoger!`,
       entregado:  `Hola, <span>${nombre}</span>. El proyecto <em>"${proyecto}"</em> fue entregado. ¡Gracias!`,
@@ -591,16 +504,14 @@ function renderTodo(p) {
 
   updateHero(st);
   updateProgress(st);
-  renderTimeline(p);
-  renderTrabajo(p);
   setupContacto(p);
-  show('secCotizacion', st === 'cotizado');
-  show('secPago',       st === 'aceptado');
-  show('secPagoOk',     ['pagado','produccion','listo'].includes(st));
-  show('secEntregado',  st === 'entregado');
-  if (p.cotizacion) renderCotizacion(p);
-  if (['pagado','produccion','listo'].includes(st)) renderCotizacion(p);
-  if (st === 'aceptado') renderPago(p);
+  show('secEntregado', st === 'entregado');
+
+  // Calcular info de cotización y materiales antes de renderizar acordeón
+  if (p.cotizacion || st === 'cotizado') renderCotizacion(p);
+
+  // Renderizar acordeón de pasos
+  renderAcordeon(p, st);
 }
 
 const SCFG = {
@@ -645,12 +556,12 @@ function renderCotizacion(p) {
   let hrsEntrega    = 120;
   let notaEntrega   = 'Tiempo calculado a partir de la confirmación y pago del servicio.';
 
-  if ((p.servicio||'').toLowerCase().includes('express light')) {
-    costoServicio = 250; labelServicio = 'Servicio Express Light'; hrsEntrega = 72;
-    notaEntrega = 'Express Light: 72 hrs a partir de la confirmación y pago.';
+  if ((p.servicio||'').toLowerCase().includes('express light') || (p.servicio||'').toLowerCase().includes('express lite')) {
+    costoServicio = 250; labelServicio = 'Servicio Express Lite'; hrsEntrega = 48;
+    notaEntrega = 'Express Lite: máx. 48 hrs a partir de la confirmación y pago.';
   } else if ((p.servicio||'').toLowerCase().includes('express')) {
-    costoServicio = 450; labelServicio = 'Servicio Express'; hrsEntrega = 48;
-    notaEntrega = 'Express: 48 hrs a partir de la confirmación y pago.';
+    costoServicio = 450; labelServicio = 'Servicio Express'; hrsEntrega = 24;
+    notaEntrega = 'Express: máx. 24 hrs a partir de la confirmación y pago.';
   } else {
     notaEntrega = 'Regular: 3–5 días hábiles a partir de la confirmación y pago.';
   }
@@ -713,27 +624,32 @@ function renderCotizacion(p) {
       }
     } catch {}
   }
-  fLimite.setHours(fLimite.getHours() + hrsEntrega);
-  const fechaStr = fLimite.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const horaStr  = fLimite.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
-  const fechaFmt = `${fechaStr.charAt(0).toUpperCase()+fechaStr.slice(1)}, ${horaStr} hrs`;
-  const labelEntrega = pagado ? 'Fecha máxima de entrega' : 'Fecha tentativa de entrega';
+  // Rango: desde hrsEntrega hasta hrsEntrega + 4 hrs
+  const fDesde = new Date(fLimite.getTime());
+  fDesde.setHours(fDesde.getHours() + hrsEntrega);
+  const fHasta = new Date(fDesde.getTime());
+  fHasta.setHours(fHasta.getHours() + 4);
+
+  const optsD = {weekday:'long',day:'numeric',month:'long',year:'numeric'};
+  const optsT = {hour:'2-digit',minute:'2-digit'};
+  const fechaStr  = fDesde.toLocaleDateString('es-MX', optsD);
+  const horaDesde = fDesde.toLocaleTimeString('es-MX', optsT);
+  const horaHasta = fHasta.toLocaleTimeString('es-MX', optsT);
+  // Si el rango cruza medianoche, mostrar ambas fechas
+  const mismaFecha = fDesde.toDateString() === fHasta.toDateString();
+  const fechaFmt = mismaFecha
+    ? `${fechaStr.charAt(0).toUpperCase()+fechaStr.slice(1)}, entre ${horaDesde} y ${horaHasta} hrs`
+    : `${fechaStr.charAt(0).toUpperCase()+fechaStr.slice(1)}, ${horaDesde} hrs — ${fHasta.toLocaleDateString('es-MX',optsD)}, ${horaHasta} hrs`;
+
+  const labelEntrega = pagado ? 'Ventana máxima de entrega' : 'Fecha tentativa de entrega';
   const notaFinal = pagado
     ? `${notaEntrega}<br><strong style="color:var(--white)">Tu proyecto podría estar listo antes — te avisamos en cuanto esté.</strong>`
     : `${notaEntrega}<br><strong style="color:var(--warning)">La fecha se confirma a partir de tu pago.</strong>`;
 
-  document.getElementById('entregaLabel').textContent = labelEntrega;
-  document.getElementById('entregaFecha').textContent = fechaFmt;
-  document.getElementById('entregaNota').innerHTML    = notaFinal;
-  document.getElementById('entregaLimite').style.display = 'flex';
-
-  const el2 = document.getElementById('entregaLimite2');
-  if (el2 && pagado) {
-    document.getElementById('entregaLabel2').textContent = labelEntrega;
-    document.getElementById('entregaFecha2').textContent = fechaFmt;
-    document.getElementById('entregaNota2').innerHTML    = notaFinal;
-    el2.style.display = 'flex';
-  }
+  // Guardar en variable global para usarla en acordeón
+  window._entregaLabel = labelEntrega;
+  window._entregaFecha = fechaFmt;
+  window._entregaNota  = notaFinal;
 
   // ── Renderizar selección de materiales (solo en estatus cotizado) ──
   if ((p.estatus||'').toLowerCase() === 'cotizado') {
@@ -854,7 +770,31 @@ function actualizarUI() {
   });
 
   // Total y aviso
-  document.getElementById('selTotalNum').textContent = fmt(totalFinal);
+  // Desglose detallado en el total seleccionado
+  const desgloseBox = document.getElementById('selDesgloseBox');
+  if (desgloseBox) {
+    if (nSel > 0) {
+      desgloseBox.style.display = 'block';
+      // Costo impresión combinado = suma de costoImpresion de seleccionados
+      let totalImp = 0;
+      seleccionActiva.forEach(idx => { totalImp += opcionesDisponibles[idx].costoImpresion; });
+      const svcCobrado = nSel > 0 ? svc : 0; // Express solo una vez
+      document.getElementById('selImpresionVal').textContent = fmt(totalImp);
+      const svcRow = document.getElementById('selSvcRow');
+      if (svcRow) {
+        svcRow.style.display = svc > 0 ? 'flex' : 'none';
+        const svcValEl = document.getElementById('selSvcVal');
+        if (svcValEl) svcValEl.textContent = fmt(svcCobrado);
+      }
+    } else {
+      desgloseBox.style.display = 'none';
+    }
+  }
+
+  // Total en el elemento principal
+  const totalEl = document.getElementById('selTotalNum');
+  if (totalEl) totalEl.textContent = fmt(totalFinal);
+
   let aviso = '';
   if (nSel === 0) {
     aviso = 'Selecciona al menos un material';
@@ -864,8 +804,10 @@ function actualizarUI() {
     const ahorro = svc * (nSel - 1);
     aviso = `${nSel} trabajos · Ahorras ${fmt(ahorro)} en Express`;
   }
-  document.getElementById('selAviso').textContent = aviso;
-  document.getElementById('btnConfirmarSel').disabled = nSel === 0;
+  const avisoEl = document.getElementById('selAviso');
+  if (avisoEl) avisoEl.textContent = aviso;
+  const btnSel = document.getElementById('btnConfirmarSel');
+  if (btnSel) btnSel.disabled = nSel === 0;
 }
 
 async function confirmarSeleccionSimple() {
@@ -1052,6 +994,12 @@ function renderTrabajo(p) {
 function setupContacto(p) {
   const msg = `Hola XC² Labs, tengo una pregunta sobre mi trabajo ${p.folio||FOLIO}`;
   document.getElementById('btnWa').href = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
+  // Botón de coordinación de entrega (aparece en paso 5 cuando está listo)
+  const btnWaEntrega = document.getElementById('btnWaEntrega');
+  if (btnWaEntrega) {
+    const msgEntrega = `Hola XC² Labs, paso a recoger mi pedido ${p.folio||FOLIO}`;
+    btnWaEntrega.href = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msgEntrega)}`;
+  }
 }
 
 function copiar(txt, btn) {
@@ -1065,6 +1013,298 @@ function show(id, v) {
   const el = document.getElementById(id);
   if (el) el.style.display = v ? 'block' : 'none';
 }
+
+// ================================================================
+// ACORDEÓN DE PASOS
+// ================================================================
+// Mapa de pasos: key, label, número, qué estatus lo activa
+const PASOS_CFG = [
+  { key:'solicitud',  label:'Solicitud recibida',   num:1, estatus:['pendiente'] },
+  { key:'cotizacion', label:'Cotización',            num:2, estatus:['cotizado'] },
+  { key:'pago',       label:'Pago',                 num:3, estatus:['aceptado'] },
+  { key:'produccion', label:'Producción',           num:4, estatus:['pagado','produccion'] },
+  { key:'entrega',    label:'Entrega',              num:5, estatus:['listo','entregado'] },
+];
+
+function renderAcordeon(p, st) {
+  const hmap = {};
+  try {
+    const h = typeof p.historial==='string' ? JSON.parse(p.historial) : (p.historial||[]);
+    h.forEach(e => hmap[e.estatus] = e.fecha);
+  } catch {}
+
+  // Determinar paso activo
+  let pasoActivo = 0; // índice
+  if (['pendiente'].includes(st))                    pasoActivo = 0;
+  else if (['cotizado'].includes(st))                pasoActivo = 1;
+  else if (['aceptado'].includes(st))                pasoActivo = 2;
+  else if (['pagado','produccion'].includes(st))     pasoActivo = 3;
+  else if (['listo','entregado'].includes(st))       pasoActivo = 4;
+  else if (['rechazado'].includes(st))               pasoActivo = 1;
+
+  const fechasPorPaso = {
+    0: hmap['pendiente']  || '',
+    1: hmap['cotizado']   || '',
+    2: hmap['aceptado']   || hmap['pagado'] || '',
+    3: hmap['pagado']     || hmap['produccion'] || '',
+    4: hmap['listo']      || hmap['entregado'] || '',
+  };
+
+  const wrap = document.getElementById('acordeonPasos');
+  wrap.innerHTML = PASOS_CFG.map((paso, i) => {
+    const esActivo  = i === pasoActivo;
+    const esDone    = i < pasoActivo;
+    const esPending = i > pasoActivo;
+    const numCls    = esDone ? 'done' : esActivo ? 'active' : 'pending';
+    const numTxt    = esDone ? '✓' : paso.num;
+    const titCls    = esPending ? 'dim' : '';
+    const fechaMini = fechasPorPaso[i] ? `<div class="paso-fecha-mini">${fechasPorPaso[i]}</div>` : '';
+
+    return `
+    <div class="paso-wrap" id="paso-wrap-${i}">
+      <div class="paso-header ${esActivo ? 'activo' : ''}" onclick="togglePaso(${i})" id="paso-hdr-${i}">
+        <div class="paso-num ${numCls}">${numTxt}</div>
+        <div class="paso-titulo">
+          <div class="paso-titulo-txt ${titCls}">${paso.label}</div>
+          ${fechaMini}
+        </div>
+        <div class="paso-chevron">▾</div>
+      </div>
+      <div class="paso-body ${esActivo ? 'open' : ''}" id="paso-body-${i}">
+        <div class="paso-body-inner" id="paso-inner-${i}">
+          ${renderPasoContenido(paso.key, p, st, i)}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function togglePaso(idx) {
+  PASOS_CFG.forEach((_, i) => {
+    const body = document.getElementById(`paso-body-${i}`);
+    const hdr  = document.getElementById(`paso-hdr-${i}`);
+    if (i === idx) {
+      const abierto = body.classList.contains('open');
+      body.classList.toggle('open', !abierto);
+      hdr.classList.toggle('activo', !abierto);
+    } else {
+      body.classList.remove('open');
+      hdr.classList.remove('activo');
+    }
+  });
+}
+
+function renderPasoContenido(key, p, st, idx) {
+  const hmap = {};
+  try {
+    const h = typeof p.historial==='string' ? JSON.parse(p.historial) : (p.historial||[]);
+    h.forEach(e => hmap[e.estatus] = e.fecha);
+  } catch {}
+
+  if (key === 'solicitud') {
+    return `
+      <div class="trabajo-grid" style="border-radius:var(--r-md);overflow:hidden;margin-top:4px">
+        <div class="tg-item"><div class="tg-lbl">Folio</div><div class="tg-val" style="color:var(--teal);font-family:var(--mono)">${p.folio||FOLIO}</div></div>
+        <div class="tg-item"><div class="tg-lbl">Fecha</div><div class="tg-val">${p.fecha||'—'}</div></div>
+        <div class="tg-item"><div class="tg-lbl">Material</div><div class="tg-val">${p.materiales||'—'}</div></div>
+        <div class="tg-item"><div class="tg-lbl">Servicio</div><div class="tg-val">${p.servicio||'—'}</div></div>
+        ${p.palabraClave?`<div class="tg-item tg-full"><div class="tg-lbl">Proyecto</div><div class="tg-val">${p.palabraClave}</div></div>`:''}
+        ${p.comentarios?`<div class="tg-item tg-full"><div class="tg-lbl">Comentarios</div><div class="tg-val">${p.comentarios}</div></div>`:''}
+      </div>`;
+  }
+
+  if (key === 'cotizacion') {
+    if (!['cotizado','aceptado','pagado','produccion','listo','entregado','rechazado'].includes(st)) {
+      return `<p style="color:var(--muted);font-size:13px">Aún no hemos enviado la cotización. Te notificaremos en menos de 24 hrs hábiles.</p>`;
+    }
+    if (st === 'rechazado') {
+      return `<div class="alert al-warn" style="margin:0"><span>✗</span><span>Cotización rechazada. Si deseas un nuevo presupuesto, envía otra solicitud.</span></div>`;
+    }
+
+    // Desglose de cotización + selección de materiales
+    const cotizacion = parseFloat(p.cotizacion) || 0;
+    let svcCosto = 0, svcLabel = '';
+    if ((p.servicio||'').toLowerCase().includes('express light') || (p.servicio||'').toLowerCase().includes('express lite')) {
+      svcCosto = 250; svcLabel = 'Servicio Express Lite';
+    } else if ((p.servicio||'').toLowerCase().includes('express')) {
+      svcCosto = 450; svcLabel = 'Servicio Express';
+    }
+
+    const costoImp = cotizacion - svcCosto;
+    const fValid = new Date(); fValid.setDate(fValid.getDate()+7);
+    const validStr = fValid.toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'});
+
+    // Fecha tentativa
+    let fechaEntregaHTML = '';
+    if (window._entregaFecha) {
+      fechaEntregaHTML = `
+        <div class="entrega-limite" style="margin:16px 0 4px">
+          <div class="el-icon">🗓</div>
+          <div class="el-body">
+            <div class="el-label">${window._entregaLabel||'Fecha tentativa de entrega'}</div>
+            <div class="el-fecha">${window._entregaFecha}</div>
+            <div class="el-nota">${window._entregaNota||''}</div>
+          </div>
+        </div>`;
+    }
+
+    // Sección de materiales (solo si está en cotizado)
+    let matHTML = '';
+    if (st === 'cotizado') {
+      if (opcionesDisponibles.length > 1) {
+        matHTML = `
+          <div class="sel-mat-wrap" style="padding:16px 0 8px">
+            <div class="sel-mat-title">Selecciona los materiales que deseas</div>
+            <div id="listaOpciones"></div>
+          </div>
+          <div class="sel-desglose" id="selDesgloseBox" style="display:none">
+            <div class="dsg-row"><span class="dsg-label">Impresión</span><span class="dsg-value" id="selImpresionVal">$0.00</span></div>
+            <div class="dsg-row express" id="selSvcRow" style="display:none"><span class="dsg-label">⚡ ${svcLabel}</span><span class="dsg-value" id="selSvcVal">$0.00</span></div>
+            <div class="dsg-row total-row"><span class="dsg-label">Total</span><span class="dsg-value" id="selTotalNum">$0.00</span></div>
+          </div>
+          <div style="padding:8px 0 4px">
+            <div class="sel-aviso" id="selAviso" style="font-size:12px;color:var(--muted);margin-bottom:12px">Selecciona al menos un material</div>
+          </div>
+          <div class="decision-btns" style="margin-top:8px">
+            <button class="btn btn-primary" id="btnConfirmarSel" onclick="confirmarSeleccion()" disabled>✓ Confirmar selección</button>
+            <button class="btn btn-reject" onclick="rechazarCotizacion()">✗ Rechazar todo</button>
+          </div>`;
+      } else {
+        matHTML = `
+          <div class="decision-btns" style="margin-top:16px">
+            <button class="btn btn-primary" id="btnAceptar" onclick="confirmarSeleccionSimple()">✓ Aceptar cotización</button>
+            <button class="btn btn-reject" onclick="rechazarCotizacion()">✗ Rechazar</button>
+          </div>`;
+      }
+    }
+
+    return `
+      <div class="precio-block" style="padding:4px 0 16px">
+        <div>
+          <div class="precio-lbl">Total de tu proyecto</div>
+          <div class="precio-num"><span class="precio-teal" id="precioNum">${fmt(cotizacion)}</span><span class="precio-cur">MXN</span></div>
+          <div class="precio-valid">Cotización válida hasta ${validStr}</div>
+        </div>
+      </div>
+      <div class="desglose-box" id="desgloseBox" style="margin:0 0 16px">
+        <div class="dsg-row"><span class="dsg-label">Impresión</span><span class="dsg-value">${fmt(costoImp)}</span></div>
+        ${svcCosto > 0 ? `<div class="dsg-row express"><span class="dsg-label">⚡ ${svcLabel}</span><span class="dsg-value">+${fmt(svcCosto)}</span></div>` : ''}
+        <div class="dsg-row total-row"><span class="dsg-label">Total de tu proyecto</span><span class="dsg-value">${fmt(cotizacion)} MXN</span></div>
+      </div>
+      ${fechaEntregaHTML}
+      ${matHTML}`;
+  }
+
+  if (key === 'pago') {
+    if (!['aceptado','pagado','produccion','listo','entregado'].includes(st)) {
+      return `<p style="color:var(--muted);font-size:13px">Pendiente de aceptar la cotización.</p>`;
+    }
+    if (['pagado','produccion','listo','entregado'].includes(st)) {
+      let entregaHTML = '';
+      if (window._entregaFecha) {
+        entregaHTML = `
+          <div class="entrega-limite" style="margin:12px 0 0">
+            <div class="el-icon">🗓</div>
+            <div class="el-body">
+              <div class="el-label">${window._entregaLabel}</div>
+              <div class="el-fecha">${window._entregaFecha}</div>
+              <div class="el-nota">${window._entregaNota}</div>
+            </div>
+          </div>`;
+      }
+      return `
+        <div class="alert al-success" style="margin:0 0 0 0">
+          <span>✅</span><span>Pago recibido y verificado.</span>
+        </div>
+        ${entregaHTML}`;
+    }
+    // aceptado — mostrar form de pago
+    const total = p._totalSel || parseFloat(p.cotizacion) || 0;
+    return `
+      <div class="alert al-warn" style="margin:0 0 12px">
+        <span>⚡</span><span>Realiza el pago y sube tu comprobante para que iniciemos producción.</span>
+      </div>
+      <div class="pago-metodos" style="padding:0 0 12px">
+        <div class="pago-opt sel" id="pago-trans" onclick="selMetodo('trans')">
+          <div class="po-icon">🏦</div><div class="po-name">Transferencia</div><div class="po-sub">SPEI · BBVA</div>
+        </div>
+        <div class="pago-opt" id="pago-oxxo" onclick="selMetodo('oxxo')">
+          <div class="po-icon">🏪</div><div class="po-name">OXXO Pay</div><div class="po-sub">Efectivo</div>
+        </div>
+      </div>
+      <div class="banco-box" id="datosBanco" style="margin:0 0 0">
+        <div class="banco-row"><span class="banco-lbl">Banco</span><span class="banco-val">BBVA</span></div>
+        <div class="banco-row"><span class="banco-lbl">Titular</span><span class="banco-val">XC² Labs</span></div>
+        <div class="banco-row">
+          <span class="banco-lbl">CLABE</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="banco-val">012 345 678 901 234 567</span>
+            <button class="copy-btn" onclick="copiar('012345678901234567',this)">COPIAR</button>
+          </div>
+        </div>
+        <div class="banco-row">
+          <span class="banco-lbl">Concepto</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="banco-val" id="conceptoPago">${p.folio||FOLIO}</span>
+            <button class="copy-btn" id="btnCopyFolio" onclick="copiar('${p.folio||FOLIO}',this)">COPIAR</button>
+          </div>
+        </div>
+        <div class="banco-row"><span class="banco-lbl">Monto</span><span class="banco-val hi" id="montoAPagar">${fmt(total)} MXN</span></div>
+      </div>
+      <div class="banco-box" id="datosOxxo" style="display:none;margin:8px 0 0">
+        <div class="banco-row"><span class="banco-lbl">Referencia</span><span class="banco-val">Te enviamos la referencia al correo en minutos.</span></div>
+      </div>
+      <div class="upload-zone" id="uploadZone" style="margin:12px 0">
+        <input type="file" accept="image/*,.pdf" id="compInput" onchange="handleComp(this)">
+        <div class="uz-icon">📸</div>
+        <div class="uz-label">Sube tu comprobante de pago</div>
+        <div class="uz-sub">JPG · PNG · PDF — Máx. 10MB</div>
+        <div class="uz-preview" id="uzPreview"></div>
+      </div>
+      <button class="btn-pagar" id="btnPagar" onclick="enviarComprobante()" disabled style="width:100%;margin:0">
+        Confirmar pago e iniciar producción
+      </button>`;
+  }
+
+  if (key === 'produccion') {
+    if (!['pagado','produccion','listo','entregado'].includes(st)) {
+      return `<p style="color:var(--muted);font-size:13px">Inicia cuando confirmemos tu pago.</p>`;
+    }
+    const enProd = st === 'produccion';
+    return `
+      <div class="alert ${enProd ? 'al-warn' : 'al-teal'}" style="margin:0">
+        <span>${enProd ? '⚙️' : '✓'}</span>
+        <span>${enProd ? 'Tu pieza está siendo fabricada. Te avisamos cuando esté lista.' : 'Producción completada.'}</span>
+      </div>`;
+  }
+
+  if (key === 'entrega') {
+    if (!['listo','entregado'].includes(st)) {
+      return `<p style="color:var(--muted);font-size:13px">Tu pieza aún está en producción.</p>`;
+    }
+    if (st === 'listo') {
+      return `
+        <div class="alert al-teal" style="margin:0 0 12px">
+          <span>📦</span><span>¡Tu pieza está lista! Ya puedes pasar a recogerla.</span>
+        </div>
+        <a class="btn btn-primary" id="btnWaEntrega" href="#" target="_blank" style="margin-top:4px">💬 Coordinar entrega por WhatsApp</a>`;
+    }
+    return `
+      <div class="entregado-wrap" style="padding:24px 0">
+        <div class="entregado-icon">🎉</div>
+        <div class="entregado-title">¡Trabajo entregado!</div>
+        <div class="entregado-sub">Gracias por confiar en XC² Labs.<br>Fue un placer fabricar tu proyecto.</div>
+        <a href="https://forms.gle/fNn4CLLPr47uhMLP6" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:13px 28px;background:linear-gradient(135deg,var(--teal),#00968f);color:var(--white);border-radius:var(--r-md);font-family:var(--sans);font-size:13px;font-weight:700;text-decoration:none">
+          Nuevo trabajo →
+        </a>
+      </div>`;
+  }
+
+  return '';
+}
+
+// ─── ACTUALIZAR UI de materiales (ahora con desglose detallado) ───
+
 </script>
 </body>
 </html>
